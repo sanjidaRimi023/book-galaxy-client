@@ -77,10 +77,10 @@ const Navbar = () => {
           </div>
 
           <div className="flex gap-2">
-            <Link>
+            <Link to='/login'>
               <button className="btn btn-primary">Login</button>
             </Link>
-            <Link>
+            <Link to='/register'>
               <button className="btn btn-primary">Register</button>
             </Link>
 
