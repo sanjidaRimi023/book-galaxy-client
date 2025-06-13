@@ -21,15 +21,21 @@ const router = createBrowserRouter([
             },
             {
                 path: "/all-books",
-                element: <PrivateRoute><AllBook></AllBook></PrivateRoute>
+                element: <PrivateRoute>
+                    <AllBook></AllBook>
+                </PrivateRoute>
             },
             {
                 path: "/borrowed-books",
-                element: <PrivateRoute><BorrowedBook /></PrivateRoute>
+                element: <PrivateRoute>
+                    <BorrowedBook />
+                </PrivateRoute>
             },
             {
                 path: "/add-book",
-                element: <PrivateRoute><AddBook /></PrivateRoute>
+                element: <PrivateRoute>
+                    <AddBook />
+                </PrivateRoute>
             },
             {
                 path: "/login",

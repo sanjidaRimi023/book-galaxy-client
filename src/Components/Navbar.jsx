@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import {
   BookCopy,
   BookOpenText,
@@ -7,21 +7,38 @@ import {
   Clock,
   House,
   Mail,
+  Menu,
   Phone,
+  X,
 } from "lucide-react";
 import useTheme from "../Hooks/UseTheme";
-import { Link, NavLink } from "react-router";
+import { Link, NavLink, useNavigate } from "react-router";
+import { Authcontext } from "../Context/AuthContext";
+import toast from "react-hot-toast";
 
 const Navbar = () => {
   const { theme, toggleTheme } = useTheme();
+  const navigate = useNavigate();
+  const { user, logOutUser } = useContext(Authcontext);
+  const [menuOpen, setMenuOpen] = useState();
+  const toggleMenu = () => setMenuOpen(!menuOpen);
+  const handleLogout = async () => {
+    try {
+      await logOutUser();
+      toast.success("logout successfully");
+      navigate("/");
+    } catch (error) {
+      toast.error("Logout failed", error);
+    }
+  };
 
   return (
     <>
       <div className="bg-primary p-4">
-        <div className="flex w-full flex-col lg:flex-row justify-center">
+        <div className="hidden md:flex w-full flex-col lg:flex-row justify-center">
           <div className="flex gap-2 items-center">
-            <Clock size={20}/>
-         <p>Sunday to Thursday, 9:00 AM to 6:00 PM.</p>
+            <Clock size={20} />
+            <p>Sunday to Thursday, 9:00 AM to 6:00 PM.</p>
           </div>
           <div className="divider divider-warning lg:divider-horizontal"></div>
           <div className="flex gap-2 items-center">
@@ -39,11 +56,11 @@ const Navbar = () => {
         <div className="flex justify-between items-center container mx-auto bg-base-300 rounded-full p-3 my-2">
           <NavLink to="/" className="flex items-center gap-2">
             <BookOpenText className="size-10 text-info" />
-            <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-[#01ecc9] via-[#01e7d4] to-[#00d4ff] bg-clip-text text-transparent">
+            <h1 className="text-xl md:text-3xl font-bold bg-gradient-to-r from-[#01ecc9] via-[#01e7d4] to-[#00d4ff] bg-clip-text text-transparent">
               BookGalaxy
             </h1>
           </NavLink>
-          <div className="flex flex-wrap gap-4 items-center justify-center md:justify-start">
+          <div className="hidden md:flex flex-wrap gap-4 items-center justify-center md:justify-start">
             <NavLink
               to="/"
               className={({ isActive }) =>
@@ -97,13 +114,30 @@ const Navbar = () => {
             </NavLink>
           </div>
 
-          <div className="flex gap-2">
-            <Link to="/login">
-              <button className="btn btn-primary">Login</button>
-            </Link>
-            <Link to="/register">
-              <button className="btn btn-primary">Register</button>
-            </Link>
+          <div className="hidden md:flex gap-2">
+            {user ? (
+              <>
+                <img
+                  src={user.photoURL || "https://i.ibb.co/yP7s5gZ/user.png"}
+                  alt="profile"
+                  className="w-10 h-10 rounded-full border"
+                />
+                <Link to="/">
+                  <button onClick={handleLogout} className="btn btn-primary">
+                    Logout
+                  </button>
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link to="/login">
+                  <button className="btn btn-primary">Login</button>
+                </Link>
+                <Link to="/register">
+                  <button className="btn btn-primary">Register</button>
+                </Link>
+              </>
+            )}
 
             <label className="swap swap-rotate">
               <input
@@ -131,7 +165,85 @@ const Navbar = () => {
               </svg>
             </label>
           </div>
+          <div className="md:hidden">
+            <button onClick={toggleMenu}>{menuOpen ? <X /> : <Menu />}</button>
+          </div>
+          
         </div>
+        {menuOpen && (
+            <div className="md:hidden bg-white border-t px-4 pb-4 space-y-2">
+              <NavLink
+                to="/"
+                className={({ isActive }) =>
+                  `flex items-center gap-1 px-3 py-2 rounded-full transition duration-200 ${
+                    isActive
+                      ? "bg-primary text-primary-content border-primary"
+                      : "hover:text-accent hover:bg-base-200"
+                  }`
+                }
+              >
+                <House className="size-5" /> Home
+              </NavLink>
+
+              <NavLink
+                to="/all-books"
+                onClick={toggleMenu}
+                className={({ isActive }) =>
+                  `flex items-center gap-1 px-3 py-2 rounded-full transition duration-200 ${
+                    isActive
+                      ? "bg-primary text-primary-content border-primary"
+                      : "hover:text-accent hover:bg-base-200"
+                  }`
+                }
+              >
+                <BookCopy className="size-5" /> All Books
+              </NavLink>
+
+              <NavLink
+                to="/borrowed-books"
+                  onClick={toggleMenu}
+                className={({ isActive }) =>
+                  `flex items-center gap-1 px-3 py-2 rounded-full transition duration-200 ${
+                    isActive
+                      ? "bg-primary text-primary-content border-primary"
+                      : "hover:text-accent hover:bg-base-200"
+                  }`
+                }
+              >
+                <BookText className="size-5" /> Borrowed Books
+              </NavLink>
+
+              <NavLink
+                to="/add-book"
+                  onClick={toggleMenu}
+                className={({ isActive }) =>
+                  `flex items-center gap-1 px-3 py-2 rounded-full transition duration-200 ${
+                    isActive
+                      ? "bg-primary text-primary-content border-primary"
+                      : "hover:text-accent hover:bg-base-200"
+                  }`
+                }
+              >
+                <BookPlus className="size-5" /> Add Book
+              </NavLink>
+              {user ? (
+                <Link to="/">
+                  <button onClick={handleLogout} className="btn btn-primary">
+                    Logout
+                  </button>
+                </Link>
+              ) : (
+                <>
+                  <Link to="/login" onClick={toggleMenu}>
+                    <button className="btn btn-primary">Login</button>
+                  </Link>
+                  <Link to="/register" onClick={toggleMenu}>
+                    <button className="btn btn-primary">Register</button>
+                  </Link>
+                </>
+              )}
+            </div>
+          )}
       </nav>
     </>
   );

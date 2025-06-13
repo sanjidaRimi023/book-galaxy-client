@@ -12,6 +12,7 @@ const Register = () => {
   const [showPass, setShowPass] = useState(false);
   
   const { createUser, updateUserProfile, googleLogin } = useContext(Authcontext);
+
   const navigate = useNavigate();
   const from = location.state?.from?.pathname || "/";
 
@@ -27,9 +28,9 @@ const Register = () => {
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
 
     if (!passwordRegex.test(password)) {
-      setError(
+      toast.error(setError(
         "Password must have at least 1 uppercase, 1 lowercase letter & be at least 6 characters."
-      );
+      ));
       return;
     }
 
