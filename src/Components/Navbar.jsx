@@ -4,7 +4,10 @@ import {
   BookOpenText,
   BookPlus,
   BookText,
+  Clock,
   House,
+  Mail,
+  Phone,
 } from "lucide-react";
 import useTheme from "../Hooks/UseTheme";
 import { Link, NavLink } from "react-router";
@@ -14,10 +17,28 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="">
+      <div className="bg-primary p-4">
+        <div className="flex w-full flex-col lg:flex-row justify-center">
+          <div className="flex gap-2 items-center">
+            <Clock size={20}/>
+         <p>Sunday to Thursday, 9:00 AM to 6:00 PM.</p>
+          </div>
+          <div className="divider divider-warning lg:divider-horizontal"></div>
+          <div className="flex gap-2 items-center">
+            <Phone size={20} />
+            <p>+88019-4208-4201</p>
+          </div>
+          <div className="divider divider-warning lg:divider-horizontal"></div>
+          <div className="flex gap-2 items-center">
+            <Mail size={20} />
+            <p>bookgalaxy2000@gmail.com</p>
+          </div>
+        </div>
+      </div>
+      <nav>
         <div className="flex justify-between items-center container mx-auto bg-base-300 rounded-full p-3 my-2">
-          <NavLink to='/' className="flex items-center gap-2">
-            <BookOpenText className="text-primary size-10" />
+          <NavLink to="/" className="flex items-center gap-2">
+            <BookOpenText className="size-10 text-info" />
             <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-[#01ecc9] via-[#01e7d4] to-[#00d4ff] bg-clip-text text-transparent">
               BookGalaxy
             </h1>
@@ -77,10 +98,10 @@ const Navbar = () => {
           </div>
 
           <div className="flex gap-2">
-            <Link to='/login'>
+            <Link to="/login">
               <button className="btn btn-primary">Login</button>
             </Link>
-            <Link to='/register'>
+            <Link to="/register">
               <button className="btn btn-primary">Register</button>
             </Link>
 

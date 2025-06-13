@@ -5,8 +5,20 @@ import { Link } from "react-router";
 import { motion } from "framer-motion";
 
 const Login = () => {
+
+  const hangleLogin = (e) => {
+
+    
+   e.preventDefault();
+    const form = e.target;
+    const email = form.email.value;
+    const password = form.password.value;
+    console.log(email, password);
+
+
+  }
   return (
-    <div className="min-h-screen flex flex-col md:flex-row items-center justify-center p-4 container mx-auto">
+    <div className="min-h-screen flex flex-col md:flex-row items-center justify-center gap-8 p-4 container mx-auto">
    
       <motion.div
         className="w-full md:w-1/2 text-center"
@@ -39,14 +51,14 @@ const Login = () => {
         transition={{ duration: 0.8, delay: 0.2 }}
       >
         <h1 className="text-4xl font-bold text-primary">Log In</h1>
-        <form className="w-full space-y-4">
+        <form onSubmit={hangleLogin} className="w-full space-y-4">
           <input
             type="email"
             name="email"
             placeholder="Enter Your Email"
             autoComplete="current-email"
             required
-            className="input input-neutral w-full rounded-2xl"
+            className="input w-full rounded-2xl"
           />
           <input
             type="password"
@@ -54,7 +66,7 @@ const Login = () => {
             placeholder="Enter Your Password"
             autoComplete="current-password"
             required
-            className="input input-neutral w-full rounded-2xl"
+            className="input w-full rounded-2xl"
           />
           <button className="btn btn-primary w-full text-xl mt-2">Login</button>
         </form>

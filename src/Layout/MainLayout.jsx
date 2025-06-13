@@ -7,7 +7,9 @@ import Footer from "../Components/Footer";
 const MainLayout = () => {
   return (
     <>
-      <Toaster />
+      <div className="text-2xl">
+         <Toaster />
+     </div>
       <Navbar />
       <Outlet />
       <Footer/>
