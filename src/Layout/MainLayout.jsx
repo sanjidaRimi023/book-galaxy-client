@@ -20,9 +20,11 @@ const MainLayout = () => {
          <Toaster />
      </div>
       <Navbar />
-      <Suspense fallback={LoadSppiner}>
+      <div className="min-h-screen">
+        <Suspense fallback={LoadSppiner}>
          <Outlet />
      </Suspense>
+      </div>
       <Footer/>
     </>
   );

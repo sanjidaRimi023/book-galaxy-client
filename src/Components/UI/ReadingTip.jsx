@@ -70,7 +70,7 @@ const ReadingTip = () => {
       </motion.h2>
 
       <motion.p
-        className="text-center text-lg text-gray-600 mb-12"
+        className="text-center text-lg mb-12"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.2, duration: 0.6 }}
@@ -109,7 +109,7 @@ const ReadingTip = () => {
                 <h3 className="text-xl font-semibold text-primary">
                   {tip.title}
                 </h3>
-                <p className="text-gray-700 text-base">{tip.desc}</p>
+                <p className="text-base">{tip.desc}</p>
               </motion.div>
             ))}
           </div>

@@ -52,7 +52,7 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-      <nav>
+      <nav className="sticky top-0 z-50">
         <div className="flex justify-between items-center container mx-auto bg-base-300 rounded-full p-3 my-2">
           <NavLink to="/" className="flex items-center gap-2">
             <BookOpenText className="size-10 text-info" />
