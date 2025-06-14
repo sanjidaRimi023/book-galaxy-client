@@ -27,10 +27,8 @@ const events = [
 const Events = () => {
   return (
     <section className="bg-base-100 py-10 px-4">
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
+      <div
+        
         className="text-center mb-10"
       >
         <h2 className="text-3xl font-bold text-info">
@@ -39,15 +37,12 @@ const Events = () => {
         <p className="text-gray-500 text-lg mt-2">
          Discover what's next in the world of books & events!📖
         </p>
-      </motion.div>
+      </div>
 
       <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {events.map((event, index) => (
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: index * 0.2 }}
+        {events.map((event) => (
+          <div
+           
             className="border border-primary shadow-md rounded-xl p-5 flex flex-col gap-2 hover:shadow-lg transition-shadow"
           >
             <div className="flex flex-col items-center gap-3">
@@ -62,7 +57,7 @@ const Events = () => {
             </div>
             <p className="text-md">📅 {event.date}</p>
             <p className="text-md">📍 {event.location}</p>
-          </motion.div>
+          </div>
         ))}
       </div>
     </section>

@@ -103,13 +103,14 @@ const AddBook = () => {
             <div>
               <label className="label text-xl font-semibold">Book Cover</label>
               <input
-                type="file"
-                accept="image/*"
+                type="imgURL"
+            
                 {...register("coverImage", { required: "Cover image is required" })}
                 onChange={(e) => {
                   handleImageChange(e);
                 }}
-                className="file-input w-full"
+                className="input w-full"
+                placeholder="Enter image url"
               />
               {errors.coverImage && <p className="text-red-500 text-sm">{errors.coverImage.message}</p>}
 

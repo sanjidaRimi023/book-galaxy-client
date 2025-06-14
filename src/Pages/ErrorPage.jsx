@@ -12,7 +12,7 @@ const ErrorPage = () => {
         </h1>
         <p className="text-lg text-gray-600">
           It seems like the book you're searching for got lost in the stacks.
-          Let’s help you find your way back to the library!
+          Let,s help you find your way back to the library!
         </p>
         <Link
           to="/"

@@ -23,7 +23,8 @@ const router = createBrowserRouter([
                 path: "/all-books",
                 element: <PrivateRoute>
                     <AllBook></AllBook>
-                </PrivateRoute>
+                </PrivateRoute>,
+                
             },
             {
                 path: "/borrowed-books",
@@ -35,7 +36,8 @@ const router = createBrowserRouter([
                 path: "/add-book",
                 element: <PrivateRoute>
                     <AddBook />
-                </PrivateRoute>
+                </PrivateRoute>,
+                
             },
             {
                 path: "/login",

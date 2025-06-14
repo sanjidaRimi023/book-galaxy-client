@@ -16,6 +16,7 @@ import { Link, NavLink, useNavigate } from "react-router";
 import { Authcontext } from "../Context/AuthContext";
 import toast from "react-hot-toast";
 
+
 const Navbar = () => {
   const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
@@ -60,7 +61,7 @@ const Navbar = () => {
               BookGalaxy
             </h1>
           </NavLink>
-          <div className="hidden md:flex flex-wrap gap-4 items-center justify-center md:justify-start">
+          <div className="hidden lg:flex flex-wrap gap-4 items-center justify-center md:justify-start">
             <NavLink
               to="/"
               className={({ isActive }) =>
@@ -87,7 +88,10 @@ const Navbar = () => {
               <BookCopy className="size-5" /> All Books
             </NavLink>
 
-            <NavLink
+            {
+              user && (
+                <>
+                 <NavLink
               to="/borrowed-books"
               className={({ isActive }) =>
                 `flex items-center gap-1 px-3 py-2 rounded-full transition duration-200 ${
@@ -111,7 +115,9 @@ const Navbar = () => {
               }
             >
               <BookPlus className="size-5" /> Add Book
-            </NavLink>
+            </NavLink></>
+              )
+           }
           </div>
 
           <div className="hidden md:flex gap-2">
@@ -165,7 +171,7 @@ const Navbar = () => {
               </svg>
             </label>
           </div>
-          <div className="md:hidden">
+          <div className="lg:hidden">
             <button onClick={toggleMenu}>{menuOpen ? <X /> : <Menu />}</button>
           </div>
           

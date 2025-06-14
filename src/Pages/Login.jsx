@@ -1,25 +1,48 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import loginImg from "../assets/login.jpg";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
+import { Authcontext } from "../Context/AuthContext";
+import toast from "react-hot-toast";
 
 const Login = () => {
+  const { loginUser, googleLogin } = useContext(Authcontext);
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
+  const [password, setPassword] = useState("");
+  const location = useLocation();
 
-  const hangleLogin = (e) => {
+  const from = location.state?.from?.pathname || "/";
+  const navigate = useNavigate();
 
-    
-   e.preventDefault();
-    const form = e.target;
-    const email = form.email.value;
-    const password = form.password.value;
-    console.log(email, password);
-
-
-  }
+  const hangleLogin = async (e) => {
+    e.preventDefault();
+    setError("");
+    try {
+      await loginUser(email, password);
+      toast.success("login successfully");
+      navigate(from, { replace: true });
+    } catch (error) {
+      console.log(error);
+      setError("Login Failed! Please check your credentials.");
+      toast.error("Login Failed");
+    }
+  };
+  const handleGoogleBtn = async () => {
+    try {
+      await googleLogin();
+      toast.success("Logged in with Google successfully");
+      navigate(from, { replace: true });
+    } catch (error) {
+       toast.error("Google Login Failed");
+      console.log(error);
+      setError("Google Login Failed");
+     
+    }
+  };
   return (
     <div className="min-h-screen flex flex-col md:flex-row items-center justify-center gap-8 p-4 container mx-auto">
-   
       <motion.div
         className="w-full md:w-1/2 text-center"
         initial={{ opacity: 0, x: -50 }}
@@ -28,7 +51,9 @@ const Login = () => {
       >
         <h1 className="text-4xl font-bold text-primary">New Here..?</h1>
         <p className="text-gray-600 text-sm mt-1 mb-3">
-        Register to start reading, borrowing, and exploring the library.And Join our community to explore thousands of books, manage your personal reading list, and stay updated on the latest releases.
+          Register to start reading, borrowing, and exploring the library.And
+          Join our community to explore thousands of books, manage your personal
+          reading list, and stay updated on the latest releases.
         </p>
         <Link to="/register">
           <button className="btn btn-outline btn-primary mb-6 px-6">
@@ -55,6 +80,8 @@ const Login = () => {
           <input
             type="email"
             name="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             placeholder="Enter Your Email"
             autoComplete="current-email"
             required
@@ -65,15 +92,22 @@ const Login = () => {
             name="password"
             placeholder="Enter Your Password"
             autoComplete="current-password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             required
             className="input w-full rounded-2xl"
           />
           <button className="btn btn-primary w-full text-xl mt-2">Login</button>
         </form>
 
-        <div className="divider divider-neutral text-black w-full">OR LOGIN WITH</div>
+        <div className="divider divider-neutral text-black w-full">
+          OR LOGIN WITH
+        </div>
 
-        <button className="flex justify-center items-center gap-3 px-4 py-2 rounded-3xl shadow-md hover:shadow-lg transition w-full">
+        <button
+          onClick={handleGoogleBtn}
+          className="flex justify-center items-center gap-3 px-4 py-2 rounded-3xl shadow-md hover:shadow-lg transition w-full"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width={20}
