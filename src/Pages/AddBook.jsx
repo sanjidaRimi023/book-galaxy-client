@@ -1,28 +1,41 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
 const AddBook = () => {
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors }
+    formState: { errors },
   } = useForm();
 
-  
-  const [previewURL, setPreviewURL] = useState(null);
+  const onSubmit = async (data) => {
+    const rawTags = data.tags || "";
+    const tagArr = rawTags.split(",").map(tag => tag.trim()).filter(tag => tag !== "");
 
-  const onSubmit = (data) => {
-    console.log("📚 Book Data Submitted:", data);
-    reset();
-    setPreviewURL(null); 
-  };
+    const bookData = {
+      bookName: data.bookName,
+      author: data.author,
+      image: data.image,
+      shortDescription: data.shortDescription,
+      bookContent: data.bookContent,
+      quantity: Number(data.quantity),
+      rating: Number(data.rating),
+      category: data.category,
+      tags: tagArr
+    };
 
-  
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setPreviewURL(URL.createObjectURL(file));
+    try {
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/books`, bookData);
+      if (res.status === 200 || res.status === 201) {
+        toast.success("✅ Book added successfully!");
+        reset();
+      }
+    } catch (err) {
+      toast.error("❌ Failed to add book");
+      console.error(err);
     }
   };
 
@@ -33,18 +46,16 @@ const AddBook = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-            
             <div>
-              <label className="label text-xl font-semibold">Book Title</label>
+              <label className="label text-xl font-semibold">Book Name</label>
               <input
-                {...register("title", { required: "Title is required" })}
+                {...register("bookName", { required: "Book name is required" })}
                 className="input w-full"
-                placeholder="Enter book title"
+                placeholder="Enter book name"
               />
-              {errors.title && <p className="text-red-500 text-sm">{errors.title.message}</p>}
+              {errors.bookName && <p className="text-red-500 text-sm">{errors.bookName.message}</p>}
             </div>
 
-         
             <div>
               <label className="label text-xl font-semibold">Author Name</label>
               <input
@@ -71,19 +82,20 @@ const AddBook = () => {
               {errors.category && <p className="text-red-500 text-sm">{errors.category.message}</p>}
             </div>
 
-     
             <div>
               <label className="label text-xl font-semibold">Quantity</label>
               <input
                 type="number"
-                {...register("quantity", { required: "Quantity is required", min: 1 })}
+                {...register("quantity", {
+                  required: "Quantity is required",
+                  min: 1,
+                })}
                 className="input w-full"
                 placeholder="Enter quantity"
               />
               {errors.quantity && <p className="text-red-500 text-sm">{errors.quantity.message}</p>}
             </div>
 
-         
             <div>
               <label className="label text-xl font-semibold">Rating (1-5)</label>
               <input
@@ -91,7 +103,7 @@ const AddBook = () => {
                 {...register("rating", {
                   required: "Rating is required",
                   min: 1,
-                  max: 5
+                  max: 5,
                 })}
                 className="input w-full"
                 placeholder="Rating"
@@ -99,34 +111,54 @@ const AddBook = () => {
               {errors.rating && <p className="text-red-500 text-sm">{errors.rating.message}</p>}
             </div>
 
-         
             <div>
-              <label className="label text-xl font-semibold">Book Cover</label>
+              <label className="label text-xl font-semibold">Cover Image URL</label>
               <input
-                type="imgURL"
-            
-                {...register("coverImage", { required: "Cover image is required" })}
-                onChange={(e) => {
-                  handleImageChange(e);
-                }}
+                type="text"
+                {...register("image", {
+                  required: "Image URL is required",
+                })}
                 className="input w-full"
-                placeholder="Enter image url"
+                placeholder="Enter image URL"
               />
-              {errors.coverImage && <p className="text-red-500 text-sm">{errors.coverImage.message}</p>}
-
-            
+              {errors.image && <p className="text-red-500 text-sm">{errors.image.message}</p>}
             </div>
           </div>
 
           <div className="mt-6">
             <label className="label text-xl font-semibold">Short Description</label>
             <textarea
-              {...register("description", { required: "Description is required" })}
-              rows="4"
-              className="input w-full h-28"
+              {...register("shortDescription", {
+                required: "Short description is required",
+              })}
+              rows="3"
+              className="input w-full h-20"
               placeholder="Write a short description"
             ></textarea>
-            {errors.description && <p className="text-red-500 text-sm">{errors.description.message}</p>}
+            {errors.shortDescription && <p className="text-red-500 text-sm">{errors.shortDescription.message}</p>}
+          </div>
+
+          <div className="mt-6">
+            <label className="label text-xl font-semibold">Book Content</label>
+            <textarea
+              {...register("bookContent", {
+                required: "Book content is required",
+              })}
+              rows="4"
+              className="input w-full h-28"
+              placeholder="Write full book content or summary"
+            ></textarea>
+            {errors.bookContent && <p className="text-red-500 text-sm">{errors.bookContent.message}</p>}
+          </div>
+
+          <div className="mt-6">
+            <label className="label text-xl font-semibold">Tags</label>
+            <input
+              type="text"
+              {...register("tags")}
+              className="input w-full"
+              placeholder="Enter tags separated by comma (e.g. Family, War)"
+            />
           </div>
 
           <input
