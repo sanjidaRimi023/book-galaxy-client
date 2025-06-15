@@ -8,6 +8,8 @@ import ErrorPage from "../Pages/ErrorPage";
 import Login from "../Pages/Login";
 import Register from "../Pages/Register";
 import PrivateRoute from "../Router/PrivateRoute"
+import BookDetail from "../Pages/BookDetail";
+import CategoriesPage from "../Pages/CategoriesPage";
 
 const router = createBrowserRouter([
     {
@@ -24,6 +26,19 @@ const router = createBrowserRouter([
                 element: <PrivateRoute>
                     <AllBook></AllBook>
                 </PrivateRoute>,
+                
+            },
+            {
+                path: '/books/:id',
+                element: <BookDetail />,
+                loader: ({params})=>fetch(`${import.meta.env.VITE_API_URL}/books/${params.id}`)
+                
+            },
+            {
+                path: '/category/:category',
+                element: <PrivateRoute>
+                    <CategoriesPage/>
+                </PrivateRoute>
                 
             },
             {

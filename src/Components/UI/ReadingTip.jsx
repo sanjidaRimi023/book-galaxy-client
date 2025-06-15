@@ -61,12 +61,13 @@ const ReadingTip = () => {
   return (
     <section className="max-w-6xl mx-auto px-4 py-12">
       <motion.h2
-        className="text-4xl font-bold text-center text-info mb-6"
+        className="md:text-4xl font-bold text-center text-info mb-6 animate-pulse"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
+        
       >
-        Enhance Your Reading Habits with Smart Strategies
+        Enhance Your Reading Habits with <br /> Smart Strategies
       </motion.h2>
 
       <motion.p

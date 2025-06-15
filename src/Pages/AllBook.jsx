@@ -1,6 +1,10 @@
-import { ArrowDownNarrowWide, LayoutGrid, Search, Table } from "lucide-react";
+import {  LayoutGrid, Table } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import LoadSppiner from "../Components/LoadSppiner";
+import { Link } from "react-router";
+import { AnimatePresence } from "framer-motion";
+// eslint-disable-next-line no-unused-vars
+import { motion } from "framer-motion";
 
 const AllBook = () => {
   const [books, setBooks] = useState([]);
@@ -42,7 +46,6 @@ const AllBook = () => {
         </p>
       </div>
 
-      {/* Search Input */}
       <div className="flex justify-center my-5 gap-3">
         <select
           className="select select-bordered"
@@ -58,7 +61,6 @@ const AllBook = () => {
         </select>
       </div>
 
-      {/* Layout Toggle Button */}
       <div className="flex justify-end pr-20 mb-4">
         <div
           className="tooltip tooltip-left"
@@ -78,97 +80,115 @@ const AllBook = () => {
         </div>
       </div>
 
-      {/* Book Layout Display */}
       {layout === "card" ? (
         <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filterBooks.map((book) => (
-            <div
-              key={book._id}
-              className="card border border-primary shadow-md rounded-xl hover:shadow-lg transition duration-300"
-            >
-              <figure className="px-6 pt-6">
-                <img
-                  src={book.image}
-                  alt={book.bookName}
-                  className="w-full h-48 object-cover rounded-lg"
-                />
-              </figure>
-
-              <div className="card-body">
-                <h2 className="card-title text-xl">
-                  Book Name:{" "}
-                  <span className="text-error"> {book.bookName}</span>
-                </h2>
-                <p className="text-lg">
-                  <span>Author Name:</span> {book.author}
-                </p>
-                <p className="text-lg">
-                  <span>Category : </span>
-                  <span className="badge badge-warning rounded-2xl">
-                    {book.category}
-                  </span>
-                </p>
-
-                <div className="flex gap-2">
-                  {book.tags?.slice(0, 3).map((tag, index) => (
-                    <span
-                      key={index}
-                      className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs"
-                    >
-                      {tag}
+          <AnimatePresence>
+            {filterBooks.map((book, index) => (
+              <motion.div
+                // key={book._id}
+                // initial={{ opacity: 0, y: 20 }}
+                // animate={{ opacity: 1, y: 0 }}
+                // exit={{ opacity: 0, y: 20 }}
+                // transition={{ delay: index * 0.1, duration: 0.4 }}
+                key={book._id}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.4, delay: index * 0.05 }}
+                className="card border border-primary shadow-md rounded-xl hover:shadow-lg transition duration-300"
+              >
+                <figure className="px-6 pt-6">
+                  <img
+                    src={book.image}
+                    alt={book.bookName}
+                    className="w-full h-48 object-cover rounded-lg"
+                  />
+                </figure>
+                <div className="card-body">
+                  <h2 className="card-title text-xl">
+                    Book Name:{" "}
+                    <span className="text-error">{book.bookName}</span>
+                  </h2>
+                  <p className="text-lg">
+                    <span>Author Name:</span> {book.author}
+                  </p>
+                  <p className="text-lg">
+                    <span>Category: </span>
+                    <span className="badge badge-warning rounded-2xl">
+                      {book.category}
                     </span>
-                  ))}
+                  </p>
+                  <div className="flex gap-2">
+                    {book.tags?.slice(0, 3).map((tag, index) => (
+                      <span
+                        key={index}
+                        className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="card-actions">
+                    <Link to={`/books/${book._id}`}>
+                      <button className="btn btn-primary">Detail</button>
+                    </Link>
+                  </div>
                 </div>
-                <div className="card-actions">
-                  <button className="btn btn-primary">Detail</button>
-                </div>
-              </div>
-            </div>
-          ))}
+              </motion.div>
+            ))}
+          </AnimatePresence>
         </div>
       ) : (
-        <div className="overflow-x-auto container mx-auto">
-          <table className="table border border-gray-200 shadow-md rounded-lg">
-            <thead className="bg-base-300">
-              <tr>
-                <th>Image</th>
-                <th>Book Name</th>
-                <th>Author</th>
-                <th>Tags</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filterBooks.map((book) => (
-                <tr key={book._id} className="border-t hover:bg-base-300">
-                  <td className="py-3 px-4">
-                    <img
-                      src={book.image}
-                      alt={book.bookName}
-                      className="w-16 h-16 object-cover rounded-md"
-                    />
-                  </td>
-                  <td className="py-3 px-4 font-medium">{book.bookName}</td>
-                  <td className="py-3 px-4">{book.author}</td>
-                  <td className="py-3 px-4">
-                    <div className="flex flex-wrap gap-1">
-                      {book.tags?.map((tag, index) => (
-                        <span
-                          key={index}
-                          className="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-xs"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  </td>
-                  <td className="py-3 px-4">
-                    <button className="btn btn-sm btn-primary">Details</button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="w-full overflow-x-auto px-2 sm:px-4 lg:px-8 py-4">
+          <div className="min-w-full inline-block align-middle">
+            <div className="overflow-hidden rounded-lg border border-gray-200 shadow-md">
+              <table className="min-w-full divide-y divide-gray-200 table-auto">
+                <thead className="bg-base-300 text-sm text-gray-700">
+                  <tr>
+                    <th className="px-4 py-3 text-left">Image</th>
+                    <th className="px-4 py-3 text-left">Book Name</th>
+                    <th className="px-4 py-3 text-left">Author</th>
+                    <th className="px-4 py-3 text-left">Tags</th>
+                    <th className="px-4 py-3 text-left">Action</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100 bg-white text-sm">
+                  {filterBooks.map((book) => (
+                    <tr key={book._id} className="hover:bg-base-200">
+                      <td className="px-4 py-3">
+                        <img
+                          src={book.image}
+                          alt={book.bookName}
+                          className="w-12 h-12 sm:w-16 sm:h-16 object-cover rounded-md"
+                        />
+                      </td>
+                      <td className="px-4 py-3 font-medium">{book.bookName}</td>
+                      <td className="px-4 py-3">{book.author}</td>
+                      <td className="px-4 py-3">
+                        <div className="flex flex-wrap gap-1">
+                          {book.tags?.map((tag, index) => (
+                            <span
+                              key={index}
+                              className="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-xs"
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      </td>
+                      <td className="px-4 py-3">
+                        <Link to={`/books/${book._id}`}>
+                          <button className="btn btn-xs sm:btn-sm btn-primary">
+                            Details
+                          </button>
+                        </Link>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       )}
     </>
