@@ -125,11 +125,11 @@ const AllBook = () => {
                 transition={{ duration: 0.4, delay: index * 0.05 }}
                 className="card border border-primary shadow-md rounded-xl hover:shadow-lg transition duration-300"
               >
-                <figure className="px-6 pt-6">
+                <figure className="pt-6">
                   <img
                     src={book.image}
                     alt={book.bookName}
-                    className="w-full h-48 object-cover rounded-lg"
+                    className="object-cover rounded-lg"
                   />
                 </figure>
                 <div className="card-body">

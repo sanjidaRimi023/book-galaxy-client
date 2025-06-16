@@ -1,52 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import bookDetailBg2 from "../assets/books2.jpg";
 import { useLoaderData } from "react-router";
+import StarRatings from "react-star-ratings";
+import { Authcontext } from "../Context/AuthContext";
 import axios from "axios";
 import toast from "react-hot-toast";
-import UpdateBook from "../Components/UpdateBook";
-import StarRatings from "react-star-ratings";
-
 const BookDetail = () => {
-  const loaderBook = useLoaderData();
-  const [bookData, setBookData] = useState(loaderBook);
-  const [selectBook, setSelectBook] = useState(null);
-
-  useEffect(() => {
-    if (selectBook) {
-      const modal = document.getElementById("update_modal");
-      if (modal) modal.showModal();
-    }
-  }, [selectBook]);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setSelectBook((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      await axios.put(
-        `${import.meta.env.VITE_API_URL}/books/${selectBook._id}`,
-        selectBook
-      );
-
-      setBookData(selectBook);
-
-      const modal = document.getElementById("update_modal");
-      if (modal) modal.close();
-
-      toast.success("Book updated successfully!");
-    } catch (error) {
-      toast.error("Failed to update the book.");
-      console.error("Update error:", error);
-    }
-  };
-
-  const openModal = () => {
-    setSelectBook(bookData);
-  };
+  const bookData = useLoaderData();
+  const { user } = useContext(Authcontext);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [bookQuantity, setBookQuantity] = useState(bookData.quantity);
+  const [isDescriptionOpen, setIsDescriptionOpen] = useState(false);
 
   const {
     bookName,
@@ -54,22 +18,82 @@ const BookDetail = () => {
     image,
     shortDescription,
     bookContent,
-    quantity,
     rating,
     category,
     tags,
-    _id,
   } = bookData;
-  console.log(rating);
 
-  const star = parseInt(rating);
-
-  const [ratingStar, setRatingStar] = useState(star);
+  const [ratingStar, setRatingStar] = useState(parseInt(rating));
 
   const changeRating = (newRating) => {
     setRatingStar(newRating);
+    axios
+      .patch(`${import.meta.env.VITE_API_URL}/books/${bookData._id}`, {
+        rating: newRating,
+      })
+      .then((res) => {
+        if (res.data.modifiedCount > 0) {
+          toast.success("Rating updated!");
+        } else {
+          toast.error("Rating update failed");
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        toast.error("Server error!");
+      });
   };
 
+  const handleBorrow = (e) => {
+    e.preventDefault();
+    const returnDate = e.target.returnDate.value;
+
+    const borrowInfo = {
+      bookId: bookData._id,
+      title: bookData.bookName,
+      userName: user.displayName,
+      email: user.email,
+      returnDate,
+      image: bookData.image,
+      returned: false,
+    };
+
+    axios
+      .get(
+        `${import.meta.env.VITE_API_URL}/borrowbooks/check?bookId=${
+          bookData._id
+        }&email=${user.email}`
+      )
+      .then((res) => {
+        if (res.data.alreadyBorrow) {
+          setIsModalOpen(false);
+          toast.error("you have Already borrowed this book..!!");
+        } else {
+          axios
+            .post(
+              `${import.meta.env.VITE_API_URL}/borrowbooks/borrow`,
+              borrowInfo
+            )
+            .then((res) => {
+              if (res.data.success) {
+                setBookQuantity((prev) => prev - 1);
+                setIsModalOpen(false);
+                toast.success("Borrowed successfully!");
+              } else {
+                toast.error("Borrow failed!");
+              }
+            })
+            .catch((err) => {
+              console.error(err);
+              toast.error("Something went wrong!");
+            });
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        toast.error("Server error during borrow check!");
+      });
+  };
   const shortdes = shortDescription?.slice(0, 100) + "...";
 
   return (
@@ -106,22 +130,21 @@ const BookDetail = () => {
           <div>
             Category: <span className="text-warning font-bold">{category}</span>
           </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="font-medium">Rating:</span>
-              <StarRatings
-                rating={ratingStar}
-                starRatedColor="red"
-                changeRating={changeRating}
-                numberOfStars={5}
-                name="ratingStar"
-                starDimension="30px"
-              />
-            </div>
+
+          <div className="flex items-center gap-2">
+            <span className="font-medium">Rating:</span>
+            <StarRatings
+              rating={ratingStar}
+              starRatedColor="red"
+              changeRating={changeRating}
+              numberOfStars={5}
+              name="ratingStar"
+              starDimension="30px"
+            />
           </div>
 
           <div>
-            Quantity: <span className="font-bold">{quantity}</span>
+            Quantity: <span className="font-bold">{bookQuantity}</span>
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
@@ -140,41 +163,81 @@ const BookDetail = () => {
             Description: <span>{shortdes}</span>
             <button
               className="text-warning"
-              onClick={() => document.getElementById("book_modal").showModal()}
+              onClick={() => setIsDescriptionOpen(true)}
             >
               Read more
             </button>
           </div>
-          <button className="btn w-30 sm:btn-sm btn-info" onClick={openModal}>
-            Update
+          <button
+            className="btn btn-primary w-40"
+            onClick={() => setIsModalOpen(true)}
+            disabled={bookQuantity === 0}
+          >
+            {bookQuantity === 0 ? "Out of Stock" : "Borrow"}
           </button>
         </div>
       </div>
 
-      <dialog id="book_modal" className="modal modal-bottom sm:modal-middle">
-        <div className="modal-box">
-          <h3 className="text-lg font-bold mb-2">Full Description</h3>
-          <p className="mb-4">{shortDescription}</p>
-          <h3 className="text-lg font-bold mb-2">Book Content</h3>
-          <p>{bookContent}</p>
-          <div className="modal-action">
-            <form method="dialog">
-              <button className="btn btn-error text-white">Close</button>
+      {isDescriptionOpen && (
+        <dialog className="modal modal-open">
+          <div className="modal-box">
+            <h3 className="text-lg font-bold mb-2">Full Description</h3>
+            <p className="mb-4">{shortDescription}</p>
+            <h3 className="text-lg font-bold mb-2">Book Content</h3>
+            <p>{bookContent}</p>
+            <div className="modal-action">
+              <button
+                className="btn btn-error text-white"
+                onClick={() => setIsDescriptionOpen(false)}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </dialog>
+      )}
+
+      {isModalOpen && (
+        <dialog className="modal modal-open">
+          <div className="modal-box">
+            <form onSubmit={handleBorrow}>
+              <h3 className="font-bold text-lg">Borrow Book</h3>
+
+              <input
+                type="text"
+                value={user.displayName}
+                disabled
+                className="input input-bordered w-full my-2"
+              />
+              <input
+                type="email"
+                value={user.email}
+                disabled
+                className="input input-bordered w-full my-2"
+              />
+              <input
+                type="date"
+                name="returnDate"
+                required
+                className="input input-bordered w-full my-2"
+              />
+
+              <div className="modal-action">
+                <button type="submit" className="btn btn-success">
+                  Confirm
+                </button>
+                <button
+                  type="button"
+                  className="btn"
+                  onClick={() => setIsModalOpen(false)}
+                >
+                  Cancel
+                </button>
+              </div>
             </form>
           </div>
-        </div>
-      </dialog>
-
-      <UpdateBook
-        book={selectBook}
-        onClose={() => {
-          const modal = document.getElementById("update_modal");
-          if (modal) modal.close();
-          setSelectBook(null);
-        }}
-        onChange={handleChange}
-        onSubmit={handleSubmit}
-      />
+        </dialog>
+      )}
     </>
   );
 };
