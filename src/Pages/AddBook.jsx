@@ -123,9 +123,31 @@ const AddBook = () => {
               />
               {errors.image && <p className="text-red-500 text-sm">{errors.image.message}</p>}
             </div>
+            <div>
+            <label className="label text-xl font-semibold">Book Content</label>
+            <textarea
+              {...register("bookContent", {
+                required: "Book content is required",
+              })}
+
+              className="input w-full"
+              placeholder="Write full book content or summary"
+            ></textarea>
+            {errors.bookContent && <p className="text-red-500 text-sm">{errors.bookContent.message}</p>}
           </div>
 
-          <div className="mt-6">
+          <div>
+            <label className="label text-xl font-semibold">Tags</label>
+            <input
+              type="text"
+              {...register("tags")}
+              className="input w-full"
+              placeholder="Enter tags separated by comma (e.g. Family, War)"
+            />
+          </div>
+          </div>
+
+          <div>
             <label className="label text-xl font-semibold">Short Description</label>
             <textarea
               {...register("shortDescription", {
@@ -138,28 +160,7 @@ const AddBook = () => {
             {errors.shortDescription && <p className="text-red-500 text-sm">{errors.shortDescription.message}</p>}
           </div>
 
-          <div className="mt-6">
-            <label className="label text-xl font-semibold">Book Content</label>
-            <textarea
-              {...register("bookContent", {
-                required: "Book content is required",
-              })}
-              rows="4"
-              className="input w-full h-28"
-              placeholder="Write full book content or summary"
-            ></textarea>
-            {errors.bookContent && <p className="text-red-500 text-sm">{errors.bookContent.message}</p>}
-          </div>
-
-          <div className="mt-6">
-            <label className="label text-xl font-semibold">Tags</label>
-            <input
-              type="text"
-              {...register("tags")}
-              className="input w-full"
-              placeholder="Enter tags separated by comma (e.g. Family, War)"
-            />
-          </div>
+          
 
           <input
             type="submit"

@@ -1,8 +1,53 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import bookDetailBg2 from "../assets/books2.jpg";
 import { useLoaderData } from "react-router";
+import axios from "axios";
+import toast from "react-hot-toast";
+import UpdateBook from "../Components/UpdateBook";
+import StarRatings from "react-star-ratings";
 
 const BookDetail = () => {
+  const loaderBook = useLoaderData();
+  const [bookData, setBookData] = useState(loaderBook);
+  const [selectBook, setSelectBook] = useState(null);
+
+  useEffect(() => {
+    if (selectBook) {
+      const modal = document.getElementById("update_modal");
+      if (modal) modal.showModal();
+    }
+  }, [selectBook]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setSelectBook((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      await axios.put(
+        `${import.meta.env.VITE_API_URL}/books/${selectBook._id}`,
+        selectBook
+      );
+
+      setBookData(selectBook);
+
+      const modal = document.getElementById("update_modal");
+      if (modal) modal.close();
+
+      toast.success("Book updated successfully!");
+    } catch (error) {
+      toast.error("Failed to update the book.");
+      console.error("Update error:", error);
+    }
+  };
+
+  const openModal = () => {
+    setSelectBook(bookData);
+  };
+
   const {
     bookName,
     author,
@@ -13,13 +58,22 @@ const BookDetail = () => {
     rating,
     category,
     tags,
-  } = useLoaderData();
+    _id,
+  } = bookData;
+  console.log(rating);
 
-  const shortdes = shortDescription.slice(0, 100) + "...";
+  const star = parseInt(rating);
+
+  const [ratingStar, setRatingStar] = useState(star);
+
+  const changeRating = (newRating) => {
+    setRatingStar(newRating);
+  };
+
+  const shortdes = shortDescription?.slice(0, 100) + "...";
 
   return (
     <>
-  
       <div
         style={{ backgroundImage: `url(${bookDetailBg2})` }}
         className="relative h-[250px] md:h-[300px] flex items-center justify-center bg-cover bg-center"
@@ -30,11 +84,9 @@ const BookDetail = () => {
         </span>
       </div>
 
- 
-      <div className="container mx-auto px-4 md:px-10 grid grid-cols-1 lg:grid-cols-2 gap-10 mt-10">
-  
+      <div className="container mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 mt-10 items-center">
         <div className="flex justify-center">
-          <div className="bg-base-300 border-2 rounded-2xl p-4 sm:p-6 shadow-lg w-full max-w-xs">
+          <div className="bg-base-300 border-2 border-warning rounded-2xl p-4 sm:p-6 shadow-lg w-full max-w-xs">
             <img
               className="w-full object-cover rounded-xl"
               src={image}
@@ -43,7 +95,6 @@ const BookDetail = () => {
           </div>
         </div>
 
-        {/* Book Info */}
         <div className="flex flex-col space-y-4 text-base md:text-lg">
           <h2 className="text-2xl md:text-3xl font-bold">Name: {bookName}</h2>
 
@@ -53,12 +104,20 @@ const BookDetail = () => {
           </div>
 
           <div>
-            Category:{" "}
-            <span className="text-warning font-bold">{category}</span>
+            Category: <span className="text-warning font-bold">{category}</span>
           </div>
-
           <div>
-            Rating: <span className="text-error">{rating}</span>
+            <div className="flex items-center gap-2">
+              <span className="font-medium">Rating:</span>
+              <StarRatings
+                rating={ratingStar}
+                starRatedColor="red"
+                changeRating={changeRating}
+                numberOfStars={5}
+                name="ratingStar"
+                starDimension="30px"
+              />
+            </div>
           </div>
 
           <div>
@@ -77,21 +136,21 @@ const BookDetail = () => {
             ))}
           </div>
 
-          {/* Short Description + Modal Trigger */}
           <div>
             Description: <span>{shortdes}</span>
-            <br />
             <button
-              className="btn btn-accent btn-sm mt-2"
+              className="text-warning"
               onClick={() => document.getElementById("book_modal").showModal()}
             >
               Read more
             </button>
           </div>
+          <button className="btn w-30 sm:btn-sm btn-info" onClick={openModal}>
+            Update
+          </button>
         </div>
       </div>
 
-      {/* Modal */}
       <dialog id="book_modal" className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
           <h3 className="text-lg font-bold mb-2">Full Description</h3>
@@ -105,6 +164,17 @@ const BookDetail = () => {
           </div>
         </div>
       </dialog>
+
+      <UpdateBook
+        book={selectBook}
+        onClose={() => {
+          const modal = document.getElementById("update_modal");
+          if (modal) modal.close();
+          setSelectBook(null);
+        }}
+        onChange={handleChange}
+        onSubmit={handleSubmit}
+      />
     </>
   );
 };

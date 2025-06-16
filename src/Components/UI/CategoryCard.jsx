@@ -36,7 +36,7 @@ const CategoryCard = () => {
           Explore Categories
         </h1>
         <div className="w-full flex justify-center items-center py-4 pl-2 overflow-hidden">
-          <div className="flex flex-wrap gap-4 animate-bounce mt-4">
+          <div className="flex flex-wrap gap-4 mt-4">
             {uniqCategories.map((category, idx) => (
               <Link key={idx} to={`/category/${category}`}>
                 <div className="border border-accent text-center rounded-md shadow-md px-4 py-2 bg-base-100 hover:bg-accent hover:text-white transition">

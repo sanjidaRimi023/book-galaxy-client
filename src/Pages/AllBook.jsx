@@ -1,26 +1,29 @@
-import {  LayoutGrid, Table } from "lucide-react";
+import { LayoutGrid, Table } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import LoadSppiner from "../Components/LoadSppiner";
 import { Link } from "react-router";
 import { AnimatePresence } from "framer-motion";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
+import axios from "axios";
+import toast from "react-hot-toast";
+import UpdateBook from "../Components/UpdateBook";
 
 const AllBook = () => {
   const [books, setBooks] = useState([]);
   const [layout, setLayout] = useState("card");
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
+  const [selectBooks, setSelectBook] = useState(null);
 
   const filterBooks = books.filter((book) =>
     book.category.toLowerCase().includes(search.toLowerCase())
   );
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/books`)
-      .then((res) => res.json())
-      .then((data) => {
-        setBooks(data);
+    axios(`${import.meta.env.VITE_API_URL}/books`)
+      .then((res) => {
+        setBooks(res.data);
         setLoading(false);
       })
       .catch((err) => {
@@ -28,6 +31,40 @@ const AllBook = () => {
         setLoading(false);
       });
   }, []);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setSelectBook((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.put(
+        `${import.meta.env.VITE_API_URL}/books/${selectBooks._id}`,
+        selectBooks
+      );
+
+      const updateData = books.map((book) =>
+        book._id === selectBooks._id ? selectBooks : book
+      );
+      setBooks(updateData);
+
+      document.getElementById("update_modal").close();
+      toast.success("Book updated seccessfully");
+    } catch (error) {
+      toast.error("Fail to Update Data");
+      console.error("update error", error);
+    }
+  };
+
+  const openModal = (book) => {
+    setSelectBook(book);
+    setTimeout(() => {
+      const modal = document.getElementById("update_modal");
+      if (modal) modal.showModal();
+    }, 0);
+  };
 
   if (loading) {
     return <LoadSppiner></LoadSppiner>;
@@ -45,7 +82,6 @@ const AllBook = () => {
           for your convenience.
         </p>
       </div>
-
       <div className="flex justify-center my-5 gap-3">
         <select
           className="select select-bordered"
@@ -60,14 +96,12 @@ const AllBook = () => {
           <option value="Sci-Fi">Sci-Fi</option>
         </select>
       </div>
-
       <div className="flex justify-end pr-20 mb-4">
         <div
-          className="tooltip tooltip-left"
-          data-tip={
-            layout === "card" ? "Switch to Table View" : "Switch to Card View"
-          }
+          className="tooltip tooltip-left flex gap-2"
+          data-tip={layout === "card" ? "Switch to Table" : "Switch to Card"}
         >
+          <span className="text-xl text-center">View</span>
           <label className="swap swap-rotate cursor-pointer transition-transform hover:scale-110 active:scale-95">
             <input
               type="checkbox"
@@ -79,17 +113,11 @@ const AllBook = () => {
           </label>
         </div>
       </div>
-
       {layout === "card" ? (
         <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <AnimatePresence>
             {filterBooks.map((book, index) => (
               <motion.div
-                // key={book._id}
-                // initial={{ opacity: 0, y: 20 }}
-                // animate={{ opacity: 1, y: 0 }}
-                // exit={{ opacity: 0, y: 20 }}
-                // transition={{ delay: index * 0.1, duration: 0.4 }}
                 key={book._id}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -119,6 +147,7 @@ const AllBook = () => {
                     </span>
                   </p>
                   <div className="flex gap-2">
+                     <span>Tags:</span>
                     {book.tags?.slice(0, 3).map((tag, index) => (
                       <span
                         key={index}
@@ -128,10 +157,20 @@ const AllBook = () => {
                       </span>
                     ))}
                   </div>
-                  <div className="card-actions">
-                    <Link to={`/books/${book._id}`}>
-                      <button className="btn btn-primary">Detail</button>
-                    </Link>
+                  <div className="flex gap-2 justify-end">
+                    <div className="card-actions">
+                      <Link to={`/books/${book._id}`}>
+                        <button className="btn  btn-xs sm:btn-sm btn-primary">Detail</button>
+                      </Link>
+                    </div>
+                    <div className="card-actions">
+                      <button
+                        className="btn btn-xs sm:btn-sm btn-secondary"
+                        onClick={() => openModal(book)}
+                      >
+                        Update
+                      </button>
+                    </div>
                   </div>
                 </div>
               </motion.div>
@@ -149,7 +188,8 @@ const AllBook = () => {
                     <th className="px-4 py-3 text-left">Book Name</th>
                     <th className="px-4 py-3 text-left">Author</th>
                     <th className="px-4 py-3 text-left">Tags</th>
-                    <th className="px-4 py-3 text-left">Action</th>
+                    <th className="px-4 py-3 text-left">Detail</th>
+                    <th className="px-4 py-3 text-left">Update</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100 bg-white text-sm">
@@ -183,6 +223,14 @@ const AllBook = () => {
                           </button>
                         </Link>
                       </td>
+                      <td className="px-4 py-3">
+                        <button
+                          className="btn btn-xs sm:btn-sm btn-secondary"
+                          onClick={() => openModal(book)}
+                        >
+                          Update
+                        </button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -191,6 +239,12 @@ const AllBook = () => {
           </div>
         </div>
       )}
+      <UpdateBook
+        book={selectBooks}
+        onClose={() => document.getElementById("update_modal").close()}
+        onChange={handleChange}
+        onSubmit={handleSubmit}
+      />
     </>
   );
 };
