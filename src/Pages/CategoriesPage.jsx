@@ -25,7 +25,10 @@ const CategoriesPage = () => {
 
   return (
     <div className="container mx-auto px-4 py-10">
-      <h2 className="text-3xl font-semibold mb-6">Books in "{category}" Category</h2>
+      <h2 className="text-3xl font-semibold mb-6 text-center">Books in "{category}" Category</h2>
+      <Link>
+        
+      </Link>
       <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <AnimatePresence>
             {books.map((book, index) => (
@@ -41,7 +44,7 @@ const CategoriesPage = () => {
                   <img
                     src={book.image}
                     alt={book.bookName}
-                    className="w-full h-48 object-cover rounded-lg"
+                    className="object-cover rounded-lg"
                   />
                 </figure>
                 <div className="card-body">
@@ -68,7 +71,7 @@ const CategoriesPage = () => {
                       </span>
                     ))}
                   </div>
-                  <div className="card-actions">
+                  <div className="card-actions flex justify-end">
                     <Link to={`/books/${book._id}`}>
                       <button className="btn btn-primary">Detail</button>
                     </Link>

@@ -36,7 +36,7 @@ const Register = () => {
 
     try {
       const res = await createUser(email, password);
-      console.log("User created:", res.user);
+      // console.log("User created:", res.user);
       await updateUserProfile({
         displayName: name,
         photoURL: photoURL,

@@ -5,6 +5,8 @@ import { Link, useLocation, useNavigate } from "react-router";
 import { motion } from "framer-motion";
 import { Authcontext } from "../Context/AuthContext";
 import toast from "react-hot-toast";
+import { Helmet } from 'react-helmet';
+
 
 const Login = () => {
   const { loginUser, googleLogin } = useContext(Authcontext);
@@ -42,7 +44,11 @@ const Login = () => {
     }
   };
   return (
+    
     <div className="min-h-screen flex flex-col md:flex-row items-center justify-center gap-8 p-4 container mx-auto">
+       <Helmet>
+                <title>BookGalaxy || Login</title>
+            </Helmet>
       <motion.div
         className="w-full md:w-1/2 text-center"
         initial={{ opacity: 0, x: -50 }}

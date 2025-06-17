@@ -232,12 +232,20 @@ const Navbar = () => {
               >
                 <BookPlus className="size-5" /> Add Book
               </NavLink>
-              {user ? (
+            {user ? (
+                <>
+                <img
+                  src={user.photoURL || "https://i.ibb.co/yP7s5gZ/user.png"}
+                  alt="profile"
+                  className="w-10 h-10 rounded-full border"
+                />
                 <Link to="/">
                   <button onClick={handleLogout} className="btn btn-primary">
                     Logout
                   </button>
                 </Link>
+              </>
+              
               ) : (
                 <>
                   <Link to="/login" onClick={toggleMenu}>

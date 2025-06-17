@@ -8,6 +8,7 @@ import { motion } from "framer-motion";
 import axios from "axios";
 import toast from "react-hot-toast";
 import UpdateBook from "../Components/UpdateBook";
+import { Helmet } from "react-helmet";
 
 const AllBook = () => {
   const [books, setBooks] = useState([]);
@@ -15,10 +16,15 @@ const AllBook = () => {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [selectBooks, setSelectBook] = useState(null);
+  const [showAvailableOnly, setShowAvailableOnly] = useState(false);
 
-  const filterBooks = books.filter((book) =>
-    book.category.toLowerCase().includes(search.toLowerCase())
-  );
+  const filterBooks = books.filter((book) => {
+    const matchCategory = book.category
+      .toLowerCase()
+      .includes(search.toLowerCase());
+    const matchAvailability = showAvailableOnly ? book.quantity > 0 : true;
+    return matchCategory && matchAvailability;
+  });
 
   useEffect(() => {
     axios(`${import.meta.env.VITE_API_URL}/books`)
@@ -72,6 +78,9 @@ const AllBook = () => {
 
   return (
     <>
+      <Helmet>
+        <title>BookGalaxy || All Book</title>
+      </Helmet>
       <div className="flex flex-col space-y-3 justify-center my-10 items-center">
         <h1 className="text-3xl font-bold text-primary text-center flex gap-2 items-center">
           Explore Our Book Collection
@@ -92,10 +101,21 @@ const AllBook = () => {
           <option value="Thriller">Thriller</option>
           <option value="Novel">Novel</option>
           <option value="History">History</option>
+          <option value="Fantasy">Fantasy</option>
+          <option value="Technology">Technology</option>
+          <option value="Mystery">Mystery</option>
           <option value="Drama">Drama</option>
           <option value="Sci-Fi">Sci-Fi</option>
         </select>
+
+        <button
+          className={`btn ${showAvailableOnly ? "btn-success" : "btn-outline"}`}
+          onClick={() => setShowAvailableOnly(!showAvailableOnly)}
+        >
+          {showAvailableOnly ? "Showing Available" : "Show Available Books"}
+        </button>
       </div>
+
       <div className="flex justify-end pr-20 mb-4">
         <div
           className="tooltip tooltip-left flex gap-2"
@@ -147,7 +167,7 @@ const AllBook = () => {
                     </span>
                   </p>
                   <div className="flex gap-2">
-                     <span>Tags:</span>
+                    <span>Tags:</span>
                     {book.tags?.slice(0, 3).map((tag, index) => (
                       <span
                         key={index}
@@ -160,7 +180,9 @@ const AllBook = () => {
                   <div className="flex gap-2 justify-end">
                     <div className="card-actions">
                       <Link to={`/books/${book._id}`}>
-                        <button className="btn  btn-xs sm:btn-sm btn-primary">Detail</button>
+                        <button className="btn  btn-xs sm:btn-sm btn-primary">
+                          Detail
+                        </button>
                       </Link>
                     </div>
                     <div className="card-actions">

@@ -1,16 +1,19 @@
 import React, { useContext, useState } from "react";
 import bookDetailBg2 from "../assets/books2.jpg";
-import { useLoaderData } from "react-router";
+import { useLoaderData, useNavigate } from "react-router";
 import StarRatings from "react-star-ratings";
 import { Authcontext } from "../Context/AuthContext";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { Helmet } from "react-helmet";
+
 const BookDetail = () => {
   const bookData = useLoaderData();
   const { user } = useContext(Authcontext);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [bookQuantity, setBookQuantity] = useState(bookData.quantity);
   const [isDescriptionOpen, setIsDescriptionOpen] = useState(false);
+  const navigate = useNavigate();
 
   const {
     bookName,
@@ -35,12 +38,12 @@ const BookDetail = () => {
         if (res.data.modifiedCount > 0) {
           toast.success("Rating updated!");
         } else {
-          toast.error("Rating update failed");
+          // toast.error("Rating update failed");
         }
       })
       .catch((err) => {
         console.error(err);
-        toast.error("Server error!");
+        // toast.error("Server error!");
       });
   };
 
@@ -79,6 +82,7 @@ const BookDetail = () => {
                 setBookQuantity((prev) => prev - 1);
                 setIsModalOpen(false);
                 toast.success("Borrowed successfully!");
+                navigate("/borrowed-books");
               } else {
                 toast.error("Borrow failed!");
               }
@@ -98,6 +102,9 @@ const BookDetail = () => {
 
   return (
     <>
+      <Helmet>
+        <title>BookGalaxy || BookDetail</title>
+      </Helmet>
       <div
         style={{ backgroundImage: `url(${bookDetailBg2})` }}
         className="relative h-[250px] md:h-[300px] flex items-center justify-center bg-cover bg-center"
