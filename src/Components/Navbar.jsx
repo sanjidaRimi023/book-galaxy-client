@@ -16,7 +16,6 @@ import { Link, NavLink, useNavigate } from "react-router";
 import { Authcontext } from "../Context/AuthContext";
 import toast from "react-hot-toast";
 
-
 const Navbar = () => {
   const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
@@ -88,46 +87,54 @@ const Navbar = () => {
               <BookCopy className="size-5" /> All Books
             </NavLink>
 
-            {
-              user && (
-                <>
-                 <NavLink
-              to="/borrowed-books"
-              className={({ isActive }) =>
-                `flex items-center gap-1 px-3 py-2 rounded-full transition duration-200 ${
-                  isActive
-                    ? "bg-primary text-primary-content border-primary"
-                    : "hover:text-accent hover:bg-base-200"
-                }`
-              }
-            >
-              <BookText className="size-5" /> Borrowed Books
-            </NavLink>
+            {user && (
+              <>
+                <NavLink
+                  to="/borrowed-books"
+                  className={({ isActive }) =>
+                    `flex items-center gap-1 px-3 py-2 rounded-full transition duration-200 ${
+                      isActive
+                        ? "bg-primary text-primary-content border-primary"
+                        : "hover:text-accent hover:bg-base-200"
+                    }`
+                  }
+                >
+                  <BookText className="size-5" /> Borrowed Books
+                </NavLink>
 
-            <NavLink
-              to="/add-book"
-              className={({ isActive }) =>
-                `flex items-center gap-1 px-3 py-2 rounded-full transition duration-200 ${
-                  isActive
-                    ? "bg-primary text-primary-content border-primary"
-                    : "hover:text-accent hover:bg-base-200"
-                }`
-              }
-            >
-              <BookPlus className="size-5" /> Add Book
-            </NavLink></>
-              )
-           }
+                <NavLink
+                  to="/add-book"
+                  className={({ isActive }) =>
+                    `flex items-center gap-1 px-3 py-2 rounded-full transition duration-200 ${
+                      isActive
+                        ? "bg-primary text-primary-content border-primary"
+                        : "hover:text-accent hover:bg-base-200"
+                    }`
+                  }
+                >
+                  <BookPlus className="size-5" /> Add Book
+                </NavLink>
+              </>
+            )}
           </div>
 
           <div className="hidden md:flex gap-2">
             {user ? (
               <>
-                <img
-                  src={user.photoURL || "https://i.ibb.co/yP7s5gZ/user.png"}
-                  alt="profile"
-                  className="w-10 h-10 rounded-full border"
-                />
+                <div className="relative group flex items-center">
+                  <img
+                    src={user.photoURL || "https://i.ibb.co/yP7s5gZ/user.png"}
+                    alt="profile"
+                    className="w-10 h-10 rounded-full border cursor-pointer"
+                  />
+                  <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 w-max bg-base-100 text-sm text-black dark:text-white rounded-md shadow-md px-3 py-2 opacity-0 group-hover:opacity-100 transition duration-300 z-50">
+                    <p className="font-semibold">
+                      {user.displayName || "No Name"}
+                    </p>
+                    <p className="text-xs">{user.email || "No Email"}</p>
+                  </div>
+                </div>
+
                 <Link to="/">
                   <button onClick={handleLogout} className="btn btn-primary">
                     Logout
@@ -174,90 +181,97 @@ const Navbar = () => {
           <div className="lg:hidden">
             <button onClick={toggleMenu}>{menuOpen ? <X /> : <Menu />}</button>
           </div>
-          
         </div>
         {menuOpen && (
-            <div className="md:hidden bg-white border-t px-4 pb-4 space-y-2">
-              <NavLink
-                to="/"
-                className={({ isActive }) =>
-                  `flex items-center gap-1 px-3 py-2 rounded-full transition duration-200 ${
-                    isActive
-                      ? "bg-primary text-primary-content border-primary"
-                      : "hover:text-accent hover:bg-base-200"
-                  }`
-                }
-              >
-                <House className="size-5" /> Home
-              </NavLink>
+          <div className="md:hidden bg-white border-t px-4 pb-4 space-y-2">
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                `flex items-center gap-1 px-3 py-2 rounded-full transition duration-200 ${
+                  isActive
+                    ? "bg-primary text-primary-content border-primary"
+                    : "hover:text-accent hover:bg-base-200"
+                }`
+              }
+            >
+              <House className="size-5" /> Home
+            </NavLink>
 
-              <NavLink
-                to="/all-books"
-                onClick={toggleMenu}
-                className={({ isActive }) =>
-                  `flex items-center gap-1 px-3 py-2 rounded-full transition duration-200 ${
-                    isActive
-                      ? "bg-primary text-primary-content border-primary"
-                      : "hover:text-accent hover:bg-base-200"
-                  }`
-                }
-              >
-                <BookCopy className="size-5" /> All Books
-              </NavLink>
+            <NavLink
+              to="/all-books"
+              onClick={toggleMenu}
+              className={({ isActive }) =>
+                `flex items-center gap-1 px-3 py-2 rounded-full transition duration-200 ${
+                  isActive
+                    ? "bg-primary text-primary-content border-primary"
+                    : "hover:text-accent hover:bg-base-200"
+                }`
+              }
+            >
+              <BookCopy className="size-5" /> All Books
+            </NavLink>
 
-              <NavLink
-                to="/borrowed-books"
-                  onClick={toggleMenu}
-                className={({ isActive }) =>
-                  `flex items-center gap-1 px-3 py-2 rounded-full transition duration-200 ${
-                    isActive
-                      ? "bg-primary text-primary-content border-primary"
-                      : "hover:text-accent hover:bg-base-200"
-                  }`
-                }
-              >
-                <BookText className="size-5" /> Borrowed Books
-              </NavLink>
+            <NavLink
+              to="/borrowed-books"
+              onClick={toggleMenu}
+              className={({ isActive }) =>
+                `flex items-center gap-1 px-3 py-2 rounded-full transition duration-200 ${
+                  isActive
+                    ? "bg-primary text-primary-content border-primary"
+                    : "hover:text-accent hover:bg-base-200"
+                }`
+              }
+            >
+              <BookText className="size-5" /> Borrowed Books
+            </NavLink>
 
-              <NavLink
-                to="/add-book"
-                  onClick={toggleMenu}
-                className={({ isActive }) =>
-                  `flex items-center gap-1 px-3 py-2 rounded-full transition duration-200 ${
-                    isActive
-                      ? "bg-primary text-primary-content border-primary"
-                      : "hover:text-accent hover:bg-base-200"
-                  }`
-                }
-              >
-                <BookPlus className="size-5" /> Add Book
-              </NavLink>
+            <NavLink
+              to="/add-book"
+              onClick={toggleMenu}
+              className={({ isActive }) =>
+                `flex items-center gap-1 px-3 py-2 rounded-full transition duration-200 ${
+                  isActive
+                    ? "bg-primary text-primary-content border-primary"
+                    : "hover:text-accent hover:bg-base-200"
+                }`
+              }
+            >
+              <BookPlus className="size-5" /> Add Book
+            </NavLink>
             {user ? (
-                <>
-                <img
-                  src={user.photoURL || "https://i.ibb.co/yP7s5gZ/user.png"}
-                  alt="profile"
-                  className="w-10 h-10 rounded-full border"
-                />
+              <>
+                <div className="relative group flex items-center">
+                  <img
+                    src={user.photoURL || "https://i.ibb.co/yP7s5gZ/user.png"}
+                    alt="profile"
+                    className="w-10 h-10 rounded-full border cursor-pointer"
+                  />
+                  <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 w-max bg-base-100 text-sm text-black dark:text-white rounded-md shadow-md px-3 py-2 opacity-0 group-hover:opacity-100 transition duration-300 z-50">
+                    <p className="font-semibold">
+                      {user.displayName || "No Name"}
+                    </p>
+                    <p className="text-xs">{user.email || "No Email"}</p>
+                  </div>
+                </div>
+
                 <Link to="/">
                   <button onClick={handleLogout} className="btn btn-primary">
                     Logout
                   </button>
                 </Link>
               </>
-              
-              ) : (
-                <>
-                  <Link to="/login" onClick={toggleMenu}>
-                    <button className="btn btn-primary">Login</button>
-                  </Link>
-                  <Link to="/register" onClick={toggleMenu}>
-                    <button className="btn btn-primary">Register</button>
-                  </Link>
-                </>
-              )}
-            </div>
-          )}
+            ) : (
+              <>
+                <Link to="/login" onClick={toggleMenu}>
+                  <button className="btn btn-primary">Login</button>
+                </Link>
+                <Link to="/register" onClick={toggleMenu}>
+                  <button className="btn btn-primary">Register</button>
+                </Link>
+              </>
+            )}
+          </div>
+        )}
       </nav>
     </>
   );
