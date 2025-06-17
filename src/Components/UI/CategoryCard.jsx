@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router"; // ✅ Fixed incorrect import
+import { Link } from "react-router"; 
 import { BookMarked } from "lucide-react";
 import LotLoader from "../LotLoader";
 // eslint-disable-next-line no-unused-vars

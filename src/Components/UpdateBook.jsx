@@ -8,6 +8,7 @@ const UpdateBook = ({ book, onClose, onChange, onSubmit }) => {
       <div className="modal-box">
         <h3 className="text-2xl font-bold mb-4">Update Book</h3>
         <form onSubmit={onSubmit} className="space-y-3">
+          <label className="text-lg">Book cover pic</label>
           <input
             type="text"
             name="image"
@@ -17,6 +18,7 @@ const UpdateBook = ({ book, onClose, onChange, onSubmit }) => {
             className="input input-bordered w-full"
             required
           />
+          <label className="text-lg">book name</label>
           <input
             type="text"
             name="bookName"
@@ -26,6 +28,7 @@ const UpdateBook = ({ book, onClose, onChange, onSubmit }) => {
             className="input input-bordered w-full"
             required
           />
+          <label className="text-lg">Author</label>
           <input
             type="text"
             name="author"
@@ -35,6 +38,7 @@ const UpdateBook = ({ book, onClose, onChange, onSubmit }) => {
             className="input input-bordered w-full"
             required
           />
+          <label className="text-lg">Category</label>
           <select
             name="category"
             value={book.category || ""}
@@ -49,6 +53,7 @@ const UpdateBook = ({ book, onClose, onChange, onSubmit }) => {
             <option value="Drama">Drama</option>
             <option value="Sci-Fi">Sci-Fi</option>
           </select>
+          <label className="text-lg">Rating</label>
           <input
             type="number"
             name="rating"

@@ -21,7 +21,7 @@
 
 ## 🌐 Live Demo
 
-🔗 [Live Website](https://your-live-link.com)
+🔗 [Live Website](https://book-galaxy-610c0.web.app/)
 
 ---
 
@@ -52,7 +52,7 @@ book-galaxy-client/
 ### 🔧 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/library-management-client.git
+git clone https://github.com/Programming-Hero-Web-Course4/b11a11-client-side-sanjidaRimi023
 cd library-management-client
 
 📦 2. Install Dependencies

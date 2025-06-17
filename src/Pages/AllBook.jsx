@@ -166,6 +166,12 @@ const AllBook = () => {
                       {book.category}
                     </span>
                   </p>
+                  <p className="text-lg">
+                    <span>Rating: </span>
+                    <span className="badge badge-error rounded-2xl">
+                      {book.rating}
+                    </span>
+                  </p>
                   <div className="flex gap-2">
                     <span>Tags:</span>
                     {book.tags?.slice(0, 3).map((tag, index) => (
@@ -177,6 +183,7 @@ const AllBook = () => {
                       </span>
                     ))}
                   </div>
+
                   <div className="flex gap-2 justify-end">
                     <div className="card-actions">
                       <Link to={`/books/${book._id}`}>

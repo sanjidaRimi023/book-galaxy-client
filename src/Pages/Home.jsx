@@ -6,9 +6,6 @@ import Events from "../Components/UI/Event";
 import CategoryCard from "../Components/UI/CategoryCard";
 import { Helmet } from "react-helmet";
 
-
-
-
 const Home = () => {
   return (
     <>
