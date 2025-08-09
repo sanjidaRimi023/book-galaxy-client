@@ -56,8 +56,8 @@ const tipsData = [
       },
       {
         icon: <Ban className="w-6 h-6 text-primary" />,
-        title: "Don’t Force It",
-        desc: "If you’re not enjoying a book, it’s okay to stop. Find one that clicks.",
+        title: "Don't Force It",
+        desc: "If you're not enjoying a book, it's okay to stop. Find one that clicks.",
       },
       {
         icon: <CheckCircle className="w-6 h-6 text-primary" />,
@@ -71,7 +71,7 @@ const tipsData = [
 const ReadingTip = () => {
   return (
     <section className="container mx-auto lg:px-10 px-4">
-      {/* Heading */}
+   
       <motion.h2
         className="md:text-4xl font-bold text-center my-5"
         initial={{ opacity: 0, y: -20 }}
@@ -81,7 +81,7 @@ const ReadingTip = () => {
         Enhance Your Reading Habits with <br /> Smart Strategies
       </motion.h2>
 
-      {/* Subheading */}
+      
       <motion.p
         className="text-center text-lg mb-12"
         initial={{ opacity: 0 }}
@@ -92,7 +92,7 @@ const ReadingTip = () => {
         <em>and</em> effective. Here are some practical tips to help you level up your reading journey.
       </motion.p>
 
-      {/* Sections */}
+    
       {tipsData.map((section, index) => (
         <motion.div
           key={index}
@@ -104,7 +104,7 @@ const ReadingTip = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: index * 0.2 }}
         >
-          {/* Image */}
+ 
           <div className="md:w-1/2 w-full">
             <motion.img
               src={section.img}
@@ -114,7 +114,7 @@ const ReadingTip = () => {
             />
           </div>
 
-          {/* Tips */}
+          
           <div className="md:w-1/2 w-full space-y-5">
             {section.tips.map((tip, tipIndex) => (
               <motion.div

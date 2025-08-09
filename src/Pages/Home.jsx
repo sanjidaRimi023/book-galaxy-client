@@ -15,7 +15,6 @@ const Home = () => {
       <div className="container mx-auto">
         <Banner />
         <CategoryCard />
-        <ReadingTip />
         <Achivement />
         <Events />
       </div>
