@@ -11,6 +11,7 @@ import PrivateRoute from "../Router/PrivateRoute"
 import BookDetail from "../Pages/BookDetail";
 import CategoriesPage from "../Pages/CategoriesPage";
 import ReadingTip from "../Components/UI/ReadingTip";
+import About from "../Pages/About";
 
 const router = createBrowserRouter([
     {
@@ -32,6 +33,11 @@ const router = createBrowserRouter([
             {
                 path: "/reading-tips",
                 element: <ReadingTip/>,
+                
+            },
+            {
+                path: "/about-us",
+                element: <About/>,
                 
             },
             {

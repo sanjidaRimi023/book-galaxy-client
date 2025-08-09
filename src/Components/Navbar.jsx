@@ -12,6 +12,7 @@ import {
   Menu,
   PencilRuler,
   Phone,
+  UsersRound,
   X,
 } from "lucide-react";
 import useTheme from "../Hooks/UseTheme";
@@ -61,7 +62,7 @@ const Navbar = () => {
         <div className="flex justify-between items-center container mx-auto bg-base-300 rounded-full p-3 my-2 shadow-lg">
           <NavLink to="/" className="flex items-center gap-2">
             <BookOpenText className="size-10 text-info" />
-            <h1 className="text-xl md:text-3xl font-bold bg-gradient-to-r from-[#01ecc9] via-[#01e7d4] to-[#00d4ff] bg-clip-text text-transparent">
+            <h1 className="text-xl md:text-3xl font-bold">
               BookGalaxy
             </h1>
           </NavLink>
@@ -71,28 +72,42 @@ const Navbar = () => {
             <NavLink
               to="/"
               className={({ isActive }) =>
-                `flex items-center gap-1 px-3 py-2 rounded-full transition duration-200 ${
+                `flex items-center gap-1 px-3 py-2 rounded-full transition duration-200 text-sm ${
                   isActive
                     ? "bg-primary text-primary-content"
                     : "hover:text-accent hover:bg-base-200"
                 }`
               }
             >
-              <House className="size-5" /> Home
+              <House className="size-4" /> Home
             </NavLink>
             <NavLink
               to="/reading-tips"
               onClick={toggleMenu}
               className={({ isActive }) =>
-                `flex items-center gap-1 px-3 py-2 rounded-full transition duration-200 ${
+                `flex items-center gap-1 px-3 py-2 rounded-full transition duration-200 text-sm ${
                   isActive
                     ? "bg-primary text-primary-content"
                     : "hover:text-accent hover:bg-base-200"
                 }`
               }
             >
-              <PencilRuler className="inline size-5 mr-2" />
+              <PencilRuler className="inline size-4 mr-2" />
               Reading Tips
+            </NavLink>
+            <NavLink
+              to="/about-us"
+              onClick={toggleMenu}
+              className={({ isActive }) =>
+                `flex items-center gap-1 px-3 py-2 rounded-full transition duration-200 text-sm  ${
+                  isActive
+                    ? "bg-primary text-primary-content"
+                    : "hover:text-accent hover:bg-base-200"
+                }`
+              }
+            >
+             <UsersRound className="inline size-4 mr-2" />
+              About Us
             </NavLink>
 
             {user && (
@@ -100,38 +115,38 @@ const Navbar = () => {
                 <NavLink
                   to="/all-books"
                   className={({ isActive }) =>
-                    `flex items-center gap-1 px-3 py-2 rounded-full transition duration-200 ${
+                    `flex items-center gap-1 px-3 py-2 rounded-full transition duration-200 text-sm ${
                       isActive
                         ? "bg-primary text-primary-content"
                         : "hover:text-accent hover:bg-base-200"
                     }`
                   }
                 >
-                  <BookCopy className="size-5" /> All Books
+                  <BookCopy className="size-4" /> All Books
                 </NavLink>
                 <NavLink
                   to="/borrowed-books"
                   className={({ isActive }) =>
-                    `flex items-center gap-1 px-3 py-2 rounded-full transition duration-200 ${
+                    `flex items-center gap-1 px-3 py-2 rounded-full transition duration-200 text-sm ${
                       isActive
                         ? "bg-primary text-primary-content"
                         : "hover:text-accent hover:bg-base-200"
                     }`
                   }
                 >
-                  <BookText className="size-5" /> Borrowed Books
+                  <BookText className="size-4" /> Borrowed Books
                 </NavLink>
                 <NavLink
                   to="/add-book"
                   className={({ isActive }) =>
-                    `flex items-center gap-1 px-3 py-2 rounded-full transition duration-200 ${
+                    `flex items-center gap-1 px-3 py-2 rounded-full transition duration-200 text-sm ${
                       isActive
                         ? "bg-primary text-primary-content"
                         : "hover:text-accent hover:bg-base-200"
                     }`
                   }
                 >
-                  <BookPlus className="size-5" /> Add Book
+                  <BookPlus className="size-4" /> Add Book
                 </NavLink>
               </>
             )}
@@ -236,7 +251,7 @@ const Navbar = () => {
                 `block py-2 ${isActive ? "text-primary" : "text-base-content"}`
               }
             >
-              <House className="inline size-5 mr-2" />
+              <House className="inline size-4 mr-2" />
               Home
             </NavLink>
             <NavLink
@@ -246,7 +261,7 @@ const Navbar = () => {
                 `block py-2 ${isActive ? "text-primary" : "text-base-content"}`
               }
             >
-              <House className="inline size-5 mr-2" />
+              <House className="inline size-4 mr-2" />
               Reading Tips
             </NavLink>
 
@@ -261,7 +276,7 @@ const Navbar = () => {
                     }`
                   }
                 >
-                  <BookText className="inline size-5 mr-2" />
+                  <BookText className="inline size-4 mr-2" />
                   Borrowed Books
                 </NavLink>
                 <NavLink
@@ -273,7 +288,7 @@ const Navbar = () => {
                     }`
                   }
                 >
-                  <BookCopy className="inline size-5 mr-2" />
+                  <BookCopy className="inline size-4 mr-2" />
                   All Books
                 </NavLink>
                 <NavLink
@@ -285,7 +300,7 @@ const Navbar = () => {
                     }`
                   }
                 >
-                  <BookPlus className="inline size-5 mr-2" />
+                  <BookPlus className="inline size-4 mr-2" />
                   Add Book
                 </NavLink>
               </>

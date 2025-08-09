@@ -73,7 +73,7 @@ const ReadingTip = () => {
     <section className="container mx-auto lg:px-10 px-4">
    
       <motion.h2
-        className="md:text-4xl font-bold text-center my-5"
+        className="md:text-4xl font-bold text-center my-6"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
@@ -86,7 +86,7 @@ const ReadingTip = () => {
         className="text-center text-lg mb-12"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 0.2, duration: 0.6 }}
+        transition={{ delay: 0.2, duration: 0.6}}
       >
         At <span className="text-primary font-semibold">BookGalaxy</span>, we believe reading should be enjoyable{" "}
         <em>and</em> effective. Here are some practical tips to help you level up your reading journey.
@@ -101,7 +101,7 @@ const ReadingTip = () => {
           } items-center gap-10 mb-16`}
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: false }}
           transition={{ duration: 0.8, delay: index * 0.2 }}
         >
  
@@ -119,10 +119,10 @@ const ReadingTip = () => {
             {section.tips.map((tip, tipIndex) => (
               <motion.div
                 key={tipIndex}
-                className="flex items-start gap-4 bg-white dark:bg-gray-800 p-4 rounded-lg shadow hover:shadow-xl transition-shadow duration-300 cursor-pointer"
+                className="flex items-start gap-4 p-4 rounded-lg shadow hover:shadow-xl transition-shadow duration-300 cursor-pointer"
                 initial={{ opacity: 0, x: -30 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: false }}
                 transition={{ duration: 0.5, delay: tipIndex * 0.1 }}
                 whileHover={{ scale: 1.02 }}
               >
