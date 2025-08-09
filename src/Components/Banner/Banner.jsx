@@ -8,8 +8,8 @@ import "./Banner.css";
 
 const Banner = () => {
   return (
-    <section className="px-6 py-12 md:px-12 lg:px-24 bg-base-100">
-      <div className="flex flex-col md:flex-row items-center justify-between gap-10">
+    <section className="px-4 py-12 bg-base-100">
+      <div className="flex flex-col md:flex-row items-center justify-between gap-2">
         <div className="max-w-xl">
           <h1 className="text-4xl font-bold mb-4">
             Explore Infinite Stories Across the Galaxy

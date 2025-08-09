@@ -5,6 +5,7 @@
 @plugin "daisyui" {
   themes: pastel --default, dark --prefersdark;
 }
+
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
 .space-font {

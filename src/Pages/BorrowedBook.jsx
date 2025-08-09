@@ -2,22 +2,41 @@ import React, { useContext, useEffect, useState } from "react";
 import { Authcontext } from "../Context/AuthContext";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { Helmet } from 'react-helmet';
-
+import { Helmet } from "react-helmet";
 
 const BorrowedBook = () => {
   const { user } = useContext(Authcontext);
   const [borrowBook, setBorrowBook] = useState([]);
 
+  // useEffect(() => {
+  //   if (user?.email) {
+  //     axios
+  //       .get(`${import.meta.env.VITE_API_URL}/borrowbooks/borrow`)
+  //       .then((res) => {
+  //         const userBooks = res.data.filter(
+  //           (book) => book.email === user.email
+  //         );
+  //         setBorrowBook(userBooks);
+  //       });
+  //   }
+  // }, [user]);
+
   useEffect(() => {
     if (user?.email) {
+      const token = localStorage.getItem("token");
+
       axios
-        .get(`${import.meta.env.VITE_API_URL}/borrowbooks/borrow`)
+        .get(`${import.meta.env.VITE_API_URL}/borrowbooks/borrow`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
         .then((res) => {
-          const userBooks = res.data.filter(
-            (book) => book.email === user.email
-          );
-          setBorrowBook(userBooks);
+          setBorrowBook(res.data);
+        })
+        .catch((error) => {
+          console.error("Error fetching borrowed books:", error);
+          toast.error("Unauthorized or failed to fetch borrow books!");
         });
     }
   }, [user]);
@@ -34,17 +53,19 @@ const BorrowedBook = () => {
         toast.error("Failed to Return Book");
       }
     } catch (error) {
-    //   console.log(error);
+      //   console.log(error);
       toast.error("server error");
     }
   };
   return (
     <>
-       <Helmet>
-                <title>BookGalaxy || Borrow</title>
-            </Helmet>
+      <Helmet>
+        <title>BookGalaxy || Borrow</title>
+      </Helmet>
       <div className="overflow-x-auto container mx-auto my-6">
-        <h2 className="text-4xl font-bold text-info text-center">Borrowed Books</h2>
+        <h2 className="text-4xl font-bold text-info text-center">
+          Borrowed Books
+        </h2>
         <table className="table w-full table-zebra">
           {borrowBook.length === 0 ? (
             <tr>

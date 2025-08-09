@@ -12,6 +12,7 @@ const Login = () => {
   const { loginUser, googleLogin } = useContext(Authcontext);
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
+  console.log(error);
   const [password, setPassword] = useState("");
   const location = useLocation();
 
@@ -28,13 +29,13 @@ const Login = () => {
     } catch (error) {
       console.log(error);
       setError("Login Failed! Please check your credentials.");
-      toast.error("Login Failed");
+      toast.error("Login Failed! Please check your credentials.");
     }
   };
   const handleGoogleBtn = async () => {
     try {
       await googleLogin();
-      toast.success("Logged in with Google successfully");
+      toast.success("Logged in successfully");
       navigate(from, { replace: true });
     } catch (error) {
        toast.error("Google Login Failed");
@@ -45,7 +46,7 @@ const Login = () => {
   };
   return (
     
-    <div className="min-h-screen flex flex-col md:flex-row items-center justify-center gap-8 p-4 container mx-auto">
+    <div className="min-h-screen flex flex-col md:flex-row items-center justify-center gap-8 p-4 container mx-auto bg-white dark:bg-gray-300">
        <Helmet>
                 <title>BookGalaxy || Login</title>
             </Helmet>

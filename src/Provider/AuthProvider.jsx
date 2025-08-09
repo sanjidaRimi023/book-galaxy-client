@@ -10,6 +10,7 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { auth } from "../Firebase/firebase.config.js";
+import axios from "axios";
 
 const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
@@ -39,14 +40,41 @@ const AuthProvider = ({ children }) => {
     return updateProfile(auth.currentUser, profile);
   };
 
+  // useEffect(() => {
+  //   const unSubscribe = onAuthStateChanged(auth, (CurrentUser) => {
+  //     setUser(CurrentUser);
+  //     setLoading(false);
+  //   });
+  //   return () => unSubscribe();
+  // }, []);
   useEffect(() => {
-    const unSubscribe = onAuthStateChanged(auth, (CurrentUser) => {
-      setUser(CurrentUser);
+    const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      console.log("User changed:", currentUser);
+
+      if (currentUser?.email) {
+        axios
+          .post(`${import.meta.env.VITE_API_URL}/jwt`, {
+            email: currentUser.email,
+          })
+          .then((res) => {
+            console.log("JWT response:", res.data);
+            localStorage.setItem("token", res.data.token);
+          })
+          .catch((err) => {
+            console.error("JWT creation failed:", err);
+          });
+      } else {
+        localStorage.removeItem("token");
+      }
+
       setLoading(false);
     });
-    return () => unSubscribe();
-  }, []);
 
+    return () => {
+      unSubscribe();
+    };
+  }, []);
 
   // google login
   const googleLogin = async () => {
@@ -56,7 +84,6 @@ const AuthProvider = ({ children }) => {
     return result;
   };
 
-  
   const authInfo = {
     createUser,
     loginUser,
