@@ -11,8 +11,8 @@ const MainLayout = () => {
       <div className="text-xl font-bold">
         <Toaster />
       </div>
-      <div className="text-2xl"></div>
-      <Navbar />
+   
+     
 
       <div className="min-h-screen w-full bg-[#fafafa] dark:bg-base-100 relative">
         <div
@@ -25,6 +25,7 @@ const MainLayout = () => {
             backgroundSize: "40px 40px",
           }}
         />
+         <Navbar />
         <Suspense fallback={<LoadSppiner />}>
           <Outlet />
         </Suspense>
