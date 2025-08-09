@@ -7,10 +7,10 @@ import {
   Clock,
   House,
   LayoutDashboard,
- 
   LogOut,
   Mail,
   Menu,
+  PencilRuler,
   Phone,
   X,
 } from "lucide-react";
@@ -81,7 +81,8 @@ const Navbar = () => {
               <House className="size-5" /> Home
             </NavLink>
             <NavLink
-              to="/all-books"
+              to="/reading-tips"
+              onClick={toggleMenu}
               className={({ isActive }) =>
                 `flex items-center gap-1 px-3 py-2 rounded-full transition duration-200 ${
                   isActive
@@ -90,10 +91,24 @@ const Navbar = () => {
                 }`
               }
             >
-              <BookCopy className="size-5" /> All Books
+              <PencilRuler className="inline size-5 mr-2" />
+              Reading Tips
             </NavLink>
+
             {user && (
               <>
+                <NavLink
+                  to="/all-books"
+                  className={({ isActive }) =>
+                    `flex items-center gap-1 px-3 py-2 rounded-full transition duration-200 ${
+                      isActive
+                        ? "bg-primary text-primary-content"
+                        : "hover:text-accent hover:bg-base-200"
+                    }`
+                  }
+                >
+                  <BookCopy className="size-5" /> All Books
+                </NavLink>
                 <NavLink
                   to="/borrowed-books"
                   className={({ isActive }) =>
@@ -225,15 +240,16 @@ const Navbar = () => {
               Home
             </NavLink>
             <NavLink
-              to="/all-books"
+              to="/reading-tips"
               onClick={toggleMenu}
               className={({ isActive }) =>
                 `block py-2 ${isActive ? "text-primary" : "text-base-content"}`
               }
             >
-              <BookCopy className="inline size-5 mr-2" />
-              All Books
+              <House className="inline size-5 mr-2" />
+              Reading Tips
             </NavLink>
+
             {user && (
               <>
                 <NavLink
@@ -247,6 +263,18 @@ const Navbar = () => {
                 >
                   <BookText className="inline size-5 mr-2" />
                   Borrowed Books
+                </NavLink>
+                <NavLink
+                  to="/all-books"
+                  onClick={toggleMenu}
+                  className={({ isActive }) =>
+                    `block py-2 ${
+                      isActive ? "text-primary" : "text-base-content"
+                    }`
+                  }
+                >
+                  <BookCopy className="inline size-5 mr-2" />
+                  All Books
                 </NavLink>
                 <NavLink
                   to="/add-book"
