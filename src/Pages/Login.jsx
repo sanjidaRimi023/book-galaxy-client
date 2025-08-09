@@ -46,7 +46,7 @@ const Login = () => {
   };
   return (
     
-    <div className="min-h-screen flex flex-col md:flex-row items-center justify-center gap-8 p-4 container mx-auto bg-white dark:bg-gray-300">
+    <div className="min-h-screen flex flex-col md:flex-row items-center justify-center gap-8 p-4 container mx-auto">
        <Helmet>
                 <title>BookGalaxy || Login</title>
             </Helmet>
@@ -77,7 +77,7 @@ const Login = () => {
       </motion.div>
 
       <motion.div
-        className="w-full md:w-1/2 flex flex-col items-center text-center space-y-5 bg-white shadow-lg p-6 rounded-3xl max-w-md"
+        className="w-full md:w-1/2 flex flex-col items-center text-center space-y-5 shadow-lg p-6 rounded-3xl max-w-md border border-primary"
         initial={{ opacity: 0, x: 50 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.8, delay: 0.2 }}
@@ -107,13 +107,13 @@ const Login = () => {
           <button className="btn btn-primary w-full text-xl mt-2">Login</button>
         </form>
 
-        <div className="divider divider-neutral text-black w-full">
+        <div className="divider divider-neutral text-primary w-full">
           OR LOGIN WITH
         </div>
 
         <button
           onClick={handleGoogleBtn}
-          className="flex justify-center items-center gap-3 px-4 py-2 rounded-3xl shadow-md hover:shadow-lg transition w-full"
+          className="flex justify-center items-center gap-3 px-4 py-2 rounded-3xl shadow-md hover:shadow-lg transition w-full border border-primary"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -138,7 +138,7 @@ const Login = () => {
               d="M130.55 50.479c24.514 0 41.05 10.589 50.479 19.438l36.844-35.974C195.245 12.91 165.798 0 130.55 0 79.49 0 35.393 29.301 13.925 71.947l42.211 32.783c10.59-31.477 39.891-54.251 74.414-54.251"
             ></path>
           </svg>
-          <span className="text-lg text-black font-semibold">Google</span>
+          <span className="text-lg font-semibold">Google</span>
         </button>
       </motion.div>
     </div>
