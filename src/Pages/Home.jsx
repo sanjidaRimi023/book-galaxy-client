@@ -5,6 +5,7 @@ import Achivement from "../Components/UI/Achivement";
 import Events from "../Components/UI/Event";
 import CategoryCard from "../Components/UI/CategoryCard";
 import { Helmet } from "react-helmet";
+import WelcomeLibrary from "../Components/UI/WelcomeLibrary";
 
 const Home = () => {
   return (
@@ -14,6 +15,7 @@ const Home = () => {
       </Helmet>
       <div className="container mx-auto">
         <Banner />
+        <WelcomeLibrary/>
         <CategoryCard />
         <Achivement />
         <Events />

@@ -236,7 +236,7 @@ export default function BookCategoryHub() {
             variants={leftVariant}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
+            viewport={{ once: false, amount: 0.3 }}
             transition={{ duration: 0.8 }}
           >
             <div className="flex flex-col gap-2 mb-4">
@@ -263,7 +263,7 @@ export default function BookCategoryHub() {
             variants={rightVariant}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
+            viewport={{ once: false, amount: 0.3 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             <IconGrid categories={categories} />

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Book, Users, BookOpenCheck, Library } from "lucide-react";
 
-// Achievement data
+
 const achivs = [
   { icon: Book, label: "Total Books", value: 10000 },
   { icon: Users, label: "Registered Users", value: 5000 },
