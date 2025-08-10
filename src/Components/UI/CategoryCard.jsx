@@ -203,7 +203,7 @@ export default function BookCategoryHub() {
   }));
 
   return (
-    <div className="w-full min-h-screen flex flex-col items-center justify-center p-4 sm:p-8 overflow-hidden relative">
+    <div className="w-full flex flex-col items-center justify-center p-4 sm:p-8 overflow-hidden relative">
       <style>
         {`
           @keyframes float {
@@ -257,7 +257,7 @@ export default function BookCategoryHub() {
             </p>
           </motion.div>
 
-          {/* Categories Grid - Right */}
+       
           <motion.div
             className="w-full md:w-1/2 flex justify-center"
             variants={rightVariant}

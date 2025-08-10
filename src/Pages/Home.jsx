@@ -6,6 +6,7 @@ import Events from "../Components/UI/Event";
 import CategoryCard from "../Components/UI/CategoryCard";
 import { Helmet } from "react-helmet";
 import WelcomeLibrary from "../Components/UI/WelcomeLibrary";
+import FeaturedBooks from "../Components/UI/FeaturedBooks";
 
 const Home = () => {
   return (
@@ -15,11 +16,14 @@ const Home = () => {
       </Helmet>
       <div className="container mx-auto">
         <Banner />
-        <WelcomeLibrary/>
+      </div>
+    
+      <WelcomeLibrary />
+        <FeaturedBooks/>
         <CategoryCard />
         <Achivement />
         <Events />
-      </div>
+     
     </>
   );
 };
