@@ -10,6 +10,7 @@ import {
   HelpCircle,
   Heart,
   Download,
+  Space,
 } from "lucide-react";
 
 const leftVariant = {
@@ -64,12 +65,20 @@ const cards = [
     desc: "Contact our librarians or check FAQs for quick assistance.",
   },
 ];
-
+const hoverColors = [
+  "hover:bg-teal-300",
+  "hover:bg-indigo-300",
+  "hover:bg-purple-300",
+  "hover:bg-orange-300",
+  "hover:bg-blue-300",
+  "hover:bg-green-300",
+  "hover:bg-yellow-300",
+  "hover:bg-red-300",
+];
 const WelcomeLibrary = () => {
   return (
     <section className="py-16">
       <div className="container mx-auto px-6">
-   
         <div className="text-center mb-12">
           <h2 className="text-2xl md:text-4xl font-bold">
             Welcome to the Library
@@ -80,27 +89,52 @@ const WelcomeLibrary = () => {
           <hr className="mt-6 w-24 mx-auto border-2 border-teal-500 rounded-full" />
         </div>
 
-   
-        <motion.div
-          className="grid gap-8 md:grid-cols-2 lg:grid-cols-4"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: false, amount: 0.3 }}
-        >
-          {cards.map((card, index) => (
-            <motion.div
-              key={index}
-              whileTap={{ scale: 0.98 }}
-              whileHover={{ scale: 1.05 }}
-              variants={index % 2 === 0 ? leftVariant : rightVariant}
-              className="p-6 rounded-2xl shadow-lg transition hover:bg-teal-400 hover:shadow-2xl cursor-pointer bg-white dark:bg-gray-800"
-            >
-              <div className="mb-4">{card.icon}</div>
-              <h3 className="text-xl font-semibold">{card.title}</h3>
-              <p className="mt-2">{card.desc}</p>
-            </motion.div>
-          ))}
-        </motion.div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: false, amount: 0.3 }}
+            className="flex flex-col gap-4"
+          >
+            {cards.slice(0, 4).map((card, index) => (
+              <motion.div
+                key={index}
+                whileTap={{ scale: 0.98 }}
+                whileHover={{ scale: 1.05 }}
+                variants={index % 2 === 0 ? leftVariant : rightVariant}
+                className={`p-6 rounded-2xl shadow-lg transition ${hoverColors[index]} hover:shadow-2xl cursor-pointer bg-white dark:bg-gray-800`}
+              >
+                <div className="mb-4">{card.icon}</div>
+                <h3 className="text-xl font-semibold">{card.title}</h3>
+                <p className="mt-2">{card.desc}</p>
+              </motion.div>
+            ))}
+          </motion.div>
+
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: false, amount: 0.3 }}
+            className="grid grid-cols-1 sm:grid-cols-2 gap-4"
+          >
+            {cards.slice(4, 8).map((card, index) => (
+              <motion.div
+                key={index + 4}
+                whileTap={{ scale: 0.98 }}
+                whileHover={{ scale: 1.05 }}
+                variants={index % 2 === 0 ? leftVariant : rightVariant}
+                className={`flex flex-col items-start p-6 justify-center rounded-2xl shadow-lg transition ${
+                  hoverColors[index + 4]
+                } hover:shadow-2xl cursor-pointer bg-white dark:bg-gray-800`}
+              >
+                <span>{card.icon}</span>
+                <h3 className="text-xl font-semibold">{card.title}</h3>
+                <p>{card.desc}</p>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
       </div>
     </section>
   );

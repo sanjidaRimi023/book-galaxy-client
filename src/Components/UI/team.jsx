@@ -5,32 +5,32 @@ import { motion } from "framer-motion";
 import { Code, Eye, Headphones, ThumbsUp } from "lucide-react";
 
 const IconSatisfaction = () => <ThumbsUp className="w-6 h-6 text-white" />;
-const IconCode = () => <Code className="w-6 h-6" />;
+const IconCode = () => <Code className="w-6 h-6 text-white" />;
 const IconDesign = () => <Eye className="w-6 h-6 text-white" />;
 const IconSupport = () => <Headphones className="w-6 h-6 text-white" />;
 
 const teamMembers = [
   {
     name: "Sharafat Hussain",
-    role: "Founder",
+   
     img: "https://pagedone.io/asset/uploads/1696238374.png",
     bio: "Visionary leader driving Book Galaxy’s mission to new frontiers.",
   },
   {
     name: "Sanjida Rimi",
-    role: "Co-Founder",
+ 
     img: "https://pagedone.io/asset/uploads/1696238396.png",
     bio: "Passionate about connecting readers with their next great story.",
   },
   {
     name: "Utshob Saha",
-    role: "Chairman",
+
     img: "https://pagedone.io/asset/uploads/1696238411.png",
     bio: "Guiding the team with strategic insight and a love for books.",
   },
   {
     name: "Ripa Akter",
-    role: "CEO",
+ 
     img: "https://pagedone.io/asset/uploads/1696238425.png",
     bio: "Leading innovation and growth with unstoppable energy.",
   },
@@ -93,7 +93,6 @@ function TeamMemberCard({ name, role, img, bio }) {
           className="w-full h-full object-cover"
           loading="lazy"
         />
-
         <div className="absolute inset-0 bg-teal-800 bg-opacity-70 flex flex-col items-center justify-center p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out rounded-full text-white">
           <p className="text-sm italic mb-3">"{bio}"</p>
         </div>
@@ -109,25 +108,15 @@ function TeamMemberCard({ name, role, img, bio }) {
 export default function TeamSection() {
   return (
     <section className="py-10">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-        <div className="order-2 lg:order-1 flex flex-col">
-          <div className="mb-6">
-            <h2 className="text-3xl sm:text-4xl font-bold">
-              Why Choose Book Galaxy?
-            </h2>
-          </div>
-          <p className="text-lg text-gray-600 dark:text-gray-400 mb-8 max-w-lg">
-            We're more than just a team; we're a promise of quality, dedication,
-            and unparalleled support.
-          </p>
-          <div className="space-y-6 max-w-lg">
-            {whyUsFeatures.map((feature, i) => (
-              <FeatureItem key={i} {...feature} />
-            ))}
-          </div>
-        </div>
-
-        <div className="order-1 lg:order-2 flex flex-col">
+      <div className="flex flex-col lg:flex-row gap-16">
+        
+        <motion.div
+          className="flex flex-col lg:w-1/2"
+          initial={{ opacity: 0, x: -80 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          viewport={{ once: false }}
+        >
           <div className="mb-6">
             <h2 className="text-3xl sm:text-4xl font-bold">
               Meet The Passionate Minds
@@ -147,7 +136,31 @@ export default function TeamSection() {
               />
             ))}
           </div>
-        </div>
+        </motion.div>
+
+        <motion.div
+          className="flex flex-col lg:w-1/2"
+          initial={{ opacity: 0, x: 70 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          viewport={{ once: false }}
+        >
+          <div className="mb-6">
+            <h2 className="text-3xl sm:text-4xl font-bold">
+              Why Choose Book Galaxy?
+            </h2>
+          </div>
+          <p className="text-lg text-gray-600 dark:text-gray-400 mb-8 max-w-lg">
+            We're more than just a team; we're a promise of quality, dedication,
+            and unparalleled support.
+          </p>
+          <div className="space-y-6 max-w-lg">
+            {whyUsFeatures.map((feature, i) => (
+              <FeatureItem key={i} {...feature} />
+            ))}
+          </div>
+        </motion.div>
+
       </div>
     </section>
   );
