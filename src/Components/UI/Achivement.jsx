@@ -50,6 +50,7 @@ const Achievement = () => {
         <p className="text-lg mt-2">
           Celebrating our milestones and community impact
         </p>
+        <hr className="mt-6 w-24 mx-auto border-2 border-teal-500 rounded-full" />
       </motion.div>
 
       

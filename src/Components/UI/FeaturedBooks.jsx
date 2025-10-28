@@ -86,6 +86,7 @@ export default function FeaturedBooks() {
       <div className="w-full max-w-7xl mx-auto px-4">
         <header className="text-center mb-12">
           <h1 className="text-2xl md:text-4xl font-bold">Featured Books</h1>
+          <hr className="mt-6 w-24 mx-auto border-2 border-teal-500 rounded-full" />
         
         </header>
 

@@ -7,6 +7,7 @@ import CategoryCard from "../Components/UI/CategoryCard";
 import { Helmet } from "react-helmet";
 import WelcomeLibrary from "../Components/UI/WelcomeLibrary";
 import FeaturedBooks from "../Components/UI/FeaturedBooks";
+import FAQSection from "../Components/UI/Faq";
 
 const Home = () => {
   return (
@@ -22,7 +23,8 @@ const Home = () => {
         <FeaturedBooks/>
         <CategoryCard />
         <Achivement />
-        <Events />
+      <Events />
+      <FAQSection/>
      
     </>
   );
