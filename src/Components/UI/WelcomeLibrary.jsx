@@ -94,7 +94,7 @@ const WelcomeLibrary = () => {
           <motion.div
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: false, amount: 0.3 }}
+            viewport={{ once: true }}
             className="flex flex-col gap-4"
           >
             {cards.slice(0, 4).map((card, index) => (
@@ -115,8 +115,8 @@ const WelcomeLibrary = () => {
           <motion.div
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: false, amount: 0.3 }}
-            className="grid grid-cols-1 sm:grid-cols-2 gap-4"
+            viewport={{ once: true, amount: 0.3 }}
+            className="grid grid-cols-1 sm:grid-cols-2 gap-4 "
           >
             {cards.slice(4, 8).map((card, index) => (
               <motion.div
@@ -126,7 +126,7 @@ const WelcomeLibrary = () => {
                 variants={index % 2 === 0 ? leftVariant : rightVariant}
                 className={`flex flex-col items-start p-6 justify-center rounded-2xl shadow-lg transition ${
                   hoverColors[index + 4]
-                } hover:shadow-2xl cursor-pointer bg-white dark:bg-gray-800`}
+                } hover:shadow-2xl cursor-pointer dark:bg-gray-800`}
               >
                 <span>{card.icon}</span>
                 <h3 className="text-xl font-semibold">{card.title}</h3>
