@@ -33,14 +33,14 @@ const IconWrapper = ({
         backdrop-blur-xl rounded-2xl flex items-center justify-center transition-all duration-300 w-full h-full
         ${
           isHighlighted
-            ? "dark:bg-gray-700/50 bg-gray-100/80 border border-indigo-400/50 dark:shadow-indigo-500/20 shadow-indigo-400/30 shadow-2xl animate-breathing-glow"
+            ? "dark:bg-gray-700/50 bg-gray-100/80 border border-teal-400/50 dark:shadow-teal-500/20 shadow-teal-400/30 shadow-2xl animate-breathing-glow"
             : `dark:bg-white/5 bg-white/60 border border-gray-200/50 dark:border-white/10 ${
                 !isHovered && "animate-float"
               }`
         }
         ${
           isHovered
-            ? "dark:bg-gray-600/50 bg-gray-200/80 border-indigo-400/60 scale-110 dark:shadow-indigo-400/30 shadow-indigo-400/40 shadow-2xl"
+            ? "dark:bg-gray-600/50 bg-gray-200/80 border-teal-400/60 scale-110 dark:shadow-teal-400/30 shadow-teal-400/40 shadow-2xl"
             : "dark:hover:bg-white/10 hover:bg-gray-100/80 dark:hover:border-white/20 hover:border-gray-300/60"
         }
       `}
@@ -122,7 +122,7 @@ const IconGrid = ({ categories }) => {
           <IconWrapper className="w-20 h-20 md:w-24 md:h-24" isHighlighted>
             <BookOpen
               size="40%"
-              className="text-indigo-600 dark:text-indigo-400"
+              className="text-teal-600 dark:text-teal-400"
             />
           </IconWrapper>
         </div>
@@ -155,7 +155,7 @@ const IconGrid = ({ categories }) => {
                 <span
                   className={`text-xs md:text-sm font-semibold transition-all duration-300 ${
                     hoveredId === icon.id
-                      ? "text-indigo-600 dark:text-indigo-400"
+                      ? "text-teal-600 dark:text-teal-400"
                       : "text-gray-600 dark:text-gray-300"
                   }`}
                 >
@@ -194,7 +194,7 @@ export default function BookCategoryHub() {
     "Sci-Fi": <Rocket size="50%" className="text-cyan-500" />,
   };
 
-  const categories = uniqCategories.slice(0, 7).map((cat, idx) => ({
+  const categories = uniqCategories.slice(0, 6).map((cat, idx) => ({
     id: idx + 1,
     title: cat,
     component: iconMap[cat] || (

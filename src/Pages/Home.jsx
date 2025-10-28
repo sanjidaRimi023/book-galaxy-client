@@ -8,6 +8,7 @@ import { Helmet } from "react-helmet";
 import WelcomeLibrary from "../Components/UI/WelcomeLibrary";
 import FeaturedBooks from "../Components/UI/FeaturedBooks";
 import FAQSection from "../Components/UI/Faq";
+import AboutUs from "../Components/UI/home_about";
 
 const Home = () => {
   return (
@@ -18,7 +19,7 @@ const Home = () => {
       <div className="container mx-auto">
         <Banner />
       </div>
-    
+    <AboutUs/>
       <WelcomeLibrary />
         <FeaturedBooks/>
         <CategoryCard />
