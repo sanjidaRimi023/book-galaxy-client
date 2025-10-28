@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 
 import img1 from "../../assets/login.jpg";
 import { Ban, BookOpen, CheckCircle, ClipboardList, Clock, Pencil, Target, TextSelect, Users } from "lucide-react";
+import { Helmet } from "react-helmet";
 
 const tipsData = [
   {
@@ -71,7 +72,9 @@ const tipsData = [
 const ReadingTip = () => {
   return (
     <section className="container mx-auto lg:px-10 px-4">
-   
+    <Helmet>
+        <title>BookGalaxy || Reading Tips</title>
+      </Helmet>
       <motion.h2
         className="md:text-4xl font-bold text-center my-6"
         initial={{ opacity: 0, y: -20 }}

@@ -160,18 +160,7 @@ const AllBook = () => {
                   <p className="text-lg">
                     <span>Author Name:</span> {book.author}
                   </p>
-                  <p className="text-lg">
-                    <span>Category: </span>
-                    <span className="badge badge-warning rounded-2xl">
-                      {book.category}
-                    </span>
-                  </p>
-                  <p className="text-lg">
-                    <span>Rating: </span>
-                    <span className="badge badge-error rounded-2xl">
-                      {book.rating}
-                    </span>
-                  </p>
+                
                   <div className="flex gap-2">
                     <span>Tags:</span>
                     {book.tags?.slice(0, 3).map((tag, index) => (
@@ -192,14 +181,14 @@ const AllBook = () => {
                         </button>
                       </Link>
                     </div>
-                    <div className="card-actions">
+                    {/* <div className="card-actions">
                       <button
                         className="btn btn-xs sm:btn-sm btn-secondary"
                         onClick={() => openModal(book)}
                       >
                         Update
                       </button>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </motion.div>

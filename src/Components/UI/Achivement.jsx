@@ -36,7 +36,7 @@ const CountUpNumber = ({ end }) => {
 
 const Achievement = () => {
   return (
-    <section className="py-14 px-4">
+    <section className="py-14 px-4 container mx-auto">
   
       <motion.div
         initial={{ opacity: 0, y: -20 }}

@@ -14,14 +14,14 @@ const Banner = () => {
           <h1 className="text-4xl font-bold mb-4">
             Explore Infinite Stories Across the Galaxy
           </h1>
-          <p className="text-gray-600 text-lg">
+          <p className="text-lg">
             Welcome to{" "}
             <span className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-[#04f18f] via-[#01e7d4] to-[#00d4ff] bg-clip-text text-transparent">
               BookGalaxy
             </span>
-            , your digital library orbiting with thousands of books—from timeless
+            , your digital library orbiting with thousands of books from timeless
             classics to modern bestsellers. Borrow, read, and manage your
-            collection—anytime, anywhere.
+            collection anytime, anywhere.
           </p>
         </div>
 

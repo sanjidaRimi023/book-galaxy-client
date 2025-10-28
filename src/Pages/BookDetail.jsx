@@ -82,7 +82,7 @@ const BookDetail = () => {
                 setBookQuantity((prev) => prev - 1);
                 setIsModalOpen(false);
                 toast.success("Borrowed successfully!");
-                navigate("/borrowed-books");
+                navigate("/all-books");
               } else {
                 toast.error("Borrow failed!");
               }

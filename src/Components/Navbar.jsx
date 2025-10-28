@@ -176,14 +176,14 @@ const Navbar = () => {
 
                     <div className="divider my-1"></div>
 
-                    {/* Dashboard Link */}
+                    {/* Dashboard Link
                     <Link
                       to="/dashboard"
                       onClick={() => setShowProfileMenu(false)}
                       className="flex items-center justify-center gap-2 text-primary border border-primary px-4 py-2 rounded-full hover:bg-primary hover:text-white transition-all duration-200"
                     >
                       <LayoutDashboard size={18} /> Dashboard
-                    </Link>
+                    </Link> */}
 
                     {/* Logout Button */}
                     <button
