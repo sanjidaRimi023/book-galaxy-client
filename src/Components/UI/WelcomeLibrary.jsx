@@ -51,6 +51,12 @@ const cards = [
     color: "text-rose-500",
   },
   {
+    icon: Map,
+    title: "Library Map",
+    desc: "Navigate through library sections easily.",
+    color: "text-red-500",
+  },
+  {
     icon: Download,
     title: "Reading Recommendations",
     desc: "Get personalized book suggestions instantly.",
@@ -62,6 +68,7 @@ const cards = [
     desc: "Navigate through library sections easily.",
     color: "text-red-500",
   },
+  
   {
     icon: Heart,
     title: "Support the Library",
@@ -69,10 +76,22 @@ const cards = [
     color: "text-rose-500",
   },
   {
+    icon: Map,
+    title: "Library Map",
+    desc: "Navigate through library sections easily.",
+    color: "text-red-500",
+  },
+  {
     icon: HelpCircle,
     title: "Help Desk",
     desc: "Get assistance or browse our FAQs anytime.",
     color: "text-purple-500",
+  },
+  {
+    icon: Map,
+    title: "Library Map",
+    desc: "Navigate through library sections easily.",
+    color: "text-red-500",
   },
 ];
 
@@ -88,7 +107,7 @@ const MarqueeRow = ({ items, reverse = false }) => (
     }}
     className="flex gap-6 px-4"
   >
-    {[...items, ...items, ...items, ...items].map((card, idx) => {
+    {[...items].map((card, idx) => {
       const Icon = card.icon;
       return (
         <motion.div
@@ -116,7 +135,7 @@ const MarqueeRow = ({ items, reverse = false }) => (
 
 const WelcomeLibrary = () => {
   return (
-    <section className="py-20 relative overflow-hidden">
+    <section className="pt-20 relative overflow-hidden">
       <div className="text-center mb-12">
         <h2 className="text-3xl md:text-5xl font-bold text-gray-900 dark:text-white">
           Welcome to the Library
