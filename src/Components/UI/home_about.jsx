@@ -20,9 +20,7 @@ const AboutUs = () => {
         <motion.img
           src={twoAbout}
           alt="Person reading a book"
-          className="w-56 md:w-96 rounded-2xl shadow-lg absolute -bottom-20 -right-6 border-4 border-teal-400 object-cover"
-          animate={{ y: [0, -30, 0] }}
-          transition={{ duration: 1, repeat: Infinity, ease: "easeInOut" }}
+          className="w-56 md:w-96 rounded-2xl shadow-lg absolute -bottom-20 -right-6 border-8 hover:scale-105 transition-all border-white object-cover"
         />
       </div>
 
@@ -47,7 +45,6 @@ const AboutUs = () => {
           readers stay connected with their favorite books and manage their
           library activity in one simple platform.
         </p>
-
         <div className="flex flex-col sm:flex-row justify-center md:justify-start gap-6 mb-8">
           <div className="flex items-center gap-3  border border-teal-200 px-4 py-2 rounded-full bg-teal-500 transition-all duration-300">
             <div className="flex items-center justify-center w-10 h-10 bg-teal-100 text-teal-600 rounded-full">
