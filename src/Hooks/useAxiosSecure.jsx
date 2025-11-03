@@ -1,9 +1,9 @@
 import axios from "axios";
 
 const axiosSecure = axios.create({
-    //   baseURL: `https://book-galaxy-610c0.web.app`,
+      baseURL: `https://book-galaxy-610c0.web.app` | "http://localhost:5173",
     
-    baseURL: "http://localhost:5173"
+   
 });
 
 axiosSecure.interceptors.request.use((config) => {

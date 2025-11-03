@@ -2,9 +2,7 @@ import axios from 'axios';
 
 
 const axiosInstance = axios.create({
-      //   baseURL: `https://book-galaxy-610c0.web.app`,
-    
-    baseURL: "http://localhost:5173"
+      baseURL: `https://book-galaxy-610c0.web.app` | "http://localhost:5173",
 })
 
 const useAxios = () => {

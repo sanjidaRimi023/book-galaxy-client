@@ -38,12 +38,12 @@ const AddBook = () => {
         bookData
       );
       if (res.status === 200 || res.status === 201) {
-        toast.success("✅ Book added successfully!");
+        toast.success("Book added successfully!");
         navigate("/all-books");
         reset();
       }
     } catch (err) {
-      toast.error("❌ Failed to add book");
+      toast.error("Failed to add book");
       console.error(err);
     }
   };
@@ -53,7 +53,7 @@ const AddBook = () => {
       <Helmet>
         <title>BookGalaxy || AddBook</title>
       </Helmet>
-      <h1 className="text-4xl font-bold text-center mb-8">📚 Add A Book</h1>
+      <h1 className="text-4xl font-bold text-center mb-8">Add A Book</h1>
       <div className="p-10 bg-base-200 border-2 border-primary rounded-3xl">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
