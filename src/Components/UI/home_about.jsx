@@ -32,7 +32,7 @@ const AboutUs = () => {
         transition={{ duration: 0.6 }}
         viewport={{ once: true }}
       >
-        <span className="rounded-2xl uppercase font-bold text-sm px-3 py-2 bg-teal-300 text-black">
+        <span className="rounded-2xl uppercase font-bold text-sm px-3 py-2 text-teal-600">
           Who We Are
         </span>
         <h2 className="text-3xl md:text-4xl font-bold my-4">
