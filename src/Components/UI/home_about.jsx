@@ -46,8 +46,8 @@ const AboutUs = () => {
           library activity in one simple platform.
         </p>
         <div className="flex flex-col sm:flex-row justify-center md:justify-start gap-6 mb-8">
-          <div className="flex items-center gap-3  border border-teal-200 px-4 py-2 rounded-full bg-teal-500 transition-all duration-300">
-            <div className="flex items-center justify-center w-10 h-10 bg-teal-100 text-teal-600 rounded-full">
+          <div className="flex items-center gap-3  border border-teal-200 px-4 py-2 rounded-lg bg-teal-500 transition-all duration-300  hover:scale-110">
+            <div className="flex items-center justify-center w-10 h-10 bg-teal-100 text-teal-600 rounded-lg">
               <BookOpen size={22} />
             </div>
             <span className=" font-medium text-sm md:text-xl">
@@ -55,8 +55,8 @@ const AboutUs = () => {
             </span>
           </div>
 
-          <div className="flex items-center gap-3  border border-teal-200 px-4 py-2 rounded-full bg-teal-500 transition-all duration-300">
-            <div className="flex items-center justify-center w-10 h-10 bg-teal-100 text-teal-600 rounded-full">
+          <div className="flex items-center gap-3  border border-teal-200 px-4 py-2 rounded-lg hover:scale-110 bg-teal-500 transition-all duration-300">
+            <div className="flex items-center justify-center w-10 h-10 bg-teal-100 text-teal-600 rounded-lg">
               <Users size={22} />
             </div>
             <span className=" font-medium text-sm md:text-xl">

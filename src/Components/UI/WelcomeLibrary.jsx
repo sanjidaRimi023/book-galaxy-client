@@ -135,16 +135,17 @@ const MarqueeRow = ({ items, reverse = false }) => (
 
 const WelcomeLibrary = () => {
   return (
-    <section className="pt-20 relative overflow-hidden">
-      <div className="text-center mb-12">
-        <h2 className="text-3xl md:text-5xl font-bold text-gray-900 dark:text-white">
-          Welcome to the Library
-        </h2>
-        <p className="mt-4 text-gray-600 dark:text-gray-300 text-lg max-w-2xl mx-auto">
-          Your gateway to knowledge, creativity, and endless possibilities.
-        </p>
-        <div className="w-20 h-1 bg-teal-500 mx-auto mt-6 rounded-full" />
-      </div>
+    <section className="pt-30 relative overflow-hidden">
+    <div className="text-center mb-12">
+  <h2 className="text-3xl md:text-5xl font-bold text-gray-900 dark:text-white">
+    Discover Your Next Adventure
+  </h2>
+  <p className="mt-4 text-gray-600 dark:text-gray-300 text-lg max-w-2xl mx-auto">
+    Dive into a world of stories, knowledge, and inspiration. Every book opens a new door to learning and imagination.
+  </p>
+  <div className="w-20 h-1 bg-teal-500 mx-auto mt-6 rounded-full" />
+</div>
+
       <MarqueeRow items={cards} reverse/>
 
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none bg-gradient-to-b from-transparent via-white/10 to-transparent dark:via-gray-900/10" />

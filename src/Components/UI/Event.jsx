@@ -50,22 +50,25 @@ const Events = () => {
   };
 
   return (
-    <section className="py-20 px-4">
+    <section className="py-30 px-4">
       <div className="container mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-12"
-        >
-          <h2 className="text-3xl md:text-4xl font-bold">
-           Our Events & Fests
-          </h2>
-          <p className="text-lg mt-2">
-            Discover what's next in the world of books! Join our community for
-            exciting fairs, author meetups, and virtual readings.
-          </p>
-        </motion.div>
+  initial={{ opacity: 0, y: -20 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.5 }}
+  className="text-center items-center flex flex-col mb-12"
+>
+  <span className="inline-block text-teal-600 rounded-2xl uppercase font-bold text-lg px-3 py-1 mb-3">
+    Feature Section
+  </span>
+  <h2 className="text-3xl md:text-4xl font-bold">
+    Exciting Events & Book Fests
+  </h2>
+  <p className="text-lg max-w-2xl mt-2">
+    Stay connected with our vibrant community! Attend author meetups, literary fairs, and virtual reading sessions to explore the world of books.
+  </p>
+</motion.div>
+
         <motion.div
           variants={containerVariants}
           initial="hidden"

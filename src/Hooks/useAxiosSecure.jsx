@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosSecure = axios.create({
-      baseURL: `https://book-galaxy-610c0.web.app` | "http://localhost:5173",
+    baseURL: import.meta.env.VITE_API_URL,
     
    
 });

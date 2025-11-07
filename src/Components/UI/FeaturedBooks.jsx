@@ -82,13 +82,13 @@ export default function FeaturedBooks() {
   }, [books, dragConstraint]);
 
   return (
-    <div className="font-sans w-full py-12 md:py-20 flex flex-col items-center justify-center">
+    <div className="font-sans w-full py-12 md:py-30 flex flex-col items-center justify-center">
       <div className="w-full max-w-7xl mx-auto px-4">
       <header className="text-center mb-12">
   <span className="rounded-2xl uppercase font-bold text-sm px-3 py-2 text-teal-600">
     Our Mission
   </span>
-  <h1 className="text-2xl md:text-4xl font-bold">Top Picks of the Month</h1>
+  <h1 className="text-2xl md:text-5xl font-bold">Top Picks of the Month</h1>
   <p className="mt-4 max-w-xl mx-auto">
     Explore our curated selection of books, chosen to inspFire, entertain, and expand your horizons. Each title represents quality and passion for reading.
   </p>
