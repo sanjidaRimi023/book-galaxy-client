@@ -63,7 +63,6 @@ const uploadPreset = import.meta.env.VITE_CLOUD_UPLOAD_PRESET;
     e.preventDefault();
     setError("");
     setLoading(true);
-
     const form = e.target;
     const name = form.name.value.trim();
     const email = form.email.value.trim();
@@ -71,6 +70,8 @@ const uploadPreset = import.meta.env.VITE_CLOUD_UPLOAD_PRESET;
 
     // password rule: at least 1 lowercase, 1 uppercase, min 6 chars
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
+    
+
     if (!passwordRegex.test(password)) {
       setLoading(false);
       const msg =
@@ -95,6 +96,7 @@ const uploadPreset = import.meta.env.VITE_CLOUD_UPLOAD_PRESET;
         email,
         password,
         photoURL,
+        loginType: "manual",
       };
       const res = await axiosSecure.post("/users", payload);
       const data = res.data;

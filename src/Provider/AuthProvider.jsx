@@ -10,13 +10,13 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { auth } from "../Firebase/firebase.config.js";
-import useAxios from "../Hooks/useAxios.jsx";
+import useAxiosSecure from "../Hooks/useAxiosSecure.jsx";
 
 const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
   const provider = new GoogleAuthProvider();
-  const axiosInstance = useAxios();
+const axiosSecure=useAxiosSecure()
 
   // Register user
   const createUser = (email, password) => {
@@ -46,7 +46,7 @@ const AuthProvider = ({ children }) => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
         try {
-          const res = await axiosInstance.post("/jwt", {
+          const res = await axiosSecure.post("/jwt", {
             email: currentUser.email,
           });
           if (res.data?.token) {
@@ -65,7 +65,7 @@ const AuthProvider = ({ children }) => {
     });
 
     return () => unsubscribe();
-  }, [axiosInstance]);
+  }, [axiosSecure]);
 
   // Google login
   const googleLogin = async () => {

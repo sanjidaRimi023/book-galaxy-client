@@ -6,10 +6,10 @@ import { Authcontext } from "../Context/AuthContext";
 import toast from "react-hot-toast";
 import loginImg from "../assets/login.jpg";
 import { Helmet } from "react-helmet";
-import useAxios from "../Hooks/useAxios";
+import useAxiosSecure from "../Hooks/useAxiosSecure";
 
 const Login = () => {
-  const { loginUser, googleLogin } = useContext(Authcontext);
+  const { googleLogin } = useContext(Authcontext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -17,20 +17,25 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
-  const axiosInstance = useAxios();
+  const axiosSecure = useAxiosSecure();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
-
     try {
-      await loginUser(email, password);
-      toast.success("Login successful");
-      navigate(from, { replace: true });
+      const { data } = await axiosSecure.post("/users", {
+        email,
+        password,
+      });
+      if (data.success) {
+        toast.success(data.message);
+        localStorage.setItem("user", JSON.stringify(data.user));
+        navigate(from, { replace: true });
+      }
     } catch (err) {
       console.error(err);
-      setError("Login failed! Please check your credentials.");
-      toast.error("Login failed! Please check your credentials.");
+      setError(err.response?.data?.message || "Login failed");
+      toast.error(err.response?.data?.message || "Login failed");
     }
   };
 
@@ -42,10 +47,12 @@ const Login = () => {
           email: user.email,
           role: "user",
           photoURL: user.photoURL,
+            loginType: "google",
           created_at: new Date().toISOString(),
           last_login: new Date().toISOString(),
         };
-        const userRes = await axiosInstance.post("/users", userInfo);
+        console.log("User info sending to backend:", userInfo);
+        const userRes = await axiosSecure.post("/users", userInfo);
         console.log(userRes);
         toast.success("Logged in successfully");
         navigate(from, { replace: true });
