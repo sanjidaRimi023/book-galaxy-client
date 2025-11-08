@@ -8,7 +8,7 @@ import LoadSppiner from "../Components/LoadSppiner";
 const MainLayout = () => {
   return (
     <>
-      <div className="text-xl font-bold">
+      <div className="text-sm font-semibold">
         <Toaster />
       </div>
    

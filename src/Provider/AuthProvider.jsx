@@ -10,73 +10,64 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { auth } from "../Firebase/firebase.config.js";
-import axios from "axios";
+import useAxios from "../Hooks/useAxios.jsx";
 
 const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
   const provider = new GoogleAuthProvider();
+  const axiosInstance = useAxios();
 
-  // register
+  // Register user
   const createUser = (email, password) => {
     setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
   };
 
-  // login
+  // Login user
   const loginUser = (email, password) => {
     setLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
   };
 
-  // logout
+  // Logout user
   const logOutUser = () => {
     setLoading(true);
     return signOut(auth);
   };
 
-  // updateProfile
+  // Update user profile
   const updateUserProfile = (profile) => {
     return updateProfile(auth.currentUser, profile);
   };
 
-  // useEffect(() => {
-  //   const unSubscribe = onAuthStateChanged(auth, (CurrentUser) => {
-  //     setUser(CurrentUser);
-  //     setLoading(false);
-  //   });
-  //   return () => unSubscribe();
-  // }, []);
+  // Handle user state change
   useEffect(() => {
-    const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-      console.log("User changed:", currentUser);
-
-      if (currentUser?.email) {
-        axios
-          .post(`${import.meta.env.VITE_API_URL}/jwt`, {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (currentUser) {
+        try {
+          const res = await axiosInstance.post("/jwt", {
             email: currentUser.email,
-          })
-          .then((res) => {
-            console.log("JWT response:", res.data);
-            localStorage.setItem("token", res.data.token);
-          })
-          .catch((err) => {
-            console.error("JWT creation failed:", err);
           });
+          if (res.data?.token) {
+            localStorage.setItem("token", res.data.token);
+          }
+        } catch (err) {
+          console.error("JWT token fetch error:", err);
+        }
+
+        setUser(currentUser);
       } else {
         localStorage.removeItem("token");
+        setUser(null);
       }
-
       setLoading(false);
     });
 
-    return () => {
-      unSubscribe();
-    };
-  }, []);
+    return () => unsubscribe();
+  }, [axiosInstance]);
 
-  // google login
+  // Google login
   const googleLogin = async () => {
     setLoading(true);
     const result = await signInWithPopup(auth, provider);
@@ -93,6 +84,7 @@ const AuthProvider = ({ children }) => {
     updateUserProfile,
     googleLogin,
   };
+
   return (
     <Authcontext.Provider value={authInfo}>{children}</Authcontext.Provider>
   );
