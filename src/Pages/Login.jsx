@@ -28,7 +28,7 @@ const Login = () => {
         password,
       });
       if (data.success) {
-        toast.success(data.message);
+        toast.success("login successfully");
         localStorage.setItem("user", JSON.stringify(data.user));
         navigate(from, { replace: true });
       }

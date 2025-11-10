@@ -11,6 +11,7 @@ import useAxiosSecure from "../Hooks/useAxiosSecure";
 const Register = () => {
   const [error, setError] = useState("");
   const [showPass, setShowPass] = useState(false);
+    // const { googleLogin } = useContext(Authcontext);
   const [file, setFile] = useState(null); // actual File
   const [preview, setPreview] = useState(null); // preview URL
   const [loading, setLoading] = useState(false);
