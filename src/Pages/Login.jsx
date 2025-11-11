@@ -5,15 +5,15 @@ import { motion } from "framer-motion";
 import { Authcontext } from "../Context/AuthContext";
 import toast from "react-hot-toast";
 import loginImg from "../assets/login.jpg";
-import { Helmet } from "react-helmet";
+
 import useAxiosSecure from "../Hooks/useAxiosSecure";
 
 const Login = () => {
-  const { googleLogin } = useContext(Authcontext);
+  const { googleLogin, loginUser } = useContext(Authcontext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  console.log(error);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
@@ -21,42 +21,41 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
     setError("");
+
     try {
-      const { data } = await axiosSecure.post("/users", {
-        email,
-        password,
-      });
-      if (data.success) {
-        toast.success("login successfully");
-        localStorage.setItem("user", JSON.stringify(data.user));
-        navigate(from, { replace: true });
-      }
+      const res = await loginUser(email, password);
+      const user = res.user;
+
+      toast.success("Login successful");
+      localStorage.setItem("user", JSON.stringify(user));
+      setLoading(false);
+      navigate(from, { replace: true });
     } catch (err) {
       console.error(err);
-      setError(err.response?.data?.message || "Login failed");
-      toast.error(err.response?.data?.message || "Login failed");
+      setLoading(false);
+      setError(err.message);
+      toast.error(err.message || "Login failed");
     }
   };
 
   const handleGoogleBtn = async () => {
     try {
-      await googleLogin().then(async (result) => {
-        const user = result.user;
-        const userInfo = {
-          email: user.email,
-          role: "user",
-          photoURL: user.photoURL,
-            loginType: "google",
-          created_at: new Date().toISOString(),
-          last_login: new Date().toISOString(),
-        };
-        console.log("User info sending to backend:", userInfo);
-        const userRes = await axiosSecure.post("/users", userInfo);
-        console.log(userRes);
-        toast.success("Logged in successfully");
-        navigate(from, { replace: true });
-      });
+      const result = await googleLogin();
+      const user = result.user;
+      const userInfo = {
+        email: user.email,
+        role: "user",
+        photoURL: user.photoURL,
+        loginType: "google",
+        created_at: new Date().toISOString(),
+        last_login: new Date().toISOString(),
+      };
+
+      await axiosSecure.post("/users", userInfo);
+      toast.success("Logged in successfully with Google");
+      navigate(from, { replace: true });
     } catch (err) {
       console.error(err);
       toast.error("Google login failed");
@@ -65,9 +64,9 @@ const Login = () => {
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row items-center justify-center gap-8 p-4 container mx-auto">
-      <Helmet>
-        <title>BookGalaxy | Login</title>
-      </Helmet>
+      <Title>
+       BookGalaxy | Login
+      </Title>
 
       <motion.div
         className="w-full md:w-1/2 text-center"
@@ -120,8 +119,16 @@ const Login = () => {
             required
             className="input w-full rounded-2xl"
           />
-          <button className="btn btn-primary w-full text-xl mt-2">Login</button>
+          <button
+            type="submit"
+            className="btn btn-primary w-full text-xl mt-2"
+            disabled={loading}
+          >
+            {loading ? "Logging in..." : "Login"}
+          </button>
         </form>
+
+        {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
 
         <div className="divider divider-neutral text-primary w-full">
           OR LOGIN WITH

@@ -3,13 +3,14 @@ import bookDetailBg3 from "../assets/books3.jpg";
 import aboutImg from "../assets/aboutImg.jpg";
 import { Link } from "react-router";
 import Team from "../Components/UI/team";
-import { Helmet } from "react-helmet";
+import { Title } from "react-head";
+
 const About = () => {
   return (
     <>
-       <Helmet>
+       <Title>
         <title>BookGalaxy || About</title>
-      </Helmet>
+      </Title>
       <div
         style={{ backgroundImage: `url(${bookDetailBg3})` }}
         className="relative h-[250px] md:h-[300px] flex flex-col gap-4 items-center justify-center bg-cover bg-center"

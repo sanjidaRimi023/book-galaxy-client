@@ -65,7 +65,7 @@ const axiosSecure=useAxiosSecure()
     });
 
     return () => unsubscribe();
-  }, [axiosSecure]);
+  }, []);
 
   // Google login
   const googleLogin = async () => {

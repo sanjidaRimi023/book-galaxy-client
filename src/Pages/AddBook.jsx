@@ -1,8 +1,8 @@
 import axios from "axios";
 import React from "react";
+import { Title } from "react-head";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { Helmet } from "react-helmet";
 import { useNavigate } from "react-router";
 
 const AddBook = () => {
@@ -50,9 +50,9 @@ const AddBook = () => {
 
   return (
     <div className="md:px-20 py-8 px-4">
-      <Helmet>
-        <title>BookGalaxy || AddBook</title>
-      </Helmet>
+      <Title>
+        BookGalaxy || AddBook
+      </Title>
       <h1 className="text-4xl font-bold text-center mb-8">Add A Book</h1>
       <div className="p-10 bg-base-200 border-2 border-primary rounded-3xl">
         <form onSubmit={handleSubmit(onSubmit)}>

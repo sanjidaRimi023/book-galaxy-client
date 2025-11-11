@@ -8,7 +8,8 @@ import { motion } from "framer-motion";
 import axios from "axios";
 import toast from "react-hot-toast";
 import UpdateBook from "../Components/UpdateBook";
-import { Helmet } from "react-helmet";
+import { Title } from "react-head";
+
 
 const AllBook = () => {
   const [books, setBooks] = useState([]);
@@ -78,9 +79,9 @@ const AllBook = () => {
 
   return (
     <>
-      <Helmet>
-        <title>BookGalaxy || All Book</title>
-      </Helmet>
+      <Title>
+       BookGalaxy || All Book
+      </Title>
       <div className="flex flex-col space-y-3 justify-center my-10 items-center">
         <h1 className="text-3xl font-bold text-primary text-center flex gap-2 items-center">
           Explore Our Book Collection

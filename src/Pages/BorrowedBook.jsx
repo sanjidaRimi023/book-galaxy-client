@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Authcontext } from "../Context/AuthContext";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { Helmet } from "react-helmet";
+import { Title } from "react-head";
 
 const BorrowedBook = () => {
   const { user } = useContext(Authcontext);
@@ -53,15 +53,14 @@ const BorrowedBook = () => {
         toast.error("Failed to Return Book");
       }
     } catch (error) {
-      //   console.log(error);
+        console.log(error);
       toast.error("server error");
     }
   };
   return (
     <>
-      <Helmet>
-        <title>BookGalaxy || Borrow</title>
-      </Helmet>
+      <Title>
+      BookGalaxy || Borrow</Title>
       <div className="overflow-x-auto container mx-auto my-6">
         <h2 className="text-4xl font-bold text-info text-center">
           Borrowed Books

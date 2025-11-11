@@ -27,7 +27,6 @@ const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const toggleMenu = () => setMenuOpen(!menuOpen);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
-console.log("user data from authcontext",user);
   const handleLogout = async () => {
     try {
       await logOutUser();

@@ -5,7 +5,8 @@ import StarRatings from "react-star-ratings";
 import { Authcontext } from "../Context/AuthContext";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { Helmet } from "react-helmet";
+import { Title } from "react-head";
+
 
 const BookDetail = () => {
   const bookData = useLoaderData();
@@ -102,9 +103,9 @@ const BookDetail = () => {
 
   return (
     <>
-      <Helmet>
-        <title>BookGalaxy || BookDetail</title>
-      </Helmet>
+      <Title>
+     BookGalaxy || BookDetail
+      </Title>
       <div
         style={{ backgroundImage: `url(${bookDetailBg2})` }}
         className="relative h-[250px] md:h-[300px] flex items-center justify-center bg-cover bg-center"
