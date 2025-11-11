@@ -12,10 +12,9 @@ import { useAuth } from "../Hooks/useAuth";
 const Register = () => {
   const [error, setError] = useState("");
   const [showPass, setShowPass] = useState(false);
-  const { googleLogin } = useAuth();
-
+  const { googleLogin, createUser, updateUserProfile } = useAuth();
   const [file, setFile] = useState(null);
-  const [preview, setPreview] = useState(null); 
+  const [preview, setPreview] = useState(null);
   const [loading, setLoading] = useState(false);
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
@@ -56,7 +55,7 @@ const Register = () => {
     }
 
     const data = await res.json();
-    return data.secure_url; // final image URL
+    return data.secure_url;
   };
 
   const handleRegister = async (e) => {
@@ -79,17 +78,23 @@ const Register = () => {
       toast.error(msg);
       return;
     }
+    // 1) upload image if provided
 
     try {
-      // 1) upload image if provided
       let photoURL = "";
       if (file) {
         toast.loading("Uploading image...");
         photoURL = await uploadToCloudinary(file);
-        toast.dismiss(); // remove loading
+        toast.dismiss();
       }
 
       // 2) send registration to backend
+      const userRes = await createUser(email, password);
+      await updateUserProfile({
+        displayName: name,
+        photoURL: photoURL || "",
+      });
+      console.log(userRes);
       const payload = {
         name,
         email,
@@ -97,14 +102,17 @@ const Register = () => {
         photoURL,
         loginType: "manual",
       };
+
       const res = await axiosSecure.post("/users", payload);
+
       const data = res.data;
       if (!data.success) {
         toast.error(data.message || "Registration failed");
         setLoading(false);
         return;
       }
-      toast.success("Registration successful. Please login.");
+      toast.success("Registration successful");
+      setLoading(false);
       navigate("/", { replace: true });
     } catch (err) {
       console.error(err);
