@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import {
   BookCopy,
   BookOpenText,
@@ -19,11 +19,13 @@ import { Link, NavLink, useNavigate } from "react-router";
 import { Authcontext } from "../Context/AuthContext";
 import toast from "react-hot-toast";
 import ThemeToggleBtn from "./Customs/ThemeToggleBtn";
+import { useAuth } from "../Hooks/useAuth";
+import icon from "../assets/book.png"
 
 const Navbar = () => {
-
   const navigate = useNavigate();
-  const { user, logOutUser } = useContext(Authcontext);
+  const { user, logOutUser } = useAuth()
+
   const [menuOpen, setMenuOpen] = useState(false);
   const toggleMenu = () => setMenuOpen(!menuOpen);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
@@ -60,10 +62,12 @@ const Navbar = () => {
       <nav className="sticky top-0 z-50">
         <div className="flex justify-between items-center container mx-auto bg-base-300 rounded-full p-3 my-2 shadow-lg">
           <NavLink to="/" className="flex items-center gap-2">
-            <BookOpenText className="size-10 text-info" />
-            <h1 className="text-xl md:text-3xl font-bold">
-              BookGalaxy
-            </h1>
+            {/* <BookOpenText className="size-10 text-info" />
+             */}
+      
+              <img src={icon} alt=""  className="w-10"/>
+             
+            <h1 className="text-xl md:text-3xl font-bold">BookGalaxy</h1>
           </NavLink>
 
           {/* Desktop Navigation Links */}
@@ -105,7 +109,7 @@ const Navbar = () => {
                 }`
               }
             >
-             <UsersRound className="inline size-4 mr-2" />
+              <UsersRound className="inline size-4 mr-2" />
               About Us
             </NavLink>
 
@@ -162,7 +166,7 @@ const Navbar = () => {
                   onClick={() => setShowProfileMenu(!showProfileMenu)}
                 />
                 {showProfileMenu && (
-                  <div className="absolute right-0 mt-2 w-64 bg-base-100 rounded-xl shadow-lg p-4 z-50 space-y-3">
+                  <div className="absolute right-0 mt-2 w-64 bg-base-200 rounded-xl shadow-lg p-4 z-50 space-y-3">
                     {/* User Info */}
                     <div>
                       <p className="font-semibold text-base-content">
@@ -179,10 +183,10 @@ const Navbar = () => {
                     <Link
                       to="/dashboard"
                       onClick={() => setShowProfileMenu(false)}
-                      className="flex items-center justify-center gap-2 text-primary border border-primary px-4 py-2 rounded-full hover:bg-primary hover:text-white transition-all duration-200"
+                      className="flex items-center justify-center gap-2 border text-white border-primary px-4 py-2 rounded-full hover:bg-white bg-primary hover:text-primary hover:border-primary transition-all duration-200 font-semibold"
                     >
                       <LayoutDashboard size={18} /> Dashboard
-                    </Link> 
+                    </Link>
 
                     {/* Logout Button */}
                     <button
@@ -190,7 +194,7 @@ const Navbar = () => {
                         handleLogout();
                         setShowProfileMenu(false);
                       }}
-                      className="flex w-full justify-center items-center gap-2 text-red-500 border border-red-500 px-4 py-2 rounded-full hover:bg-red-500 hover:text-white transition-all duration-200"
+                      className="flex w-full justify-center items-center gap-2 hover:text-red-500 border border-red-500 px-4 py-2 rounded-full bg-red-500 hover:bg-white text-white transition-all duration-200"
                     >
                       <LogOut size={18} /> Logout
                     </button>
@@ -208,7 +212,7 @@ const Navbar = () => {
               </>
             )}
 
-            <ThemeToggleBtn/>
+            <ThemeToggleBtn />
           </div>
 
           {/* Mobile Hamburger Menu Icon */}
