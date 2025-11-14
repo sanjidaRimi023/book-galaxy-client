@@ -12,6 +12,7 @@ import BookDetail from "../Pages/BookDetail";
 import CategoriesPage from "../Pages/CategoriesPage";
 import ReadingTip from "../Components/UI/ReadingTip";
 import About from "../Pages/About";
+import DashboardLayout from "../Layout/DashboardLayout";
 
 const router = createBrowserRouter([
     {
@@ -74,12 +75,17 @@ const router = createBrowserRouter([
                 path: "/register",
                 element: <Register />
             },
+          
         ]
     },
     {
         path: '/*',
         element: <ErrorPage/>
-    }
+    },
+      {
+                path: "/dashboard",
+                element:<DashboardLayout/>
+            }
         
 ])
 
