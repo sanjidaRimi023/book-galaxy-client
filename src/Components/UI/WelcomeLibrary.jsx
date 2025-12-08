@@ -68,7 +68,12 @@ const cards = [
     desc: "Navigate through library sections easily.",
     color: "text-red-500",
   },
-  
+   {
+    icon: HelpCircle,
+    title: "Help Desk",
+    desc: "Get assistance or browse our FAQs anytime.",
+    color: "text-purple-500",
+  },
   {
     icon: Heart,
     title: "Support the Library",
@@ -102,7 +107,7 @@ const MarqueeRow = ({ items, reverse = false }) => (
     transition={{
       repeat: Infinity,
       repeatType: "loop",
-      duration: 25,
+      duration: 50,
       ease: "linear",
     }}
     className="flex gap-6 px-4"
@@ -113,7 +118,7 @@ const MarqueeRow = ({ items, reverse = false }) => (
         <motion.div
           key={idx}
           whileHover={{ scale: 1.05 }}
-          className="min-w-[280px] bg-white/80 dark:bg-gray-800/70 backdrop-blur-md border border-gray-200 dark:border-gray-700 rounded-2xl p-6 shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer flex flex-col items-start justify-between"
+          className="min-w-[280px] bg-white/80 dark:bg-base-200 backdrop-blur-md border border-gray-200 dark:border-gray-700 rounded-2xl p-6 shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer flex flex-col items-start justify-between my-10 shadow-primary"
         >
           <motion.div
             whileHover={{ rotate: 360 }}

@@ -39,7 +39,7 @@ const AboutUs = () => {
           Behind the Shelves{" "}
         </h2>
 
-        <p className="bg-gray-200 dark:bg-gray-800 font-medium text-sm md:text-base p-4 rounded-xl leading-relaxed mb-6">
+        <p className="bg-gray-200 dark:bg-base-200 shadow-lg shadow-primary font-medium text-sm md:text-base p-4 rounded-xl leading-relaxed mb-6">
           Book Galaxy is a modern library management system designed to make
           borrowing, tracking, and discovering books easier than ever. We help
           readers stay connected with their favorite books and manage their

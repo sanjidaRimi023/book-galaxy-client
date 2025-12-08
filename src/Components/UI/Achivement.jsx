@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import { Book, Users, BookOpenCheck, Library, ArrowRight } from "lucide-react";
+import { Link } from "react-router";
 
 // --- Data for the achievement cards ---
 const achivs = [
@@ -106,13 +107,12 @@ const Achievement = () => {
           <hr className="mt-2 w-20 border-2 border-teal-500 rounded-full" />
           
           <div className="mt-4">
-            <a
-              href="#"
+            <Link to="/"
               className="inline-flex items-center gap-2 px-6 py-3 font-semibold text-white bg-teal-600 rounded-lg shadow-md hover:bg-teal-700 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
             >
               Join Our Community
               <ArrowRight className="w-5 h-5" />
-            </a>
+            </Link>
           </div>
         </motion.div>
 
@@ -126,7 +126,7 @@ const Achievement = () => {
               <motion.div
                 key={index}
                 variants={itemVariants}
-                className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col items-center text-center border border-gray-200/80 dark:border-gray-700/60
+                className="bg-white dark:bg-base-200 rounded-xl shadow-lg p-6 flex flex-col items-center text-center border border-gray-200/80 dark:border-gray-700/60
                            transition-all duration-300 ease-in-out
                            hover:shadow-teal-500/10 hover:dark:shadow-teal-400/10 hover:border-teal-500/30 hover:dark:border-teal-400/30 hover:-translate-y-1"
               >

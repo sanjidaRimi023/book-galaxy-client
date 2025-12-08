@@ -3,6 +3,7 @@ import React from "react";
 import ThemeToggleBtn from "../Components/Customs/ThemeToggleBtn";
 import { useAuth } from "../Hooks/useAuth";
 import icon from "../assets/book.png";
+import { Link } from "react-router";
 const DashboardLayout = () => {
   const { user } = useAuth();
 
@@ -83,26 +84,26 @@ const DashboardLayout = () => {
             <ul className="menu w-full grow px-10">
               {/* List item */}
               <li>
-                <button
+                <Link to="/"
                   className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                   data-tip="Homepage"
                 >
                   {/* Home icon */}
                   <HomeIcon />
                   <span className="is-drawer-close:hidden">Homepage</span>
-                </button>
+                </Link>
               </li>
 
               {/* List item */}
               <li>
-                <button
+                <Link to="/"
                   className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                   data-tip="Settings"
                 >
                   {/* Settings icon */}
                   <Settings />
                   <span className="is-drawer-close:hidden">Settings</span>
-                </button>
+                </Link>
               </li>
             </ul>
           </div>

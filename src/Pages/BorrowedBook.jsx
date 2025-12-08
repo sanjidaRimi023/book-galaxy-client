@@ -1,13 +1,14 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Authcontext } from "../Context/AuthContext";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { Title } from "react-head";
+import { useAuth } from "../Hooks/useAuth";
+import useAxios from "../Hooks/useAxios";
 
 const BorrowedBook = () => {
-  const { user } = useContext(Authcontext);
+  const { user } = useAuth()
   const [borrowBook, setBorrowBook] = useState([]);
-
+const axiosInstance=useAxios()
   // useEffect(() => {
   //   if (user?.email) {
   //     axios
@@ -25,8 +26,8 @@ const BorrowedBook = () => {
     if (user?.email) {
       const token = localStorage.getItem("token");
 
-      axios
-        .get(`${import.meta.env.VITE_API_URL}/borrowbooks/borrow`, {
+      axiosInstance
+        .get("/borrowbooks/borrow", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -67,11 +68,13 @@ const BorrowedBook = () => {
         </h2>
         <table className="table w-full table-zebra">
           {borrowBook.length === 0 ? (
-            <tr>
+            <thead>
+              <tr>
               <td colSpan="4" className="text-center py-6 text-gray-500">
                 No books borrowed yet.
               </td>
             </tr>
+            </thead>
           ) : (
             <>
               <thead>

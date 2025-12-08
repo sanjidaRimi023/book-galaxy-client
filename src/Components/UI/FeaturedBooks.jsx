@@ -4,8 +4,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import axios from "axios";
-import { Link } from "lucide-react";
 import LoadSppiner from "../LoadSppiner";
+import useAxios from "../../Hooks/useAxios";
 
 const StoryCard = ({ story }) => {
   return (
@@ -36,10 +36,11 @@ export default function FeaturedBooks() {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [xPos, setXPos] = useState(0);
+  const axiosInstance = useAxios()
 
   useEffect(() => {
-    axios
-      .get(`${import.meta.env.VITE_API_URL}/books`)
+    axiosInstance
+      .get("/books")
       .then((res) => {
         setBooks(res.data);
         setLoading(false);
@@ -119,6 +120,7 @@ export default function FeaturedBooks() {
               {books.map((book) => (
                 <StoryCard key={book._id} story={book} />
               ))}
+            
             </motion.div>
           </motion.div>
         )}

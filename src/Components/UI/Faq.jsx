@@ -47,12 +47,12 @@ const FAQSection = () => {
         </h2>
         <p className=" mt-2 text-sm md:text-base">
           Common questions about using the Book Galaxy Library Management System
-              </p>
-              <hr className="mt-6 w-24 mx-auto border-2 border-teal-500 rounded-full" />
+        </p>
+        <hr className="mt-6 w-24 mx-auto border-2 border-teal-500 rounded-full" />
       </motion.div>
 
       {/* FAQ List */}
-      <div className="space-y-4">
+      <div className="space-y-4 ">
         {faqs.map((faq, index) => (
           <motion.div
             key={index}
@@ -60,7 +60,7 @@ const FAQSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1, duration: 0.4 }}
             viewport={{ once: true }}
-            className="collapse collapse-arrow border-teal-500 border-l-8 rounded-2xl border-t-2 shadow-sm hover:shadow-md transition-all duration-300"
+            className="collapse collapse-arrow border-teal-500 border-l-8 rounded-2xl border-t-2 shadow-sm hover:shadow-md transition-all duration-300  bg-base-200"
           >
             <input type="radio" name="faq-accordion" />
             <div className="collapse-title text-base md:text-lg font-semibold">

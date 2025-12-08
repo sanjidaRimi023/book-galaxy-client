@@ -9,7 +9,7 @@ const About = () => {
   return (
     <>
        <Title>
-        <title>BookGalaxy || About</title>
+    BookGalaxy || About
       </Title>
       <div
         style={{ backgroundImage: `url(${bookDetailBg3})` }}
