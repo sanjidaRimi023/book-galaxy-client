@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import loginImg from "../assets/login.jpg";
 
 import useAxiosSecure from "../Hooks/useAxiosSecure";
+import { Title } from "react-head";
 
 const Login = () => {
   const { googleLogin, loginUser } = useContext(Authcontext);
@@ -75,7 +76,7 @@ const Login = () => {
         transition={{ duration: 0.8 }}
       >
         <h1 className="text-4xl font-bold text-primary">New Here?</h1>
-        <p className="text-gray-600 text-sm mt-1 mb-3">
+        <p className="text-sm mt-1 mb-3">
           Register to explore thousands of books, manage your reading list, and
           stay updated on the latest releases.
         </p>
