@@ -4,6 +4,7 @@ import ThemeToggleBtn from "../Components/Customs/ThemeToggleBtn";
 import { useAuth } from "../Hooks/useAuth";
 import icon from "../assets/book.png";
 import { Link } from "react-router";
+import ComingSoonPage from "../Components/Customs/come-soon";
 const DashboardLayout = () => {
   const { user } = useAuth();
 
@@ -66,7 +67,10 @@ const DashboardLayout = () => {
             </div>
           </nav>
           {/*TODO: Page content here ->build dynamic */}
-          <div className="p-4">Page Content</div>
+          <div className="p-4">
+            
+            <ComingSoonPage/>
+          </div>
         </div>
 
         <div className="drawer-side is-drawer-close:overflow-visible ">
