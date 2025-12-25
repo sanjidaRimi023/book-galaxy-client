@@ -3,7 +3,6 @@ import MainLayout from "../Layout/MainLayout";
 import Home from "../Pages/Home";
 import AllBook from "../Pages/AllBook";
 import AddBook from "../Pages/AddBook";
-import BorrowedBook from "../Pages/BorrowedBook";
 import ErrorPage from "../Pages/ErrorPage";
 import Login from "../Pages/Login";
 import Register from "../Pages/Register";

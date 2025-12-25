@@ -120,7 +120,7 @@ const DashboardLayout = () => {
               </div>
             </div>
           </nav>
-          <div className="mx-8 bg-base-300 h-screen mb-4 rounded-2xl p-4">
+          <div className="mx-8 bg-base-300 mb-4 rounded-2xl p-4">
             <Outlet />
           </div>
         </div>
@@ -133,10 +133,10 @@ const DashboardLayout = () => {
           ></label>
           <div className="flex min-h-full flex-col items-start is-drawer-close:w-14 is-drawer-open:w-64 bg-white dark:bg-stone-800">
             {/* Sidebar content here */}
-            <div className="px-8 py-6 flex text-2xl gap-2 font-bold items-center">
+            <Link to="/" className="px-8 py-6 flex text-2xl gap-2 font-bold items-center">
               <img src={icon} className="w-10" alt="website logo" />
               BookGalaxy
-            </div>
+            </Link>
             <div>
               <SideBarContent
                 navItems={navItems}
