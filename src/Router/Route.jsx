@@ -13,6 +13,7 @@ import ReadingTip from "../Components/UI/ReadingTip";
 import About from "../Pages/About";
 import DashboardLayout from "../Layout/DashboardLayout";
 import UserBorrowBook from "../Pages/Dashboard/user/user-borrow-book";
+import UserOverview from "../Pages/Dashboard/user/user-overview";
 
 const router = createBrowserRouter([
   {
@@ -54,14 +55,6 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
-      // {
-      //   path: "/borrowed-books",
-      //   element: (
-      //     <PrivateRoute>
-      //       <BorrowedBook />
-      //     </PrivateRoute>
-      //   ),
-      // },
       {
         path: "/add-book",
         element: (
@@ -93,6 +86,10 @@ const router = createBrowserRouter([
       {
         path:"user/borrow-book",
         Component:UserBorrowBook
+      },
+      {
+        path:"user/overview",
+        Component: UserOverview
       }
     ]
 

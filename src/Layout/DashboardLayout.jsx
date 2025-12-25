@@ -21,11 +21,10 @@ const SideBarContent = ({ navItems, handleLogout }) => {
   return (
     <>
       <div className="flex flex-col justify-between">
-      
-          <div>
-            <DashboardSideBar navItems={navItems} />
-          </div>
-       
+        <div>
+          <DashboardSideBar navItems={navItems} />
+        </div>
+
         <div>
           <button
             onClick={handleLogout}
@@ -59,7 +58,11 @@ const DashboardLayout = () => {
 
   const dashboardItems = {
     user: [
-      { path: "/dashboard/user", title: "Dashboard", icon: LayoutDashboard },
+      {
+        path: "/dashboard/user/overview",
+        title: "Dashboard",
+        icon: LayoutDashboard,
+      },
       {
         path: "/dashboard/user/borrow-book",
         title: "borrow-book",
@@ -133,7 +136,10 @@ const DashboardLayout = () => {
           ></label>
           <div className="flex min-h-full flex-col items-start is-drawer-close:w-14 is-drawer-open:w-64 bg-white dark:bg-stone-800">
             {/* Sidebar content here */}
-            <Link to="/" className="px-8 py-6 flex text-2xl gap-2 font-bold items-center">
+            <Link
+              to="/"
+              className="px-8 py-6 flex text-2xl gap-2 font-bold items-center"
+            >
               <img src={icon} className="w-10" alt="website logo" />
               BookGalaxy
             </Link>

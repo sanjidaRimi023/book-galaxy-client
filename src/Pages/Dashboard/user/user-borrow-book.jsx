@@ -1,42 +1,51 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import toast from "react-hot-toast";
 import { Title } from "react-head";
 import { useAuth } from "../../../Hooks/useAuth";
 import useAxios from "../../../Hooks/useAxios";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 const UserBorrowBook = () => {
   const { user } = useAuth();
-  const [borrowBook, setBorrowBook] = useState([]);
+
   const axiosInstance = useAxios();
+  const queryClient = useQueryClient();
 
-  useEffect(() => {
-    if (user?.email) {
-      axiosInstance
-        .get("/borrowbooks/borrow")
-        .then((res) => {
-          setBorrowBook(res.data);
-        })
-        .catch((error) => {
-          console.error("Error fetching borrowed books:", error);
-          toast.error("Unauthorized or failed to fetch borrow books!");
-        });
-    }
-  }, [axiosInstance, user?.email]);
 
-  const handleReturnBtn = async (id) => {
-    try {
+  const { data: borrowBook = [], isLoading, isError } = useQuery({
+    queryKey: ["borrowed-books", user?.email], 
+    queryFn: async () => {
+      const res = await axiosInstance.get("/borrowbooks/borrow");
+      return res.data;
+    },
+    enabled: !!user?.email, 
+    staleTime: 1000 * 60 * 5, 
+  });
+
+
+  const returnMutation = useMutation({
+    mutationFn: async (id) => {
       const res = await axiosInstance.delete(`/borrowbooks/${id}`);
-      if (res.data.success) {
+      return res.data;
+    },
+    onSuccess: (data) => {
+      if (data.success) {
         toast.success("Thanks for returning the book!");
-        setBorrowBook((prev) => prev.filter((book) => book._id !== id));
-      } else {
-        toast.error("Failed to Return Book");
+      
+        queryClient.invalidateQueries(["borrowed-books", user?.email]);
       }
-    } catch (error) {
-      console.log(error);
-      toast.error("Server error");
-    }
-  };
+    },
+    onError: () => {
+      toast.error("Failed to Return Book");
+    },
+  });
+
+  if (isLoading)
+    return <div className="text-center py-20 text-primary">Loading...</div>;
+  if (isError)
+    return (
+      <div className="text-center py-20 text-error">Something went wrong!</div>
+    );
 
   return (
     <>
@@ -84,10 +93,11 @@ const UserBorrowBook = () => {
 
                   {/* Return Button */}
                   <button
-                    onClick={() => handleReturnBtn(book._id)}
+                    onClick={() => returnMutation.mutate(book._id)}
+                    disabled={returnMutation.isPending}
                     className="w-full py-3 bg-primary text-black font-bold rounded-xl transition-colors shadow-lg shadow-primary/20 duration-200"
                   >
-                    Return Book
+                    {returnMutation.isPending ? "Returning..." : "Return Book"}
                   </button>
                 </div>
 
