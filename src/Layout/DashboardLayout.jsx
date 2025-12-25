@@ -3,9 +3,45 @@ import React from "react";
 import ThemeToggleBtn from "../Components/Customs/ThemeToggleBtn";
 import { useAuth } from "../Hooks/useAuth";
 import icon from "../assets/book.png";
-import { Link, Outlet } from "react-router";
+import { Link, Outlet, useNavigate } from "react-router";
+import DashboardSideBar from "../Components/Customs/dashboard-sidebar";
+import toast from "react-hot-toast";
+
+const SideBarContent = ({ navItems, handleLogout }) => {
+  return (
+    <>
+      <div className="flex flex-col justify-between h-full">
+        <div>
+          <div className="mt-6">
+            <DashboardSideBar navItems={navItems} />
+          </div>
+        </div>
+        <div>
+          <button
+            onClick={handleLogout}
+            className="mx-4 px-4 py-2 text-sm font-medium text-white bg-red-500 hover:bg-red-600 rounded-lg transition w-full"
+          >
+            Logout
+          </button>
+        </div>
+      </div>
+    </>
+  );
+};
+
 const DashboardLayout = () => {
-  const { user } = useAuth();
+  const { user, logOutUser } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await logOutUser();
+      toast.success("logout successfully");
+      navigate("/");
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
 
   return (
     <>
@@ -48,7 +84,7 @@ const DashboardLayout = () => {
           </nav>
           {/*TODO: Page content here ->build dynamic */}
           <div className="px-8">
-         <Outlet/>
+            <Outlet />
           </div>
         </div>
 
@@ -64,33 +100,13 @@ const DashboardLayout = () => {
               <img src={icon} className="w-10" alt="website logo" />
               BookGalaxy
             </div>
-            <ul className="menu w-full grow px-10">
-              {/* List item */}
-              <li>
-                <Link
-                  to="/"
-                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                  data-tip="Homepage"
-                >
-                  {/* Home icon */}
-                  <HomeIcon />
-                  <span className="is-drawer-close:hidden">Homepage</span>
-                </Link>
-              </li>
-
-              {/* List item */}
-              <li>
-                <Link
-                  to="/"
-                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                  data-tip="Settings"
-                >
-                  {/* Settings icon */}
-                  <Settings />
-                  <span className="is-drawer-close:hidden">Settings</span>
-                </Link>
-              </li>
-            </ul>
+            <div>
+              <SideBarContent
+                // navItems={navItems}
+                user={user}
+                handleLogout={handleLogout}
+              />
+            </div>
           </div>
         </div>
       </div>
