@@ -1,4 +1,13 @@
-import { Home, HomeIcon, PanelRightClose, Settings } from "lucide-react";
+import {
+  ArchiveRestore,
+  Home,
+  HomeIcon,
+  LayoutDashboard,
+  LogOut,
+  PanelRightClose,
+  Settings,
+  ShieldUser,
+} from "lucide-react";
 import React from "react";
 import ThemeToggleBtn from "../Components/Customs/ThemeToggleBtn";
 import { useAuth } from "../Hooks/useAuth";
@@ -6,21 +15,23 @@ import icon from "../assets/book.png";
 import { Link, Outlet, useNavigate } from "react-router";
 import DashboardSideBar from "../Components/Customs/dashboard-sidebar";
 import toast from "react-hot-toast";
+import useUserRole from "../Hooks/useUserRole";
 
 const SideBarContent = ({ navItems, handleLogout }) => {
   return (
     <>
-      <div className="flex flex-col justify-between h-full">
-        <div>
-          <div className="mt-6">
+      <div className="flex flex-col justify-between">
+      
+          <div>
             <DashboardSideBar navItems={navItems} />
           </div>
-        </div>
+       
         <div>
           <button
             onClick={handleLogout}
-            className="mx-4 px-4 py-2 text-sm font-medium text-white bg-red-500 hover:bg-red-600 rounded-lg transition w-full"
+            className="flex gap-2 items-center justify-center px-4 py-1.5 my-4 text-lg font-medium text-white bg-red-500 hover:bg-red-600 rounded-lg transition w-52 ml-4"
           >
+            <LogOut />
             Logout
           </button>
         </div>
@@ -32,6 +43,9 @@ const SideBarContent = ({ navItems, handleLogout }) => {
 const DashboardLayout = () => {
   const { user, logOutUser } = useAuth();
   const navigate = useNavigate();
+  const userRole = useUserRole();
+  const isAdmin = userRole.role === "admin";
+  console.log(isAdmin);
 
   const handleLogout = async () => {
     try {
@@ -43,13 +57,37 @@ const DashboardLayout = () => {
     }
   };
 
+  const dashboardItems = {
+    user: [
+      { path: "/dashboard/user", title: "Dashboard", icon: LayoutDashboard },
+      {
+        path: "/dashboard/user/borrow-book",
+        title: "borrow-book",
+        icon: ArchiveRestore,
+      },
+    ],
+    admin: [
+      {
+        path: "/dashboard/admin",
+        title: "Admin Dashboard",
+        icon: LayoutDashboard,
+      },
+      {
+        path: "/dashboard/admin/manage-users",
+        title: "Manage Users",
+        icon: ShieldUser,
+      },
+    ],
+  };
+
+  const navItems = isAdmin ? dashboardItems?.admin : dashboardItems?.user;
   return (
     <>
       <div className="drawer lg:drawer-open">
         <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
         {/* top section */}
         <div className="drawer-content bg-base-200">
-          <nav className="py-4 rounded-2xl m-6 bg-white dark:bg-stone-800">
+          <nav className="py-4 rounded-2xl m-6 bg-base-300">
             <label
               htmlFor="my-drawer-4"
               aria-label="open sidebar"
@@ -74,16 +112,15 @@ const DashboardLayout = () => {
                   to-[#13b1b1] 
                   px-4 py-1/2 text-sm text-black rounded-xl ml-4"
                 >
-                  <span>{user?.displayName}</span>
-                  <span>{user?.email}</span>
+                  <span>Name: {user?.displayName}</span>
+                  <span>Email : {user?.email}</span>
                 </div>
                 <div className="divider divider-horizontal"></div>
                 <ThemeToggleBtn />
               </div>
             </div>
           </nav>
-          {/*TODO: Page content here ->build dynamic */}
-          <div className="px-8">
+          <div className="mx-8 bg-base-300 h-screen mb-4 rounded-2xl p-4">
             <Outlet />
           </div>
         </div>
@@ -102,7 +139,7 @@ const DashboardLayout = () => {
             </div>
             <div>
               <SideBarContent
-                // navItems={navItems}
+                navItems={navItems}
                 user={user}
                 handleLogout={handleLogout}
               />

@@ -9,12 +9,12 @@ export default function DashboardSideBar({ navItems }) {
         <Link
           to={nav?.path}
           key={idx}
-          className={`flex w-full items-center px-4 py-2  ${
-            path == nav?.path ? "bg-primary" : ""
+          className={`flex ml-5 items-center justify-center px-4 py-2 ${
+            path == nav?.path ? "bg-primary dark:text-black " : "bg-base-200"
           } rounded-md`}
         >
           {nav?.icon && <nav.icon />}
-          <span className="mx-4 font-medium">{nav?.title}</span>
+          <span className="mx-2 font-medium">{nav?.title}</span>
         </Link>
       ))}
     </nav>

@@ -92,7 +92,7 @@ const router = createBrowserRouter([
     </PrivateRoute>,
     children:[
       {
-        path:"user-borrow-book",
+        path:"user/borrow-book",
         Component:UserBorrowBook
       }
     ]
