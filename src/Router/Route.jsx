@@ -55,14 +55,14 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
-      {
-        path: "/borrowed-books",
-        element: (
-          <PrivateRoute>
-            <BorrowedBook />
-          </PrivateRoute>
-        ),
-      },
+      // {
+      //   path: "/borrowed-books",
+      //   element: (
+      //     <PrivateRoute>
+      //       <BorrowedBook />
+      //     </PrivateRoute>
+      //   ),
+      // },
       {
         path: "/add-book",
         element: (
