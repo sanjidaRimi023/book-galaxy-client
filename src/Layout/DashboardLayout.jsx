@@ -3,8 +3,7 @@ import React from "react";
 import ThemeToggleBtn from "../Components/Customs/ThemeToggleBtn";
 import { useAuth } from "../Hooks/useAuth";
 import icon from "../assets/book.png";
-import { Link } from "react-router";
-import ComingSoonPage from "../Components/Customs/come-soon";
+import { Link, Outlet } from "react-router";
 const DashboardLayout = () => {
   const { user } = useAuth();
 
@@ -24,26 +23,7 @@ const DashboardLayout = () => {
               <PanelRightClose />
             </label>
 
-            <div className="flex justify-between items-center px-4">
-              <label className="input border-primary bg-base-200">
-                <svg
-                  className="h-[1em] opacity-50"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                >
-                  <g
-                    strokeLinejoin="round"
-                    strokeLinecap="round"
-                    strokeWidth="2.5"
-                    fill="none"
-                    stroke="currentColor"
-                  >
-                    <circle cx="11" cy="11" r="8"></circle>
-                    <path d="m21 21-4.3-4.3"></path>
-                  </g>
-                </svg>
-                <input type="search" required placeholder="Search" />
-              </label>
+            <div className="md:flex hidden justify-end items-center px-4">
               <div className="flex items-center">
                 <img
                   src={user?.photoURL || "https://i.ibb.co/yP7s5gZ/user.png"}
@@ -67,9 +47,8 @@ const DashboardLayout = () => {
             </div>
           </nav>
           {/*TODO: Page content here ->build dynamic */}
-          <div className="p-4">
-            
-            <ComingSoonPage/>
+          <div className="px-8">
+         <Outlet/>
           </div>
         </div>
 
@@ -88,7 +67,8 @@ const DashboardLayout = () => {
             <ul className="menu w-full grow px-10">
               {/* List item */}
               <li>
-                <Link to="/"
+                <Link
+                  to="/"
                   className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                   data-tip="Homepage"
                 >
@@ -100,7 +80,8 @@ const DashboardLayout = () => {
 
               {/* List item */}
               <li>
-                <Link to="/"
+                <Link
+                  to="/"
                   className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                   data-tip="Settings"
                 >

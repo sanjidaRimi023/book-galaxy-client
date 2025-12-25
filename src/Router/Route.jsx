@@ -13,6 +13,7 @@ import CategoriesPage from "../Pages/CategoriesPage";
 import ReadingTip from "../Components/UI/ReadingTip";
 import About from "../Pages/About";
 import DashboardLayout from "../Layout/DashboardLayout";
+import UserBorrowBook from "../Pages/Dashboard/user/user-borrow-book";
 
 const router = createBrowserRouter([
   {
@@ -86,7 +87,16 @@ const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <DashboardLayout />,
+    element:<PrivateRoute>
+       <DashboardLayout />
+    </PrivateRoute>,
+    children:[
+      {
+        path:"user-borrow-book",
+        Component:UserBorrowBook
+      }
+    ]
+
   },
 ]);
 
