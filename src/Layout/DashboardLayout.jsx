@@ -44,7 +44,7 @@ const DashboardLayout = () => {
   const navigate = useNavigate();
   const userRole = useUserRole();
   const isAdmin = userRole.role === "admin";
-  console.log(isAdmin);
+
 
   const handleLogout = async () => {
     try {

@@ -1,129 +1,136 @@
-/* eslint-disable no-unused-vars */
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+// eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
-import axios from "axios";
-import LoadSppiner from "../LoadSppiner";
 import useAxios from "../../Hooks/useAxios";
+import LoadSppiner from "../LoadSppiner";
+import { Link } from "react-router";
 
-const StoryCard = ({ story }) => {
+const StoryCard = ({ story, index }) => {
   return (
     <motion.div
-      className="relative w-72 h-96 flex-shrink-0 rounded-lg overflow-hidden shadow-xl group"
-      whileHover={{
-        y: -8,
-        transition: { type: "spring", stiffness: 300 },
-      }}
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ delay: index * 0.1, duration: 0.5 }}
+      viewport={{ once: true }}
+      className="group relative h-[450px] w-full rounded-3xl overflow-hidden shadow-2xl"
     >
-      <img
+      <motion.img
         src={story.image}
         alt={story.bookName}
-        className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 pointer-events-none"
+        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-      <div className="relative z-10 flex flex-col justify-end h-full p-6 text-white">
-        <h3 className="font-bold text-2xl tracking-wide">{story.bookName}</h3>
+
+      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-500" />
+
+      <div className="absolute top-4 right-4">
+        <span className="bg-white/20 backdrop-blur-md border border-white/30 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest">
+          {story.category || "Featured"}
+        </span>
+      </div>
+
+      {/* Content Area */}
+      <div className="absolute inset-x-0 bottom-0 p-8 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          className="space-y-3"
+        >
+          <h3 className="text-2xl md:text-3xl font-black text-white leading-tight">
+            {story.bookName}
+          </h3>
+          <div className="h-1 w-12 bg-teal-500 rounded-full group-hover:w-full transition-all duration-700" />
+          <p className="text-gray-300 text-sm line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+            {story.description ||
+              "Dive into this amazing journey of knowledge and storytelling."}
+          </p>
+
+          <Link
+            to="/all-books"
+            className="mt-4 px-6 py-2 bg-white text-black font-bold rounded-full text-sm transform scale-90 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-300 hover:bg-teal-500 hover:text-white"
+          >
+            View Details
+          </Link>
+        </motion.div>
       </div>
     </motion.div>
   );
 };
 
 export default function FeaturedBooks() {
-  const trackRef = useRef(null);
-  const containerRef = useRef(null);
-  const [dragConstraint, setDragConstraint] = useState(0);
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [xPos, setXPos] = useState(0);
-  const axiosInstance = useAxios()
+  const axiosInstance = useAxios();
 
   useEffect(() => {
     axiosInstance
       .get("/books")
       .then((res) => {
-        setBooks(res.data);
+        setBooks(res.data.slice(0, 6));
         setLoading(false);
       })
       .catch((err) => {
         console.error("Failed to fetch books:", err);
         setLoading(false);
       });
-  }, []);
-
-  useEffect(() => {
-    const calculateConstraints = () => {
-      if (containerRef.current && trackRef.current) {
-        const containerWidth = containerRef.current.offsetWidth;
-        const trackWidth = trackRef.current.scrollWidth;
-        setDragConstraint(containerWidth - trackWidth);
-      }
-    };
-    calculateConstraints();
-    window.addEventListener("resize", calculateConstraints);
-    return () => window.removeEventListener("resize", calculateConstraints);
-  }, [books]);
-
-  // Auto slide effect
-  useEffect(() => {
-    if (!books.length) return;
-
-    const slideInterval = setInterval(() => {
-      setXPos((prev) => {
-        const maxScroll = dragConstraint - 32;
-        const newPos = prev - 300;
-        if (newPos < maxScroll) {
-          return 0;
-        }
-        return newPos;
-      });
-    }, 2000);
-
-    return () => clearInterval(slideInterval);
-  }, [books, dragConstraint]);
+  }, [axiosInstance]);
 
   return (
-    <div className="font-sans w-full py-12 md:py-30 flex flex-col items-center justify-center">
-      <div className="w-full max-w-7xl mx-auto px-4">
-        <header className="text-center mb-12">
-          <span className="rounded-2xl uppercase font-bold text-sm px-3 py-2 text-teal-600">
-            Our Mission
-          </span>
-          <h1 className="text-2xl md:text-5xl font-bold">
-            Top Picks of the Month
-          </h1>
-          <p className="mt-4 max-w-xl mx-auto">
-            Explore our curated selection of books, chosen to inspFire,
-            entertain, and expand your horizons. Each title represents quality
-            and passion for reading.
-          </p>
-          <hr className="mt-6 w-24 mx-auto border-2 border-teal-500 rounded-full" />
-        </header>
-        {loading ? (
-          <span className="text-center text-gray-400">
-            <LoadSppiner />
-          </span>
-        ) : (
-          <motion.div
-            ref={containerRef}
-            className="overflow-hidden cursor-grab"
-            whileTap={{ cursor: "grabbing" }}
-          >
-            <motion.div
-              ref={trackRef}
-              className="flex space-x-6 pb-6 px-4"
-              drag="x"
-              style={{ x: xPos }}
-              dragConstraints={{ right: 0, left: dragConstraint - 32 }}
-              dragElastic={0.15}
+    <div className="relative py-24 overflow-hidden">
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-teal-500/5 rounded-full blur-3xl -z-10" />
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-purple-500/5 rounded-full blur-3xl -z-10" />
+
+      <div className="max-w-7xl mx-auto px-6">
+        <header className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+          <div className="max-w-2xl text-left">
+            <motion.span
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              className="text-teal-600 font-bold tracking-[0.2em] uppercase text-sm block mb-2"
             >
-              {books.map((book) => (
-                <StoryCard key={book._id} story={book} />
-              ))}
-            
-            </motion.div>
-          </motion.div>
+              Our Mission
+            </motion.span>
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              className="text-4xl md:text-6xl font-black text-gray-900 dark:text-white"
+            >
+              Top Picks of the <span className="text-teal-500">Month</span>
+            </motion.h1>
+          </div>
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            className="text-gray-500 dark:text-gray-400 max-w-sm"
+          >
+            Explore our curated selection of books, chosen to inspire and expand
+            your horizons.
+          </motion.p>
+        </header>
+
+        {loading ? (
+          <div className="flex justify-center items-center h-64">
+            <LoadSppiner />
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {books.map((book, idx) => (
+              <div
+                key={book._id}
+                className={idx === 1 || idx === 4 ? "md:mt-12" : ""}
+              >
+                <StoryCard story={book} index={idx} />
+              </div>
+            ))}
+          </div>
         )}
+
+        <div className="mt-20 text-center">
+          <Link to="/all-books" className="px-10 py-4 bg-zinc-900 dark:bg-white dark:text-black text-white font-bold rounded-2xl hover:bg-teal-600 dark:hover:bg-teal-500 dark:hover:text-white transition-all shadow-xl hover:shadow-teal-500/20">
+            Browse All Books
+          </Link>
+        </div>
       </div>
     </div>
   );

@@ -17,143 +17,110 @@ const cards = [
   {
     icon: BookOpen,
     title: "Library Overview",
-    desc: "Explore thousands of books, journals, and digital resources.",
-    color: "text-indigo-500",
+    desc: "Explore thousands of books and digital resources.",
+    color: "from-indigo-500 to-blue-500",
   },
   {
     icon: Heart,
-    title: "Support the Library",
+    title: "Support Us",
     desc: "Donate books or volunteer to make an impact.",
-    color: "text-rose-500",
+    color: "from-rose-500 to-pink-500",
   },
   {
     icon: Globe,
-    title: "Digital Resources",
-    desc: "Access e-books and research papers anytime, anywhere.",
-    color: "text-green-500",
+    title: "Digital Hub",
+    desc: "Access e-books and research papers anywhere.",
+    color: "from-green-500 to-teal-500",
   },
   {
     icon: Calendar,
-    title: "Upcoming Events",
-    desc: "Join book fairs, author meetups, and library workshops.",
-    color: "text-pink-500",
+    title: "Events",
+    desc: "Join book fairs and author meetups.",
+    color: "from-orange-500 to-yellow-500",
   },
   {
     icon: Users,
-    title: "Membership Info",
+    title: "Membership",
     desc: "Sign up and enjoy exclusive member benefits.",
-    color: "text-yellow-500",
-  },
-  {
-    icon: Heart,
-    title: "Support the Library",
-    desc: "Donate books or volunteer to make an impact.",
-    color: "text-rose-500",
-  },
-  {
-    icon: Map,
-    title: "Library Map",
-    desc: "Navigate through library sections easily.",
-    color: "text-red-500",
-  },
-  {
-    icon: Download,
-    title: "Reading Recommendations",
-    desc: "Get personalized book suggestions instantly.",
-    color: "text-blue-500",
-  },
-  {
-    icon: Map,
-    title: "Library Map",
-    desc: "Navigate through library sections easily.",
-    color: "text-red-500",
-  },
-   {
-    icon: HelpCircle,
-    title: "Help Desk",
-    desc: "Get assistance or browse our FAQs anytime.",
-    color: "text-purple-500",
-  },
-  {
-    icon: Heart,
-    title: "Support the Library",
-    desc: "Donate books or volunteer to make an impact.",
-    color: "text-rose-500",
-  },
-  {
-    icon: Map,
-    title: "Library Map",
-    desc: "Navigate through library sections easily.",
-    color: "text-red-500",
+    color: "from-purple-500 to-indigo-500",
   },
   {
     icon: HelpCircle,
     title: "Help Desk",
     desc: "Get assistance or browse our FAQs anytime.",
-    color: "text-purple-500",
-  },
-  {
-    icon: Map,
-    title: "Library Map",
-    desc: "Navigate through library sections easily.",
-    color: "text-red-500",
+    color: "from-cyan-500 to-blue-500",
   },
 ];
 
-const MarqueeRow = ({ items, reverse = false }) => (
-  <motion.div
-    initial={{ x: reverse ? "-100%" : "100%" }}
-    animate={{ x: reverse ? "100%" : "-100%" }}
-    transition={{
-      repeat: Infinity,
-      repeatType: "loop",
-      duration: 50,
-      ease: "linear",
-    }}
-    className="flex gap-6 px-4"
-  >
-    {[...items].map((card, idx) => {
-      const Icon = card.icon;
-      return (
-        <motion.div
-          key={idx}
-          whileHover={{ scale: 1.05 }}
-          className="min-w-[280px] bg-white/80 dark:bg-base-200 backdrop-blur-md border border-gray-200 dark:border-gray-700 rounded-2xl p-6 shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer flex flex-col items-start justify-between my-10 shadow-primary"
-        >
-          <motion.div
-            whileHover={{ rotate: 360 }}
-            transition={{ duration: 1, ease: "easeInOut" }}
-          >
-            <Icon className={`w-10 h-10 ${card.color} mb-4`} />
-          </motion.div>
-          <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-gray-100">
-            {card.title}
-          </h3>
-          <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-            {card.desc}
-          </p>
-        </motion.div>
-      );
-    })}
-  </motion.div>
-);
-
 const WelcomeLibrary = () => {
   return (
-    <section className="pt-30 relative overflow-hidden">
-    <div className="text-center mb-12">
-  <h2 className="text-3xl md:text-5xl font-bold text-gray-900 dark:text-white">
-    Discover Your Next Adventure
-  </h2>
-  <p className="mt-4 text-gray-600 dark:text-gray-300 text-lg max-w-2xl mx-auto">
-    Dive into a world of stories, knowledge, and inspiration. Every book opens a new door to learning and imagination.
-  </p>
-  <div className="w-20 h-1 bg-teal-500 mx-auto mt-6 rounded-full" />
-</div>
+    <section className="relative mt-20 px-4 overflow-hidden">
+      {/* Background Ambient Glows */}
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-teal-500/10 rounded-full blur-[120px]" />
+      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-[120px]" />
 
-      <MarqueeRow items={cards} reverse/>
+      <div className="container mx-auto relative z-10">
+        <div className="text-center mb-16">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            className="text-5xl font-bold text-gray-900 dark:text-white mb-6"
+          >
+            Discover Your{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-green-600">
+              Next Adventure
+            </span>
+          </motion.h2>
+          <p className="text-gray-600 dark:text-gray-400 text-lg max-w-2xl mx-auto">
+            Experience a modern way of exploring knowledge with our interactive
+            digital library ecosystem.
+          </p>
+        </div>
 
-      <div className="absolute top-0 left-0 w-full h-full pointer-events-none bg-gradient-to-b from-transparent via-white/10 to-transparent dark:via-gray-900/10" />
+        {/* Interactive Grid / Orbit Hybrid Layout */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {cards.map((card, idx) => (
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ delay: idx * 0.1 }}
+              whileHover={{
+                y: -10,
+                transition: { duration: 0.2 },
+              }}
+              className="group relative p-[1px] rounded-3xl overflow-hidden transition-all"
+            >
+              {/* Animated Border Gradient */}
+              <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent dark:from-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+              {/* Glass Card Body */}
+              <div className="relative h-full bg-white/40 dark:bg-white/5 backdrop-blur-xl border border-white/20 dark:border-white/10 rounded-[23px] p-8 shadow-xl">
+                <div
+                  className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${card.color} flex items-center justify-center mb-6 shadow-lg transform group-hover:rotate-12 transition-transform duration-300`}
+                >
+                  <card.icon className="w-7 h-7 text-white" />
+                </div>
+
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
+                  {card.title}
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400 leading-relaxed mb-6">
+                  {card.desc}
+                </p>
+
+                {/* Subtle Button Effect */}
+                <div className="flex items-center text-sm font-semibold text-teal-600 dark:text-teal-400 group-hover:gap-2 transition-all">
+                  Explore More{" "}
+                  <span className="opacity-0 group-hover:opacity-100 transition-all">
+                    →
+                  </span>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
     </section>
   );
 };
