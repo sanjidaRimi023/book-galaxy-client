@@ -1,270 +1,210 @@
-import { LayoutGrid, Table } from "lucide-react";
-import React, { useEffect, useState } from "react";
-import LoadSppiner from "../Components/LoadSppiner";
+"use client";
+import React, { useState } from "react";
+import { LayoutGrid, Table, Search, Filter } from "lucide-react";
 import { Link } from "react-router";
-import { AnimatePresence } from "framer-motion";
 // eslint-disable-next-line no-unused-vars
-import { motion } from "framer-motion";
-import axios from "axios";
-import toast from "react-hot-toast";
-import UpdateBook from "../Components/UpdateBook";
+import { motion, AnimatePresence } from "framer-motion";
+import { useQuery } from "@tanstack/react-query";
 import { Title } from "react-head";
-
+import useAxios from "../Hooks/useAxios";
+import LoadSppiner from "../Components/LoadSppiner";
 
 const AllBook = () => {
-  const [books, setBooks] = useState([]);
+  const axiosInstance = useAxios();
   const [layout, setLayout] = useState("card");
-  const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
-  const [selectBooks, setSelectBook] = useState(null);
   const [showAvailableOnly, setShowAvailableOnly] = useState(false);
 
+  const { data: books = [], isLoading } = useQuery({
+    queryKey: ["allBooks"],
+    queryFn: async () => {
+      const res = await axiosInstance.get("/books");
+      return res.data;
+    },
+    staleTime: 1000 * 60 * 10, 
+  });
+
   const filterBooks = books.filter((book) => {
-    const matchCategory = book.category
-      .toLowerCase()
-      .includes(search.toLowerCase());
+    const matchCategory = book.category?.toLowerCase().includes(search.toLowerCase());
     const matchAvailability = showAvailableOnly ? book.quantity > 0 : true;
     return matchCategory && matchAvailability;
   });
 
-  useEffect(() => {
-    axios(`${import.meta.env.VITE_API_URL}/books`)
-      .then((res) => {
-        setBooks(res.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Failed to fetch books:", err);
-        setLoading(false);
-      });
-  }, []);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setSelectBook((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.put(
-        `${import.meta.env.VITE_API_URL}/books/${selectBooks._id}`,
-        selectBooks
-      );
-
-      const updateData = books.map((book) =>
-        book._id === selectBooks._id ? selectBooks : book
-      );
-      setBooks(updateData);
-
-      document.getElementById("update_modal").close();
-      toast.success("Book updated seccessfully");
-    } catch (error) {
-      toast.error("Fail to Update Data");
-      console.error("update error", error);
-    }
-  };
-
-  const openModal = (book) => {
-    setSelectBook(book);
-    setTimeout(() => {
-      const modal = document.getElementById("update_modal");
-      if (modal) modal.showModal();
-    }, 0);
-  };
-
-  if (loading) {
-    return <LoadSppiner></LoadSppiner>;
-  }
+  if (isLoading) return <LoadSppiner />;
 
   return (
-    <>
-      <Title>
-       BookGalaxy || All Book
-      </Title>
-      <div className="flex flex-col space-y-3 justify-center my-10 items-center">
-        <h1 className="text-3xl font-bold text-primary text-center flex gap-2 items-center">
-          Explore Our Book Collection
-        </h1>
-        <p className="text-lg font-medium w-2/3 text-center">
-          Welcome to the complete catalog of our library collection. This
-          section provides access to every available book, carefully categorized
-          for your convenience.
-        </p>
-      </div>
-      <div className="flex justify-center my-5 gap-3">
-        <select
-          className="select select-bordered"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        >
-          <option value="">All Categories</option>
-          <option value="Thriller">Thriller</option>
-          <option value="Novel">Novel</option>
-          <option value="History">History</option>
-          <option value="Fantasy">Fantasy</option>
-          <option value="Technology">Technology</option>
-          <option value="Mystery">Mystery</option>
-          <option value="Drama">Drama</option>
-          <option value="Sci-Fi">Sci-Fi</option>
-        </select>
+    <div className="min-h-screen bg-base-100/50">
+      <Title>BookGalaxy || All Books</Title>
 
-        <button
-          className={`btn ${showAvailableOnly ? "btn-success" : "btn-outline"}`}
-          onClick={() => setShowAvailableOnly(!showAvailableOnly)}
+      {/* Hero Header with Background Image */}
+      <section className="relative h-[450px] flex items-center justify-center overflow-hidden">
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-fixed transition-transform duration-1000"
+          style={{ backgroundImage: "url('https://images.unsplash.com/photo-1507842217343-583bb7270b66?q=80&w=2000')" }} 
         >
-          {showAvailableOnly ? "Showing Available" : "Show Available Books"}
-        </button>
-      </div>
-
-      <div className="flex justify-end pr-20 mb-4">
-        <div
-          className="tooltip tooltip-left flex gap-2"
-          data-tip={layout === "card" ? "Switch to Table" : "Switch to Card"}
-        >
-          <span className="text-xl text-center">View</span>
-          <label className="swap swap-rotate cursor-pointer transition-transform hover:scale-110 active:scale-95">
-            <input
-              type="checkbox"
-              onChange={(e) => setLayout(e.target.checked ? "table" : "card")}
-              checked={layout === "table"}
-            />
-            <LayoutGrid className="swap-off w-8 h-8" />
-            <Table className="swap-on w-8 h-8" />
-          </label>
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px]" />
         </div>
-      </div>
-      {layout === "card" ? (
-        <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <AnimatePresence>
-            {filterBooks.map((book, index) => (
-              <motion.div
-                key={book._id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.4, delay: index * 0.05 }}
-                className="card border border-primary shadow-md rounded-xl hover:shadow-lg transition duration-300"
-              >
-                <figure className="pt-6">
-                  <img
-                    src={book.image}
-                    alt={book.bookName}
-                    className="object-cover rounded-lg"
-                  />
-                </figure>
-                <div className="card-body">
-                  <h2 className="card-title text-xl">
-                    Book Name:{" "}
-                    <span className="text-error">{book.bookName}</span>
-                  </h2>
-                  <p className="text-lg">
-                    <span>Author Name:</span> {book.author}
-                  </p>
-                
-                  <div className="flex gap-2">
-                    <span>Tags:</span>
-                    {book.tags?.slice(0, 3).map((tag, index) => (
-                      <span
-                        key={index}
-                        className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
 
-                  <div className="flex gap-2 justify-end">
-                    <div className="card-actions">
+        <div className="relative z-10 w-full max-w-4xl px-6 text-center">
+          <motion.h1 
+            initial={{ y: -20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            className="text-4xl md:text-6xl font-black text-white mb-6"
+          >
+            Explore Our <span className="text-teal-400">Universe</span>
+          </motion.h1>
+          
+          {/* Glassy Filter Box */}
+          <div className="bg-white/10 backdrop-blur-md p-6 rounded-full border border-white/20 shadow-2xl flex flex-col md:flex-row gap-4 items-center justify-center">
+            <div className="relative w-full md:w-1/2">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-white/70 w-5 h-5" />
+              <select
+                className="select select-bordered w-full pl-12 bg-white/10 text-white border-white/30 focus:border-teal-400 focus:outline-none"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              >
+                <option className="text-black" value="">All Categories</option>
+                <option className="text-black" value="Thriller">Thriller</option>
+                <option className="text-black" value="Novel">Novel</option>
+                <option className="text-black" value="History">History</option>
+                <option className="text-black" value="Fantasy">Fantasy</option>
+                <option className="text-black" value="Technology">Technology</option>
+              </select>
+            </div>
+
+            <button
+              onClick={() => setShowAvailableOnly(!showAvailableOnly)}
+              className={`w-full md:w-auto px-8 py-2 rounded-full font-bold transition-all duration-300 flex items-center justify-center gap-2 ${
+                showAvailableOnly 
+                ? "bg-teal-500 text-white shadow-[0_0_20px_rgba(20,184,166,0.4)]" 
+                : "bg-white/20 text-white border border-white/30 hover:bg-white/30"
+              }`}
+            >
+              <Filter className="w-4 h-4" />
+              {showAvailableOnly ? "Showing Available" : "Show Available Only"}
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Main Content Area */}
+      <div className="container mx-auto px-4 py-12">
+        <div className="flex justify-between items-center mb-10 border-b border-base-300 pb-6">
+          <div className="flex flex-col">
+            <h2 className="text-2xl font-bold">Catalogue</h2>
+            <p className="text-sm opacity-60">Showing {filterBooks.length} results</p>
+          </div>
+          
+          {/* View Switcher */}
+          <div className="flex bg-base-200 p-1 rounded-xl">
+            <button 
+              onClick={() => setLayout("card")}
+              className={`p-2 rounded-lg transition-all ${layout === "card" ? "bg-white shadow-sm text-teal-600" : "text-gray-500"}`}
+            >
+              <LayoutGrid className="w-6 h-6" />
+            </button>
+            <button 
+              onClick={() => setLayout("table")}
+              className={`p-2 rounded-lg transition-all ${layout === "table" ? "bg-white shadow-sm text-teal-600" : "text-gray-500"}`}
+            >
+              <Table className="w-6 h-6" />
+            </button>
+          </div>
+        </div>
+
+        {layout === "card" ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <AnimatePresence>
+              {filterBooks.map((book, idx) => (
+                <motion.div
+                  key={book._id}
+                  layout
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: idx * 0.05 }}
+                  className="group relative bg-white dark:bg-zinc-900 rounded-[2rem] overflow-hidden border border-base-200 hover:border-teal-500/50 transition-all duration-500 shadow-xl hover:shadow-2xl hover:-translate-y-2"
+                >
+                  <div className="relative h-64 overflow-hidden">
+                    <img src={book.image} alt={book.bookName} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                    <div className="absolute top-4 left-4 bg-black/50 backdrop-blur-md text-white px-3 py-1 rounded-full text-xs font-semibold">
+                      {book.category}
+                    </div>
+                  </div>
+                  
+                  <div className="p-6">
+                    <h3 className="font-black text-lg line-clamp-1 mb-1 group-hover:text-teal-600 transition-colors">
+                      {book.bookName}
+                    </h3>
+                    <p className="text-sm opacity-60 mb-4">By {book.author}</p>
+                    
+                    <div className="flex flex-wrap gap-2 mb-6">
+                      {book.tags?.slice(0, 2).map((tag, i) => (
+                        <span key={i} className="text-[10px] uppercase font-bold tracking-widest px-2 py-1 bg-teal-50 text-teal-700 rounded-md">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+
+                    <div className="flex items-center justify-between pt-4 border-t border-dashed border-base-300">
+                      <div className="flex flex-col">
+                        <span className="text-[10px] uppercase font-bold opacity-40">Stock</span>
+                        <span className={`text-sm font-bold ${book.quantity > 0 ? "text-green-500" : "text-red-500"}`}>
+                          {book.quantity > 0 ? `${book.quantity} Left` : "Out of Stock"}
+                        </span>
+                      </div>
                       <Link to={`/books/${book._id}`}>
-                        <button className="btn  btn-xs sm:btn-sm btn-primary">
-                          Detail
+                        <button className="btn btn-sm btn-circle btn-ghost border border-base-300 hover:bg-teal-500 hover:text-white transition-all">
+                          →
                         </button>
                       </Link>
                     </div>
-                    {/* <div className="card-actions">
-                      <button
-                        className="btn btn-xs sm:btn-sm btn-secondary"
-                        onClick={() => openModal(book)}
-                      >
-                        Update
-                      </button>
-                    </div> */}
                   </div>
-                </div>
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </div>
-      ) : (
-        <div className="w-full overflow-x-auto px-2 sm:px-4 lg:px-8 py-4">
-          <div className="min-w-full inline-block align-middle">
-            <div className="overflow-hidden rounded-lg border border-gray-200 shadow-md">
-              <table className="min-w-full divide-y divide-gray-200 table-auto">
-                <thead className="bg-base-300 text-sm text-gray-700">
-                  <tr>
-                    <th className="px-4 py-3 text-left">Image</th>
-                    <th className="px-4 py-3 text-left">Book Name</th>
-                    <th className="px-4 py-3 text-left">Author</th>
-                    <th className="px-4 py-3 text-left">Tags</th>
-                    <th className="px-4 py-3 text-left">Detail</th>
-                    <th className="px-4 py-3 text-left">Update</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-100 bg-white text-sm">
-                  {filterBooks.map((book) => (
-                    <tr key={book._id} className="hover:bg-base-200">
-                      <td className="px-4 py-3">
-                        <img
-                          src={book.image}
-                          alt={book.bookName}
-                          className="w-12 h-12 sm:w-16 sm:h-16 object-cover rounded-md"
-                        />
-                      </td>
-                      <td className="px-4 py-3 font-medium">{book.bookName}</td>
-                      <td className="px-4 py-3">{book.author}</td>
-                      <td className="px-4 py-3">
-                        <div className="flex flex-wrap gap-1">
-                          {book.tags?.map((tag, index) => (
-                            <span
-                              key={index}
-                              className="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-xs"
-                            >
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-                      </td>
-                      <td className="px-4 py-3">
-                        <Link to={`/books/${book._id}`}>
-                          <button className="btn btn-xs sm:btn-sm btn-primary">
-                            Details
-                          </button>
-                        </Link>
-                      </td>
-                      <td className="px-4 py-3">
-                        <button
-                          className="btn btn-xs sm:btn-sm btn-secondary"
-                          onClick={() => openModal(book)}
-                        >
-                          Update
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                </motion.div>
+              ))}
+            </AnimatePresence>
           </div>
-        </div>
-      )}
-      <UpdateBook
-        book={selectBooks}
-        onClose={() => document.getElementById("update_modal").close()}
-        onChange={handleChange}
-        onSubmit={handleSubmit}
-      />
-    </>
+        ) : (
+
+          <div className="overflow-x-auto rounded-3xl border border-base-200 shadow-xl bg-white dark:bg-zinc-900">
+            <table className="table w-full">
+              <thead className="bg-base-200/50">
+                <tr className="text-sm uppercase tracking-wider">
+                  <th>Book</th>
+                  <th>Category</th>
+                  <th>Author</th>
+                  <th>Quantity</th>
+                  <th className="text-right">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filterBooks.map((book) => (
+                  <tr key={book._id} className="hover:bg-base-100 transition-colors border-b border-base-200">
+                    <td>
+                      <div className="flex items-center gap-4">
+                        <img src={book.image} className="w-12 h-16 object-cover rounded-lg shadow-md" alt="" />
+                        <span className="font-bold">{book.bookName}</span>
+                      </div>
+                    </td>
+                    <td><span className="badge badge-ghost font-medium">{book.category}</span></td>
+                    <td>{book.author}</td>
+                    <td>
+                      <span className={`font-bold ${book.quantity > 0 ? "text-green-600" : "text-red-500"}`}>
+                        {book.quantity}
+                      </span>
+                    </td>
+                    <td className="text-right">
+                      <Link to={`/books/${book._id}`} className="btn btn-sm btn-teal-500 bg-teal-500 text-white border-none rounded-xl">
+                        Details
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+    </div>
   );
 };
 
