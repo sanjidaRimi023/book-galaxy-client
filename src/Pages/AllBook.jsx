@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { LayoutGrid, Table, Search, Filter } from "lucide-react";
+import { LayoutGrid, Table, Search, Filter, ArrowBigRight } from "lucide-react";
 import { Link } from "react-router";
 // eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "framer-motion";
@@ -87,7 +87,7 @@ const AllBook = () => {
         </div>
       </section>
 
-      {/* Main Content Area */}
+   
       <div className="container mx-auto px-4 py-12">
         <div className="flex justify-between items-center mb-10 border-b border-base-300 pb-6">
           <div className="flex flex-col">
@@ -154,7 +154,7 @@ const AllBook = () => {
                       </div>
                       <Link to={`/books/${book._id}`}>
                         <button className="btn btn-sm btn-circle btn-ghost border border-base-300 hover:bg-teal-500 hover:text-white transition-all">
-                          →
+                          <ArrowBigRight/>
                         </button>
                       </Link>
                     </div>

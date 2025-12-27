@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { Title } from "react-head";
 import { useAuth } from "../../../Hooks/useAuth";
@@ -9,18 +9,21 @@ const UserBorrowBook = () => {
   const { user } = useAuth();
   const axiosInstance = useAxios();
   const queryClient = useQueryClient();
+  const [returningId, setReturningId] = useState(null);
 
-
-  const { data: borrowBook = [], isLoading, isError } = useQuery({
-    queryKey: ["borrowed-books", user?.email], 
+  const {
+    data: borrowBook = [],
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["borrowed-books", user?.email],
     queryFn: async () => {
       const res = await axiosInstance.get("/borrowbooks/borrow");
       return res.data;
     },
-    enabled: !!user?.email, 
-    staleTime: 1000 * 60 * 5, 
+    enabled: !!user?.email,
+    staleTime: 1000 * 60 * 5,
   });
-
 
   const returnMutation = useMutation({
     mutationFn: async (id) => {
@@ -30,9 +33,9 @@ const UserBorrowBook = () => {
     onSuccess: (data) => {
       if (data.success) {
         toast.success("Thanks for returning the book!");
-      
         queryClient.invalidateQueries(["borrowed-books", user?.email]);
       }
+      setReturningId(null);
     },
     onError: () => {
       toast.error("Failed to Return Book");
@@ -63,10 +66,7 @@ const UserBorrowBook = () => {
             {borrowBook.map((book) => (
               <div
                 key={book._id}
-                className="relative group bg-white/10 backdrop-blur-md border border-primary shadow-xl 
-                           hover:shadow-primary/30 transition-all duration-500 
-                           hover:-translate-y-2 p-5
-                           rounded-tl-[50px] rounded-br-[50px] rounded-tr-lg rounded-bl-lg"
+                className="relative group bg-white/10 backdrop-blur-md border border-primary shadow-xl hover:shadow-primary/30 transition-all duration-500 hover:-translate-y-2 p-5 rounded-tl-[50px] rounded-br-[50px] rounded-tr-lg rounded-bl-lg"
               >
                 {/* Book Image */}
                 <div className="overflow-hidden rounded-tl-[40px] rounded-br-[40px] rounded-tr-md rounded-bl-md mb-4 h-64">
@@ -90,13 +90,12 @@ const UserBorrowBook = () => {
                     </p>
                   </div>
 
-                  {/* Return Button */}
                   <button
                     onClick={() => returnMutation.mutate(book._id)}
-                    disabled={returnMutation.isPending}
-                    className="w-full py-3 bg-primary text-black font-bold rounded-xl transition-colors shadow-lg shadow-primary/20 duration-200"
+                    disabled={returningId === book._id}
+                    className="w-full py-3 bg-primary text-black font-bold rounded-xl"
                   >
-                    {returnMutation.isPending ? "Returning..." : "Return Book"}
+                    {returningId === book._id ? "Returning..." : "Return Book"}
                   </button>
                 </div>
 

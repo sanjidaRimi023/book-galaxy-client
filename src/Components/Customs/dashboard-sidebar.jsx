@@ -4,7 +4,7 @@ import { Link, useLocation } from "react-router";
 export default function DashboardSideBar({ navItems }) {
   const { pathname: path } = useLocation();
   return (
-    <nav className="space-y-4 w-56">
+    <nav className="space-y-2 w-56">
       {navItems?.map((nav, idx) => (
         <Link
           to={nav?.path}
@@ -13,8 +13,8 @@ export default function DashboardSideBar({ navItems }) {
             path == nav?.path ? "bg-primary dark:text-black " : "bg-base-200"
           } rounded-md`}
         >
-          {nav?.icon && <nav.icon />}
-          <span className="mx-2 font-medium">{nav?.title}</span>
+          {nav?.icon && <nav.icon size={15} />}
+          <span className="mx-2 font-sm">{nav?.title}</span>
         </Link>
       ))}
     </nav>

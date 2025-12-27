@@ -25,6 +25,7 @@
     "react-router": "^7.6.2",
     "react-spinners": "^0.17.0",
     "react-star-ratings": "^2.3.0",
+    "recharts": "^3.6.0",
     "swiper": "^11.2.8",
     "tailwindcss": "^4.1.10"
   },

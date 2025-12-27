@@ -20,7 +20,7 @@ import useUserRole from "../Hooks/useUserRole";
 const SideBarContent = ({ navItems, handleLogout }) => {
   return (
     <>
-      <div className="flex flex-col justify-between">
+      <div className="flex flex-col">
         <div>
           <DashboardSideBar navItems={navItems} />
         </div>
