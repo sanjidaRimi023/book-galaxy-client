@@ -14,6 +14,7 @@ import About from "../Pages/About";
 import DashboardLayout from "../Layout/DashboardLayout";
 import UserBorrowBook from "../Pages/Dashboard/user/user-borrow-book";
 import UserOverview from "../Pages/Dashboard/user/user-overview";
+import ManageUsers from "../Pages/Dashboard/admin/ManageUser";
 
 const router = createBrowserRouter([
   {
@@ -84,12 +85,16 @@ const router = createBrowserRouter([
     </PrivateRoute>,
     children:[
       {
-        path:"user/borrow-book",
+        path:"admin/borrow-book",
         Component:UserBorrowBook
       },
       {
-        path:"user/overview",
+        path:"admin/overview",
         Component: UserOverview
+      },
+       {
+        path:"admin/manage-users",
+      element:<ManageUsers/>
       }
     ]
 

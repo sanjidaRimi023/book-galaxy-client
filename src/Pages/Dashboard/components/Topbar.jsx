@@ -1,9 +1,11 @@
 import React from "react";
 import { PanelRightClose } from "lucide-react";
 import ThemeToggleBtn from "../../../Components/Customs/ThemeToggleBtn";
+import { User } from "lucide-react";
 
 
 const TopBar = ({ user }) => {
+  console.log(user)
   return (
     <nav className="py-4 rounded-2xl m-6 bg-base-300 flex justify-between lg:justify-end items-center px-4">
       {/* Mobile Drawer Toggle */}
@@ -23,7 +25,7 @@ const TopBar = ({ user }) => {
             className="w-8 h-8 rounded-full border-2 border-white mr-3"
           />
           <div className="flex flex-col">
-            <span className="font-bold">{user?.displayName || "Guest"}</span>
+             <h4 className="">{user?.email.split("@")[0]}</h4>
             <span className="opacity-80 text-[10px] md:text-xs">{user?.email}</span>
           </div>
         </div>
