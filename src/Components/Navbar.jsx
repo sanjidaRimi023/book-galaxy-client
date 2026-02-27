@@ -18,7 +18,7 @@ import { Link, NavLink, useNavigate } from "react-router";
 import toast from "react-hot-toast";
 import ThemeToggleBtn from "./Customs/ThemeToggleBtn";
 import { useAuth } from "../Hooks/useAuth";
-import icon from "../assets/book.png";
+import icon from "/book.png";
 
 // eslint-disable-next-line no-unused-vars
 const NavItem = ({ to, icon: Icon, label, onClick, mobile = false }) => (
