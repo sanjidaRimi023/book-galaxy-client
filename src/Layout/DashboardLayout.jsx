@@ -2,6 +2,7 @@ import { ArchiveRestore, LayoutDashboard, ShieldUser } from "lucide-react";
 import toast from "react-hot-toast";
 import { Outlet, useNavigate } from "react-router";
 
+import { Book } from "lucide-react";
 import { useAuth } from "../Hooks/useAuth";
 import useUserRole from "../Hooks/useUserRole";
 import Sidebar from "../Pages/Dashboard/components/Sidebar";
@@ -25,13 +26,21 @@ const DashboardLayout = () => {
 
   const navItems = isAdmin
     ? [
-        { path: "/dashboard/admin", title: "Overview", icon: LayoutDashboard },
+        {
+          path: "/dashboard/admin/overview",
+          title: "Overview",
+          icon: LayoutDashboard,
+        },
         {
           path: "/dashboard/admin/manage-users",
           title: "Users",
           icon: ShieldUser,
         },
-        
+        {
+          path: "/dashboard/admin/manage-books",
+          title: "ManageBook",
+          icon: Book,
+        },
       ]
     : [
         {

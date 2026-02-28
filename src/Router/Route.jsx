@@ -15,6 +15,7 @@ import DashboardLayout from "../Layout/DashboardLayout";
 import UserBorrowBook from "../Pages/Dashboard/user/user-borrow-book";
 import UserOverview from "../Pages/Dashboard/user/user-overview";
 import ManageUsers from "../Pages/Dashboard/admin/ManageUser";
+import ManageBooks from "../Pages/Dashboard/admin/ManageBooks";
 
 const router = createBrowserRouter([
   {
@@ -95,7 +96,11 @@ const router = createBrowserRouter([
        {
         path:"admin/manage-users",
       element:<ManageUsers/>
-      }
+      },
+      {
+        path:"admin/manage-books",
+        Component: ManageBooks
+      },
     ]
 
   },
